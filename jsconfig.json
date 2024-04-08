@@ -6,8 +6,7 @@
       "@components/*": ["components/*"],
       "@pages/*": ["pages/*"],
       "@hooks/*": ["hooks/*"],
-      "@api/*": ["api/*"],
-      "@zustand/*": ["zustand/*"],
+      "@recoil/*": ["recoil/*"],
     },
   },
 }
