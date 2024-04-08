@@ -1,7 +1,7 @@
 function Bookmark() {
   return (
     <>
-      <h1>Bookmark 입니다</h1>
+      <h1>Bookmark는 대문자가 하나입니다.</h1>
     </>
   );
 }
