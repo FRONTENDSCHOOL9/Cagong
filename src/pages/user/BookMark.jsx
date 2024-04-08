@@ -1,7 +1,7 @@
 function Bookmark() {
   return (
     <>
-      <h1>Bookmark</h1>
+      <h1>Bookmark 입니다</h1>
     </>
   );
 }
