@@ -1,7 +1,9 @@
+import { Link } from 'react-router-dom';
+
 function PrevButton() {
   return (
     <>
-      <h1>Prev</h1>
+      <Link to={-1}>Prev</Link>
     </>
   );
 }

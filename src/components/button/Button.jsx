@@ -15,6 +15,7 @@ const StyledButton = styled.button`
   font-size: ${props => props.fontSize};
   font-weight: ${props => props.fontWeight};
   cursor: pointer;
+  type: ${props => props.type};
 
   &:hover {
     background-color: #ff6300;

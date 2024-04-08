@@ -1,7 +1,9 @@
+import { Link } from 'react-router-dom';
+
 function SearchButton() {
   return (
     <>
-      <h1>SearchButton</h1>
+      <Link to="/search">search</Link>
     </>
   );
 }

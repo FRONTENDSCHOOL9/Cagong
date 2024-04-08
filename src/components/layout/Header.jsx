@@ -1,5 +1,5 @@
-import PrevButton from '@components/PrevButton';
-import SearchButton from '@components/SearchButton';
+import PrevButton from '@components/button/PrevButton';
+import SearchButton from '@components/button/SearchButton';
 
 function Header() {
   return (

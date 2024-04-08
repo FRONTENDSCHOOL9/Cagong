@@ -1,9 +1,9 @@
-function BookMark() {
+function Bookmark() {
   return (
     <>
-      <h1>BookMark</h1>
+      <h1>Bookmark</h1>
     </>
   );
 }
 
-export default BookMark;
+export default Bookmark;
