@@ -20,7 +20,7 @@ function useCustomAxios() {
     headers: {
       'content-type': 'application/json', // request 데이터 타입
       accept: 'application/json', // response 데이터 타입
-      'client-id': '00-sample', // 프로젝트 식별을 위한 id
+      'client-id': '05-cagong', // 프로젝트 식별을 위한 id
     },
   });
 
