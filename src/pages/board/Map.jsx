@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 const { kakao } = window;
 
-const App = () => {
+function Map() {
   useEffect(() => {
-    const container = document.getElementById('map');
+    const container = document.getElementById('map'); // 지도를 표시할 div
     const options = {
-      center: new kakao.maps.LatLng(33.450701, 126.570667),
-      level: 3,
+      center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+      level: 2, // 지도의 확대 레벨
     };
 
     const map = new kakao.maps.Map(container, options);
@@ -14,9 +14,9 @@ const App = () => {
 
   return (
     <div>
-      <div id="map" style={{ width: '500px', height: '400px' }} />
+      <div id="map" style={{ width: '355px', height: '355px' }} />
     </div>
   );
-};
+}
 
-export default App;
+export default Map;
