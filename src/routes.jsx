@@ -8,7 +8,6 @@ import ReviewForm from '@pages/board/ReviewForm';
 import ReviewList from '@pages/board/ReviewList';
 import Search from '@pages/board/Search';
 import CreateProductForm from '@pages/seller/CreateProductForm';
-import CreateStoreForm from '@pages/seller/CreateStoreForm';
 import StoreList from '@pages/seller/StoreList';
 import Bookmark from '@pages/user/Bookmark';
 import Login from '@pages/user/Login';
@@ -36,7 +35,7 @@ const router = createBrowserRouter([
         element: <Map />,
       },
       {
-        path: '/boards/cafedetail',
+        path: '/boards/cafedetail/:_id',
         element: <CafeDetail />,
       },
       {
@@ -74,10 +73,6 @@ const router = createBrowserRouter([
       {
         path: '/sellers/storelist',
         element: <StoreList />,
-      },
-      {
-        path: '/sellers/createstoreform',
-        element: <CreateStoreForm />,
       },
       {
         path: '/sellers/createproductform',
