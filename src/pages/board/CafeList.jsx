@@ -3,34 +3,43 @@ import useCustomAxios from '@hooks/useCustomAxios.mjs';
 import { useEffect, useState } from 'react';
 
 function CafeList() {
-  const [mainImages, setMainImages] = useState([]); // 이미지 배열 저장
-  const [name, setName] = useState([]);
+  const [data, setData] = useState([]);
   const axios = useCustomAxios();
 
   useEffect(() => {
-    axios.get(`${import.meta.env.VITE_API_SERVER}/products/6`).then(res => {
-      console.log(res.data.item.name);
-      setMainImages(res.data.item.mainImages);
-      setName(res.data.item.name);
+    axios.get(`${import.meta.env.VITE_API_SERVER}/products`).then(res => {
+      // console.log(res.data.item);
+      const items = res.data.item;
+      for (let i = 0; i < items.length; i++) {
+        console.log(items[i].mainImages);
+        setData(items);
+      }
     });
   }, []);
 
   return (
     <>
-      <h1>CafeList</h1>
-      {name}
-
-      {mainImages.length > 0 && (
-        <ul>
-          {mainImages.map(image => (
-            <li key={image.originalname}>
-              {image.name}
-              <img src="{image.path}" />
-            </li>
-          ))}
-        </ul>
-      )}
-      <Link to="/boards/cafedetail">cafedetail</Link>
+      <h1>카공 인기카페</h1>
+      <ul>
+        <Link to="/boards/item._id">디테일</Link>
+        {data.map(item => (
+          <li key={item._id}>
+            <div>
+              <img
+                src={
+                  import.meta.env.VITE_API_SERVER +
+                  '/files/05-cagong/' +
+                  item.mainImages[0].name
+                }
+                alt="카페사진"
+              />
+            </div>
+            {item.name}
+            {item.content}
+            <div>{item.bookmarks}</div>
+          </li>
+        ))}
+      </ul>
     </>
   );
 }
