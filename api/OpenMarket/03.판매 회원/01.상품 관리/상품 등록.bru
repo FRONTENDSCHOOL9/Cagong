@@ -1,0 +1,42 @@
+meta {
+  name: 상품 등록
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{url}}/seller/products
+  body: json
+  auth: bearer
+}
+
+headers {
+  client-id: {{client-id}}
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+body:json {
+  {
+      "price": 1000,
+      "shippingFees": 3000,
+      "quantity": 600,
+      "buyQuantity": 190,
+      "show": true,
+      "active": true,
+      "name": "꿀떡",
+      "mainImages": ["https://localhost/uploads/sample-janngu.jpg"],
+      "content": "냠냠",
+    "createdAt": "2023.10.12 12:34:56",
+      "updatedAt": "2023.10.12 12:34:56",
+      "extra": {
+          "isNew": true,
+          "isBest": true,
+          "category": ["PC02", "PC0201"],
+          "sort": 7,
+          "depth": 2
+      }
+  }
+}
