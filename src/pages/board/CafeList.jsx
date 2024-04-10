@@ -21,7 +21,6 @@ function CafeList() {
     <>
       <h1>카공 인기카페</h1>
       <ul>
-        <Link to="/boards/item._id">디테일</Link>
         {data.map(item => (
           <li key={item._id}>
             <div>
@@ -34,7 +33,7 @@ function CafeList() {
                 alt="카페사진"
               />
             </div>
-            {item.name}
+            <Link to={`/boards/cafeDetail/${item._id}`}>{item.name}</Link>
             {item.content}
             <div>{item.bookmarks}</div>
           </li>
