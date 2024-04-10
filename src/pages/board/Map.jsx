@@ -1,9 +1,11 @@
-import { useEffect, useRef } from 'react';
+import useCustomAxios from '@hooks/useCustomAxios.mjs';
+import { useEffect, useRef, useState } from 'react';
 const { kakao } = window;
 
 function Map() {
   const mapRef = useRef(null);
-
+  const [data, setData] = useState([]);
+  const axios = useCustomAxios();
   useEffect(() => {
     const container = document.getElementById('map'); // 지도를 표시할 div
     const options = {
@@ -13,6 +15,11 @@ function Map() {
 
     const map = new kakao.maps.Map(container, options);
     mapRef.current = map;
+
+    axios.get(`${import.meta.env.VITE_API_SERVER}/products`).then(res => {
+      console.log(res.data);
+      setData(res.data);
+    });
   }, []);
 
   function handleCurrentLocation() {
@@ -30,12 +37,29 @@ function Map() {
       alert('현재 위치를 찾을 수 없습니다.');
     }
   }
-
+  //카페 리스트 받아오기
+  const cafeList = data?.item?.map(item => (
+    <li key={item._id}>
+      {item.name}
+      <img
+        src={
+          import.meta.env.VITE_API_SERVER +
+          '/files/05-cagong/' +
+          item.mainImages[0].name
+        }
+        alt="카페사진"
+      />
+    </li>
+  ));
   return (
-    <div>
-      <div id="map" style={{ width: '355px', height: '355px' }} />
-      <button onClick={handleCurrentLocation}>현재 위치</button>
-    </div>
+    <>
+      <div>
+        <div id="map" style={{ width: '355px', height: '355px' }} />
+        <button onClick={handleCurrentLocation}>현재 위치</button>
+      </div>
+      <h1>카페 리스트</h1>
+      <ul>{cafeList}</ul>
+    </>
   );
 }
 
