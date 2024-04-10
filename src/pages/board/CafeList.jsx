@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import useCustomAxios from '@hooks/useCustomAxios.mjs';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 const MyComponent = styled.div`
@@ -41,8 +41,7 @@ function CafeList() {
   const handleBookmark = () => {
     axios.post(`${import.meta.env.VITE_API_SERVER}/bookmarks`).then(res => {
       setIsBookmarked(!isBookmarked);
-      console.log(isBookmarked);
-      console.log(res);
+      console.log(res.item.type);
     });
   };
 
@@ -64,7 +63,11 @@ function CafeList() {
           {data.map(item => (
             <li key={item._id}>
               <img
-                src="../public/bookmark.svg"
+                src={
+                  isBookmarked
+                    ? '../public/bookmark.svg'
+                    : '../public/bookmarked.svg'
+                }
                 type="button"
                 onClick={handleBookmark}
                 alt="북마크 버튼"
