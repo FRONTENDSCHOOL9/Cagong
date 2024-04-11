@@ -1,20 +1,20 @@
 import styled from 'styled-components'
 
 function Spinner(){
-    const Div = styled.div`
+    const SpinnerStyle = styled.div`
         display: flex;
         justify-content: center;
         align-items: center;
         height: 100vh;
-    `
-    const Img = styled.img`
-        width: 200px;
+        img{
+          width: 100px;
+        }
     `
 
     return (
-      <Div>
-        <Img src="/cagong_spin.gif" alt="잠시만 기다려 주세요."/>
-      </Div>
+      <SpinnerStyle>
+        <img src="/cagong_spin.gif" alt="잠시만 기다려 주세요."/>
+      </SpinnerStyle>
     );
   }
   
