@@ -18,8 +18,8 @@ function Map() {
   useEffect(() => {
     const container = document.getElementById('map'); // 지도를 표시할 div
     const options = {
-      center: new kakao.maps.LatLng(36.994147680093334, 127.12684159248758), // 지도의 중심좌표
-      level: 2, // 지도의 확대 레벨
+      center: new kakao.maps.LatLng(36.349396783484984, 127.76185524802845), // 지도의 중심좌표
+      level: 15, // 지도의 확대 레벨
     };
 
     const map = new kakao.maps.Map(container, options);
@@ -112,7 +112,7 @@ function Map() {
     content: `
     <a href="/boards/cafeDetail/${item._id}">
     <div style="padding:5px;">
-    <h1 style="font-size:16px;">${item.name} </h1>
+    <h1 style="font-size:1px;">${item.name} </h1>
     <img style="width:50px;" src=${import.meta.env.VITE_API_SERVER}/files/${
       import.meta.env.VITE_CLIENT_ID
     }/${item.mainImages[0].name} alt="${data.item.name} 사진"
@@ -136,6 +136,8 @@ function Map() {
         const lat = position.coords.latitude; // 위도
         const lon = position.coords.longitude; // 경도
         const locPosition = new kakao.maps.LatLng(lat, lon); // geolocation으로 얻어온 좌표
+
+        mapRef.current.setLevel(4);
         mapRef.current.panTo(locPosition); // geolocation으로 얻어온 좌표로 이동
       });
     } else {
@@ -150,23 +152,31 @@ function Map() {
         item.extra.location[0],
         item.extra.location[1],
       );
-
       //마커
       let marker = new kakao.maps.Marker({
         position: cafePosition,
       });
-
+      //인포 윈도우
       let infowindow = new kakao.maps.InfoWindow({
         position: cafePosition,
         content: positions[index].content,
+        removable: true,
       });
+
       infowindow.open(mapRef.current, marker);
+      //지도 확대
+      let level = mapRef.current.getLevel();
+      mapRef.current.setLevel(level - 11);
       mapRef.current.panTo(cafePosition);
     };
   }
   //카페 리스트 받아오기
   const cafeList = data?.item?.map((item, index) => (
-    <li key={item._id} onClick={handleSelectLocation(item, index)}>
+    <li
+      style={{ cursor: 'pointer', width: '200px' }}
+      key={item._id}
+      onClick={handleSelectLocation(item, index)}
+    >
       {item.name}
       <img
         style={{ width: '200px' }}
