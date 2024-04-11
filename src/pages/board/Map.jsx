@@ -2,7 +2,7 @@ import useCustomAxios from '@hooks/useCustomAxios.mjs';
 import { useEffect, useRef } from 'react';
 const { kakao } = window;
 import { useQuery } from '@tanstack/react-query';
-
+// Todo 1.지도 레벨에 따라 리스트 필터링 구현
 function Map() {
   const mapRef = useRef(null);
   const infowindowRef = useRef(null);
