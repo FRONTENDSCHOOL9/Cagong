@@ -112,12 +112,12 @@ function Map() {
     content: `
     <a href="/boards/cafeDetail/${item._id}">
     <div style="padding:5px;">
-    <h1>${item.name} </h1>
-    <img style="width:100px;" src=${import.meta.env.VITE_API_SERVER}/files/${
+    <h1 style="font-size:16px;">${item.name} </h1>
+    <img style="width:50px;" src=${import.meta.env.VITE_API_SERVER}/files/${
       import.meta.env.VITE_CLIENT_ID
     }/${item.mainImages[0].name} alt="${data.item.name} 사진"
     />
-    <p>카페 소개글</P>
+    <p style="font-size:12px">${item.extra.address}</P>
     </div>
     </a>
     `,
@@ -143,19 +143,33 @@ function Map() {
       alert('현재 위치를 찾을 수 없습니다.');
     }
   }
+  //리스트에서 해당 가게 클릭시 지도에서 위치 이동
+  function handleSelectLocation(item, index) {
+    return function () {
+      const cafePosition = new kakao.maps.LatLng(
+        item.extra.location[0],
+        item.extra.location[1],
+      );
 
-  function handleSelectLocation() {
-    const cafePosition = new kakao.maps.LatLng(
-      data?.item[1].extra.location[0],
-      data?.item[1].extra.location[1],
-    );
-    mapRef.current.panTo(cafePosition);
+      //마커
+      let marker = new kakao.maps.Marker({
+        position: cafePosition,
+      });
+
+      let infowindow = new kakao.maps.InfoWindow({
+        position: cafePosition,
+        content: positions[index].content,
+      });
+      infowindow.open(mapRef.current, marker);
+      mapRef.current.panTo(cafePosition);
+    };
   }
   //카페 리스트 받아오기
-  const cafeList = data?.item?.map(item => (
-    <li key={item._id} onClick={handleSelectLocation}>
+  const cafeList = data?.item?.map((item, index) => (
+    <li key={item._id} onClick={handleSelectLocation(item, index)}>
       {item.name}
       <img
+        style={{ width: '200px' }}
         src={
           import.meta.env.VITE_API_SERVER +
           '/files/05-cagong/' +
