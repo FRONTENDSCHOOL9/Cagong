@@ -12,10 +12,11 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { memberState } from '@recoil/user/atoms.mjs';
 import { useQuery } from '@tanstack/react-query';
+import CopyToClipboard from 'react-copy-to-clipboard';
 
 function CafeDetail() {
   const axios = useCustomAxios();
-  let { _id } = useParams();
+  const { _id } = useParams();
   const user = useRecoilValue(memberState);
   const [isOrdered, setIsOrdered] = useState(false);
   const navigate = useNavigate();
@@ -26,11 +27,6 @@ function CafeDetail() {
     select: response => response.data,
     suspense: true,
   });
-
-  // useEffect(() => {
-  //   // 버튼 클릭 시 로컬 스토리지에 isOrdered 값 저장
-  //   localStorage.setItem('isOrdered', isOrdered.toString());
-  // }, [isOrdered]);
 
   const confirmUser = () => {
     if (!user) {
@@ -57,6 +53,7 @@ function CafeDetail() {
           },
         };
       setIsOrdered(true);
+      localStorage.setItem('isOrdered', true);
       alert('구매가 성공적으로 완료되었습니다.');
     } catch (err) {
       alert('구매에 실패하셨습니다.');
@@ -74,13 +71,6 @@ function CafeDetail() {
     getReview();
   }, []);
 
-  // const { review } = useQuery({
-  //   queryKey: ['replies', _id],
-  //   queryFn: () => axios.get(`/replies/${_id - 1}`),
-  //   select: response => response.data,
-  //   suspense: true,
-  // })
-
   return (
     <>
       <Swiper
@@ -94,9 +84,9 @@ function CafeDetail() {
         slidesPerView={3}
         navigation={true}
         loop={true}
-        pagination={{ 
-          clickable: true
-         }}
+        pagination={{
+          clickable: true,
+        }}
         centeredSlides={true}
       >
         {data.item.mainImages?.map((image, index) => (
@@ -112,7 +102,19 @@ function CafeDetail() {
         ))}
       </Swiper>
       <Link to="/boards/map">{data.item.extra.address}</Link>
-      <button>복사하기</button>
+      <CopyToClipboard
+        className="copyBoard"
+        text={data.item.extra.address}
+        onCopy={() => alert('클립보드에 복사되었습니다.')}
+      >
+        <text
+          className="copiedText"
+          style={{ cursor: 'pointer', fontSize: '12px' }}
+        >
+          {' '}
+          복사하기
+        </text>
+      </CopyToClipboard>
 
       <h2>카공단 제공 메뉴</h2>
       <p>
