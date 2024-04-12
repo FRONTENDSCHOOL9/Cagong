@@ -32,6 +32,7 @@ function Login() {
         name: res.data.item.name,
         profile: res.data.item.profileImage,
         token: res.data.item.token,
+        type: res.data.item.type,
       });
       alert(res.data.item.name + '님 로그인 되었습니다.');
       navigate(location.state?.from ? location.state?.from : '/'); // 메인페이지로 이동
@@ -78,19 +79,16 @@ function Login() {
               required: '비밀번호를 입력하세요.',
             })}
           />
-          {errors.password && (
-            <p>
-              {errors.password.message}
-            </p>
-          )}
+          {errors.password && <p>{errors.password.message}</p>}
           <Link to="#">비밀번호를 잊으셨나요?</Link>
         </div>
         <div>
           <Submit>로그인</Submit>
-          <Link to="/users/signup"><Button>회원가입</Button></Link>
+          <Link to="/users/signup">
+            <Button>회원가입</Button>
+          </Link>
         </div>
       </form>
-      
     </>
   );
 }
