@@ -8,7 +8,6 @@ function Bookmark(props) {
   useEffect(() => {
     const bookmarkedVariable = {
       userTo: props.userTo,
-      userFrom: 
     };
     const handleBookmark = async product_id => {
       await axios
