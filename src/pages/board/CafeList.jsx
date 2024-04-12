@@ -38,17 +38,13 @@ const MyComponent = styled.div`
 
 function CafeList() {
   const [data, setData] = useState([]);
-  const [isBookmarked, setIsBookmarked] = useState(false);
   const axios = useCustomAxios();
-  const user = useRecoilValue(memberState);
-
-  console.log(user);
+  // const user = useRecoilValue(memberState);
 
   useEffect(() => {
     axios.get(`${import.meta.env.VITE_API_SERVER}/products`).then(res => {
       const items = res.data.item;
       for (let i = 0; i < items.length; i++) {
-        // console.log(items[i]);
         setData(items);
       }
     });
