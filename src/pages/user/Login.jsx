@@ -4,6 +4,7 @@ import { memberState } from '@recoil/user/atoms.mjs';
 import { useSetRecoilState } from 'recoil';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import Submit from '@components/Submit';
+import Button from '@components/button/Button';
 
 function Login() {
   const location = useLocation();
@@ -51,18 +52,12 @@ function Login() {
     <>
       <h1>Login</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 dark:text-gray-200 font-bold mb-2"
-            htmlFor="email"
-          >
-            이메일
-          </label>
+        <div>
+          <label htmlFor="email">이메일</label>
           <input
             type="email"
             id="email"
             placeholder="이메일을 입력하세요"
-            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500 dark:bg-gray-700"
             {...register('email', {
               required: '이메일을 입력하세요.',
               pattern: {
@@ -71,51 +66,31 @@ function Login() {
               },
             })}
           />
-          {errors.email && (
-            <p className="ml-2 mt-1 text-sm text-red-500">
-              {errors.email.message}
-            </p>
-          )}
+          {errors.email && <p>{errors.email.message}</p>}
         </div>
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 dark:text-gray-200 font-bold mb-2"
-            htmlFor="password"
-          >
-            비밀번호
-          </label>
+        <div>
+          <label htmlFor="password">비밀번호</label>
           <input
             type="password"
             id="password"
             placeholder="비밀번호를 입력하세요"
-            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500 dark:bg-gray-700"
             {...register('password', {
               required: '비밀번호를 입력하세요.',
             })}
           />
           {errors.password && (
-            <p className="ml-2 mt-1 text-sm text-red-500">
+            <p>
               {errors.password.message}
             </p>
           )}
-          <Link
-            className="block mt-6 ml-auto text-gray-500 dark:text-gray-300 hover:underline"
-            to="#"
-          >
-            비밀번호를 잊으셨나요?
-          </Link>
+          <Link to="#">비밀번호를 잊으셨나요?</Link>
         </div>
-        <div className="mt-14 flex justify-center items-center">
+        <div>
           <Submit>로그인</Submit>
-          <Link
-            className="ml-8 text-blue-500 hover:underline"
-            to="/users/signup"
-          >
-            회원가입
-          </Link>
+          <Link to="/users/signup"><Button>회원가입</Button></Link>
         </div>
       </form>
-      <Link to="/users/signup">Signup</Link>
+      
     </>
   );
 }
