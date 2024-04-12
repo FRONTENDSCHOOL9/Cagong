@@ -42,7 +42,7 @@ function CafeDetail() {
       text-decoration: none;
       color: black;
     }
-    .address-bundle{
+    .address-bundle {
       margin-top: 10px;
     }
     .address {
@@ -158,7 +158,7 @@ function CafeDetail() {
           </SwiperSlide>
         ))}
       </Swiper>
-      <div className='address-bundle'>
+      <div className="address-bundle">
         <Link className="address" to="/boards/map">
           {data.item.extra.address}
         </Link>
