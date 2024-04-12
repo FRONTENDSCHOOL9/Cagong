@@ -2,6 +2,9 @@ import { Link } from 'react-router-dom';
 import useCustomAxios from '@hooks/useCustomAxios.mjs';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { memberState } from '@recoil/user/atoms.mjs';
+import { useRecoilValue } from 'recoil';
+import Bookmark from '@pages/user/Bookmark';
 
 const MyComponent = styled.div`
   width: 100%;
@@ -37,13 +40,9 @@ function CafeList() {
   const [data, setData] = useState([]);
   const [isBookmarked, setIsBookmarked] = useState(false);
   const axios = useCustomAxios();
+  const user = useRecoilValue(memberState);
 
-  const handleBookmark = () => {
-    axios.post(`${import.meta.env.VITE_API_SERVER}/bookmarks`).then(res => {
-      setIsBookmarked(!isBookmarked);
-      console.log(res.item.type);
-    });
-  };
+  console.log(user);
 
   useEffect(() => {
     axios.get(`${import.meta.env.VITE_API_SERVER}/products`).then(res => {
@@ -62,16 +61,7 @@ function CafeList() {
         <ul>
           {data.map(item => (
             <li key={item._id}>
-              <img
-                src={
-                  isBookmarked
-                    ? '../public/bookmark.svg'
-                    : '../public/bookmarked.svg'
-                }
-                type="button"
-                onClick={handleBookmark}
-                alt="북마크 버튼"
-              />
+              <Bookmark />
               <Link key={item._id} to={`/boards/cafeDetail/${item._id}`}>
                 <div>
                   <img
