@@ -4,9 +4,6 @@ import { useQuery } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-// import Login from './Login';
-// import { useRecoilValue } from 'recoil';
-// import { memberState } from '@recoil/user/atoms.mjs';
 import Modal from '@components/Modal';
 
 const OrderList = () => {
@@ -24,6 +21,9 @@ const OrderList = () => {
     .use-expire-section{
       flex-grow: 1;
     }
+    .own-list{
+      border-bottom: 1px solid #828282;
+    }
     .own-button {
       all: unset;
       cursor: pointer;
@@ -39,11 +39,11 @@ const OrderList = () => {
   `;
 
   const axios = useCustomAxios();
-  // const user = useRecoilValue(memberState);
   const navigate = useNavigate();
   const [showQR, setShowQR] = useState(true);
   const [showReview, setShowReview] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [isUsed, setIsUsed] = useState(false);
 
   const closeModal = () => {
     setModalOpen(false);
@@ -78,6 +78,10 @@ const OrderList = () => {
     }
   }, [showQR, showReview]);
 
+  function handleUsed(){
+    setIsUsed(true);
+  }
+
   return (
     <>
       <OrderListStyle>
@@ -102,14 +106,14 @@ const OrderList = () => {
               }}
               className="use-expire-button"
             >
-              사용 / 만료
+              사용 완료 / 리뷰
             </button>
           </div>
         </div>
         <div className="own">
           {data.item.map((item, index) => (
             <div key={index} className="own-list">
-              <h3>주문 내역</h3>
+              <p>주문 일자: {item.createdAt.slice(0, 10)}</p>
               {item.products.map(product => (
                 <p key={product.id}>{product.name}</p>
               ))}
@@ -123,6 +127,7 @@ const OrderList = () => {
               X
             </button>
             <img className="qr" src="../public/qr.png" alt="" />
+            <Button onClick={handleUsed} disabled={isUsed}>사용 완료</Button>
           </Modal>
         )}
       </OrderListStyle>
