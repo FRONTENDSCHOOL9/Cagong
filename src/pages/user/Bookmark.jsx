@@ -1,30 +1,24 @@
-import { useEffect, useState } from 'react';
+import useCustomAxios from '@hooks/useCustomAxios.mjs';
+// import { useEffect, useState } from 'react';
 
-function Bookmark(props) {
-  const [isBookmarked, setIsBookmarked] = useState(false);
+function Bookmark() {
+  // const axios = useCustomAxios();
+  // const [data, setData] = useState([]);
+  // const user = useRecoilValue(memberState);
 
-  let variable = { userTo };
+  // useEffect(() => {
+  //   axios
+  //     .get(`${import.meta.env.VITE_API_SERVER}/bookmarks/product`)
+  //     .then(res => {
+  //       const items = res.data.item;
+  //       for (let i = 0; i < items.length; i++) {
+  //         console.log(items[i].product.name);
+  //         // setData(items[i].product.name);
+  //       }
+  //     });
+  // }, []);
 
-  useEffect(() => {
-    const bookmarkedVariable = {
-      userTo: props.userTo,
-    };
-    const handleBookmark = async product_id => {
-      await axios
-        .post(
-          '${import.meta.env.VITE_API_SERVER}/bookmarks/product/product_id',
-          variable,
-        )
-        .then(res => {
-          console.log(res.data);
-        });
-    };
-  });
-  return (
-    <>
-      <button>북마크</button>
-    </>
-  );
+  return <div>북마크</div>;
 }
 
 export default Bookmark;
