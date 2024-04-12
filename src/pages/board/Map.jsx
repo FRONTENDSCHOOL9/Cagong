@@ -53,7 +53,7 @@ function Map() {
         const imageSize = new kakao.maps.Size(22, 26),
           imageOptions = {
             spriteOrigin: new kakao.maps.Point(0, 0),
-            spriteSize: new kakao.maps.Size(20, 20),
+            spriteSize: new kakao.maps.Size(24, 24),
           };
 
         // 마커이미지와 마커를 생성합니다
@@ -92,7 +92,7 @@ function Map() {
           infowindow.open(map, marker);
           infowindowArray.push(infowindow);
         }
-        // console.log(infowindowArray);
+        console.log(infowindowArray);
       };
     }
 
@@ -110,16 +110,18 @@ function Map() {
   // data를 받아 지도 핀에 뿌려 줄 정보를 담은 positions 배열을 만든다.
   const positions = data?.item?.map(item => ({
     content: `
-    <a href="/boards/cafeDetail/${item._id}">
-    <div style="padding:5px;">
-    <h1 style="font-size:1px;">${item.name} </h1>
-    <img style="width:50px;" src=${import.meta.env.VITE_API_SERVER}/files/${
+    <div style="width:200px; height:100px;, position:absolute; top:0px; padding:10px" class="wrapper">
+      <div>
+        <a href="/boards/cafeDetail/${item._id}">
+          <h1 style="font-size:1px;">${item.name} </h1>
+        </a>
+        <img style="width:50px;" src=${import.meta.env.VITE_API_SERVER}/files/${
       import.meta.env.VITE_CLIENT_ID
-    }/${item.mainImages[0].name} alt="${data.item.name} 사진"
+    }/${item.mainImages[0].name} alt="${item.name} 사진"
     />
-    <p style="font-size:12px">${item.extra.address}</P>
+        <p style="font-size:12px">${item.extra.address}</P>
+      </div>
     </div>
-    </a>
     `,
     lating: new kakao.maps.LatLng(
       item.extra.location[0],
@@ -146,36 +148,30 @@ function Map() {
     }
   }
   //리스트에서 해당 가게 클릭시 지도에서 위치 이동
-  function handleSelectLocation(item, index) {
+  function handleSelectLocation(item) {
     return function () {
       const cafePosition = new kakao.maps.LatLng(
         item.extra.location[0],
         item.extra.location[1],
       );
-      //마커
-      let marker = new kakao.maps.Marker({
-        position: cafePosition,
-      });
-      //인포 윈도우
-      let infowindow = new kakao.maps.InfoWindow({
-        position: cafePosition,
-        content: positions[index].content,
-        removable: true,
-      });
 
-      infowindow.open(mapRef.current, marker);
       //지도 확대
       let level = mapRef.current.getLevel();
       mapRef.current.setLevel(level - 11);
       mapRef.current.panTo(cafePosition);
+      //상단으로 이동
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      });
     };
   }
   //카페 리스트 받아오기
-  const cafeList = data?.item?.map((item, index) => (
+  const cafeList = data?.item?.map(item => (
     <li
       style={{ cursor: 'pointer', width: '200px' }}
       key={item._id}
-      onClick={handleSelectLocation(item, index)}
+      onClick={handleSelectLocation(item)}
     >
       {item.name}
       <img
