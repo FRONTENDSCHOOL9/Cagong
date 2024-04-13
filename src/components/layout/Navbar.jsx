@@ -5,22 +5,45 @@ const StyledNav = styled.nav`
   position: fixed;
   bottom: 0;
   width: 100%;
-  border: solid 4px;
+  height: 80px;
+  background-color: white;
+  z-index: 999;
+  box-shadow: 10px 10px 20px 8px gray;
+  nav{
+    padding: 0px 30px;
+    height: 100%;
+    display: flex;
+    gap: 50px;
+    justify-content: center;
+    align-items: center;
+  }
+  a{
+    text-decoration: unset;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+  }
+  img{
+    width: 30px;
+  }
 `;
 
 function Navbar() {
+
   return (
     <StyledNav>
       <nav>
-        <NavLink to="/">Home</NavLink>
+        <NavLink to="/"><img src="../public/nav-home.png" alt="" /><span>홈</span></NavLink>
 
-        <NavLink to="/boards/map">지도</NavLink>
+        <NavLink to="/boards/map"><img src="../public/nav-map.png" alt="" /><span>지도</span></NavLink>
 
-        <NavLink to="/users/orderlist">내 구매</NavLink>
+        <NavLink to="/users/orderlist"><img src="../public/nav-order.png" alt="" /><span>내 구매</span></NavLink>
 
-        <NavLink to="/users/bookmark">북마크</NavLink>
+        <NavLink to="/users/bookmark"><img src="../public/nav-bookmark.png" alt="" /><span>북마크</span></NavLink>
 
-        <NavLink to="/users/mypage">내 정보</NavLink>
+        <NavLink to="/users/mypage"><img src="../public/nav-mypage.png" alt="" /><span>내 정보</span></NavLink>
       </nav>
     </StyledNav>
   );
