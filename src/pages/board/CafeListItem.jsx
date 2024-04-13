@@ -44,7 +44,7 @@ function CafeListItem({ item }) {
                 className="cafe-thumb"
                 src={`${BASE_IMAGE_URL}` + item.mainImages[0].name}
               />
-              <div> {item.name}</div>
+              <h2>{item.name}</h2>
               <div>{item.extra.address}</div>
               <div>
                 <img src="../public/stars.svg" />
