@@ -57,7 +57,6 @@ function CafeList() {
         <ul>
           {data.map(item => (
             <li key={item._id}>
-              <Bookmark />
               <Link key={item._id} to={`/boards/cafeDetail/${item._id}`}>
                 <div>
                   <img
