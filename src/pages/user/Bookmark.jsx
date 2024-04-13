@@ -1,6 +1,8 @@
 import useCustomAxios from '@hooks/useCustomAxios.mjs';
 import { useQuery } from '@tanstack/react-query';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+
 const MyComponent = styled.div`
   width: 100%;
 
@@ -39,17 +41,17 @@ function Bookmark() {
     suspense: true,
   });
 
-  console.log(data);
-
   const bookmarkList = data?.map(item => (
-    <li key={item._id}>
-      <img
-        className="cafe-thumb"
-        src={`${BASE_IMAGE_URL}` + item.product.image.name}
-      />
-      <h2> {item.product.name}</h2>
-      <div>{item.product.extra.address}</div>
-    </li>
+    <Link key={item._id} to={`/boards/cafeDetail/${item.product._id}`}>
+      <li key={item._id}>
+        <img
+          className="cafe-thumb"
+          src={`${BASE_IMAGE_URL}` + item.product.image.name}
+        />
+        <h2> {item.product.name}</h2>
+        <div>{item.product.extra.address}</div>
+      </li>
+    </Link>
   ));
 
   return (
