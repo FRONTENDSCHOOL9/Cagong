@@ -1,36 +1,56 @@
 import Button from '@components/button/Button';
-import useCustomAxios from '@hooks/useCustomAxios.mjs';
-import { useQuery } from '@tanstack/react-query';
-import { useMemo, useState } from 'react';
-import styled from 'styled-components';
+import { memberState } from '@recoil/user/atoms.mjs';
+import { useRecoilValue } from 'recoil';
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import { useQuery } from '@tanstack/react-query';
+import useCustomAxios from '@hooks/useCustomAxios.mjs';
+import { useState } from 'react';
 import Modal from '@components/Modal';
 
 const OrderList = () => {
-  const OrderListStyle = styled.div`
-    margin: unset;
-
+  const OrderStyle = styled.div`
+    margin-bottom: 100px;
+    .header {
+      display: flex;
+      justify-content: center;
+    }
     .section {
       display: flex;
-      border: 1px solid #828282;
     }
-    .own-section{
+    .section-1 {
       flex-grow: 1;
-      border-right: 1px solid #828282;
-    }
-    .use-expire-section{
-      flex-grow: 1;
-    }
-    .own-list{
-      border-bottom: 1px solid #828282;
-    }
-    .own-button {
-      all: unset;
+      width: 50%;
       cursor: pointer;
+      background-color: white;
+      border: 1px solid #d8d8d8;
+      border-right: none;
     }
-    .use-expire-button {
-      all: unset;
+    .section-1:hover {
+      color: #ffa931;
+    }
+    .section-2 {
+      flex-grow: 2;
+      width: 50%;
       cursor: pointer;
+      background-color: white;
+      border: 1px solid #d8d8d8;
+    }
+    .section-2:hover {
+      color: #ffa931;
+    }
+    .login {
+      margin-top: 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .unused-list {
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid #d8d8d8;
     }
     .qr {
       width: 200px;
@@ -38,16 +58,11 @@ const OrderList = () => {
     }
   `;
 
-  const axios = useCustomAxios();
+  const user = useRecoilValue(memberState);
   const navigate = useNavigate();
-  const [showQR, setShowQR] = useState(true);
-  const [showReview, setShowReview] = useState(false);
+  const axios = useCustomAxios();
   const [modalOpen, setModalOpen] = useState(false);
-  const [isUsed, setIsUsed] = useState(false);
-
-  const closeModal = () => {
-    setModalOpen(false);
-  };
+  const [section, setSection] = useState(true);
 
   const { data } = useQuery({
     queryKey: ['orders'],
@@ -56,82 +71,107 @@ const OrderList = () => {
     suspense: true,
   });
 
+  // state가 completed인 카페 필터링
+  const usedProducts = data.item
+    .filter(item => item.state === 'completed')
+    .map(item => item.products)
+    .flat()
+    .map(product => product.name);
+
+  // 아직 사용하지 않은 카페 상품
+  const unusedProducts = data.item
+    .filter(item => item.state !== 'completed')
+    .map(item => item.products)
+    .flat()
+    .map(product => product.name);
+
+  // 모달
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
   const showModal = () => {
     setModalOpen(true);
   };
 
-  const renderingButton = useMemo(() => {
-    if (showQR) {
-      return <Button onClick={showModal}>QR 보기</Button>;
-    } else if (showReview) {
-      return (
-        <Button
-          onClick={() => {
-            navigate('/boards/reviewForm');
-          }}
-        >
-          리뷰 쓰기
-        </Button>
-      );
-    } else {
-      return null;
-    }
-  }, [showQR, showReview]);
+  function handleSection1() {
+    setSection(true);
+  }
 
-  function handleUsed(){
-    setIsUsed(true);
+  function handleSection2() {
+    setSection(false);
   }
 
   return (
-    <>
-      <OrderListStyle>
+    <OrderStyle>
+      <div className="header">
         <h1>구매 내역</h1>
-        <div className="section">
-          <div className='own-section'>
-            <button
-              onClick={() => {
-                setShowQR(true);
-                setShowReview(false);
-              }}
-              className="own-button"
-            >
-              보유
-            </button>
-          </div>
-          <div className='use-expire-section'>
-            <button
-              onClick={() => {
-                setShowQR(false);
-                setShowReview(true);
-              }}
-              className="use-expire-button"
-            >
-              사용 완료 / 리뷰
-            </button>
-          </div>
+      </div>
+      <div className="section">
+        <button onClick={handleSection1} className="section-1">
+          <h2>보유</h2>
+        </button>
+        <button onClick={handleSection2} className="section-2">
+          <h2>사용 완료</h2>
+        </button>
+      </div>
+      {!user ? (
+        <div className="login">
+          <p>로그인이 필요한 서비스입니다.</p>
+          <Button
+            padding="20px 60px"
+            fontSize="20px"
+            fontWeight="bold"
+            onClick={() => navigate('/users/login')}
+          >
+            로그인
+          </Button>
         </div>
-        <div className="own">
-          {data.item.map((item, index) => (
-            <div key={index} className="own-list">
-              <p>주문 일자: {item.createdAt.slice(0, 10)}</p>
-              {item.products.map(product => (
-                <p key={product.id}>{product.name}</p>
+      ) : (
+        <>
+          {section ? (
+            <div className="unused">
+              {unusedProducts.map(name => (
+                <div key={name} className="unused-list">
+                  <p>{name}</p>
+                  <Button
+                    padding="10px 20px;"
+                    fontSize="18px"
+                    fontWeight="bold"
+                    onClick={showModal}
+                  >
+                    QR 보기
+                  </Button>
+                </div>
               ))}
-              {renderingButton}
             </div>
-          ))}
-        </div>
-        {modalOpen && (
-          <Modal>
-            <button className="close" onClick={closeModal}>
-              X
-            </button>
-            <img className="qr" src="../public/qr.png" alt="" />
-            <Button onClick={handleUsed} disabled={isUsed}>사용 완료</Button>
-          </Modal>
-        )}
-      </OrderListStyle>
-    </>
+          ) : (
+            <div className="unused">
+              {usedProducts.map(name => (
+                <div key={name} className="unused-list">
+                  <p>{name}</p>
+                  <Button
+                    padding="10px 20px;"
+                    fontSize="18px"
+                    fontWeight="bold"
+                  >
+                    리뷰 쓰기
+                  </Button>
+                </div>
+              ))}
+            </div>
+          )}
+        </>
+      )}
+      {modalOpen && (
+        <Modal>
+          <button className="close" onClick={closeModal}>
+            x
+          </button>
+          <img className="qr" src="../public/qr.png" alt="" />
+        </Modal>
+      )}
+    </OrderStyle>
   );
 };
 
