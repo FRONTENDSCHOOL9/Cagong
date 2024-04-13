@@ -22,6 +22,7 @@ function CafeDetail() {
   const user = useRecoilValue(memberState);
   const [isOrdered, setIsOrdered] = useState(false);
   const navigate = useNavigate();
+  const [isBookmarked, setIsBookmarked] = useState(false);
 
   const DetailStyle = styled.div`
     margin: 30px;
@@ -76,6 +77,16 @@ function CafeDetail() {
       font-size: 14px;
     }
   `;
+
+  const handleBookmark = async () => {
+    axios
+      .post(`${import.meta.env.VITE_API_SERVER}/bookmarks/product/${_id}`)
+      .then(res => {
+        console.log(res.data.item);
+        console.log('북마크 저장');
+        setIsBookmarked(!isBookmarked);
+      });
+  };
 
   const { data } = useQuery({
     queryKey: ['products', _id],
@@ -167,8 +178,13 @@ function CafeDetail() {
           text={data.item.extra.address}
           onCopy={() => alert('클립보드에 복사되었습니다.')}
         >
-          <text className="copiedText">복사하기</text>
+          <button className="copiedText">복사하기</button>
+          {/* <text className="copiedText">복사하기</text> */}
         </CopyToClipboard>
+
+        <button onClick={handleBookmark}>
+          {isBookmarked ? '북마크 삭제하기' : '북마크 등록하기'}
+        </button>
       </div>
 
       <div className="order">
