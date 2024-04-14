@@ -85,7 +85,7 @@ function CafeDetail() {
     suspense: true,
   });
 
-  const productId = Number(data.item._id);
+  const cafeId = Number(data.item._id);
 
   async function handleOrder() {
     try {
@@ -174,7 +174,7 @@ function CafeDetail() {
           {/* <text className="copiedText">복사하기</text> */}
         </CopyToClipboard>
 
-        <BookmarkButton productId={productId} />
+        <BookmarkButton cafeId={cafeId} />
       </div>
 
       <div className="order">
