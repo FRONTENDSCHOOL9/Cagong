@@ -169,6 +169,7 @@ function Map() {
       <p style="font-size:12px">${item.extra.address}</P>
     </div>
   </div>
+  
   `,
     lating: new kakao.maps.LatLng(
       item.extra.location[0],
