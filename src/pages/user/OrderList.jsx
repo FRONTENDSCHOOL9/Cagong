@@ -10,31 +10,41 @@ import Modal from '@components/Modal';
 
 const OrderList = () => {
   const OrderStyle = styled.div`
-    margin-bottom: 100px;
     .header {
+      height: 100px;
       display: flex;
       justify-content: center;
+      align-items: center;
+      font-size: 30px;
+      font-weight: bold;
     }
     .section {
       display: flex;
+      height: 65px;
     }
     .section-1 {
+      font-family: 'NanumSquareRound';
       flex-grow: 1;
       width: 50%;
       cursor: pointer;
       background-color: white;
       border: 1px solid #d8d8d8;
       border-right: none;
+      font-size: 20px;
+      font-weight: bold;
     }
     .section-1:hover {
       color: #ffa931;
     }
     .section-2 {
+      font-family: 'NanumSquareRound';
       flex-grow: 2;
       width: 50%;
       cursor: pointer;
       background-color: white;
       border: 1px solid #d8d8d8;
+      font-size: 20px;
+      font-weight: bold;
     }
     .section-2:hover {
       color: #ffa931;
@@ -52,6 +62,7 @@ const OrderList = () => {
       justify-content: space-between;
       align-items: center;
       border-bottom: 1px solid #d8d8d8;
+      font-weight: 400;
     }
     .qr {
       width: 150px;
