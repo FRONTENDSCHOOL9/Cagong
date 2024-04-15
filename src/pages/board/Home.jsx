@@ -1,8 +1,11 @@
 import useCustomAxios from '@hooks/useCustomAxios.mjs';
-import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { useQuery } from '@tanstack/react-query';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import ad_01_Img from '@assets/ad_01.jpeg';
+import ad_02_Img from '@assets/ad_02.jpeg';
+import ad_03_Img from '@assets/ad_03.jpeg';
 import {
   Navigation,
   Pagination,
@@ -10,9 +13,11 @@ import {
   Scrollbar,
   A11y,
 } from 'swiper/modules';
+import CafeListItem from '@pages/board/CafeListItem';
 
 const HomeStyle = styled.div`
   margin: 0;
+  padding-bottom: 200px;
 
   .swiper-ad {
     width: 100%;
@@ -49,18 +54,14 @@ const HomeStyle = styled.div`
 `;
 
 function Home() {
-  const [data, setData] = useState([]);
   const axios = useCustomAxios();
 
-  useEffect(() => {
-    axios.get(`${import.meta.env.VITE_API_SERVER}/products`).then(res => {
-      const items = res.data.item;
-      for (let i = 0; i < items.length; i++) {
-        // console.log(items[i]);
-        setData(items);
-      }
-    });
-  }, []);
+  const { data } = useQuery({
+    queryKey: ['Home'],
+    queryFn: () => axios.get('/products'),
+    select: response => response.data.item,
+    suspense: true,
+  });
 
   return (
     <HomeStyle>
@@ -80,13 +81,25 @@ function Home() {
         }}
       >
         <SwiperSlide>
-          <img className="ad-img" src="/public/cagongAd01.png" alt="" />
+          <img
+            className="ad-img"
+            src={ad_01_Img}
+            alt="카공여지도 광고 이미지"
+          />
         </SwiperSlide>
         <SwiperSlide>
-          <img className="ad-img" src="/public/cagongAd01.png" alt="" />
+          <img
+            className="ad-img"
+            src={ad_02_Img}
+            alt="카공여지도 광고 이미지"
+          />
         </SwiperSlide>
         <SwiperSlide>
-          <img className="ad-img" src="/public/cagongAd01.png" alt="" />
+          <img
+            className="ad-img"
+            src={ad_03_Img}
+            alt="카공여지도 광고 이미지"
+          />
         </SwiperSlide>
       </Swiper>
 
@@ -109,33 +122,11 @@ function Home() {
           prevEl: '.swiper-button-prev',
         }}
       >
-        <ul>
-          {data.map(item => (
-            <SwiperSlide key={item._id}>
-              <li className="cagong-list" key={item._id}>
-                <Link key={item._id} to={`/boards/cafeDetail/${item._id}`}>
-                  <div>
-                    <img
-                      className="cafe-thumb"
-                      src={
-                        import.meta.env.VITE_API_SERVER +
-                        '/files/05-cagong/' +
-                        item.mainImages[1].name
-                      }
-                      alt="카페 메인 사진"
-                    />
-                  </div>
-                  {item.name}
-                  <div>{item.extra.address}</div>
-                  <div>
-                    <img className="stars" src="/public/stars.svg" />
-                    리뷰 {item.replies}
-                  </div>
-                </Link>
-              </li>
-            </SwiperSlide>
-          ))}
-        </ul>
+        {data?.map(item => (
+          <SwiperSlide key={item._id}>
+            <CafeListItem item={item} />
+          </SwiperSlide>
+        ))}
       </Swiper>
     </HomeStyle>
   );
