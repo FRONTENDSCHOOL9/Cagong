@@ -36,6 +36,9 @@ const OrderList = () => {
     .section-1:hover {
       color: #ffa931;
     }
+    .section-1:focus {
+      color: #ffa931;
+    }
     .section-2 {
       font-family: 'NanumSquareRound';
       flex-grow: 2;
@@ -47,6 +50,9 @@ const OrderList = () => {
       font-weight: bold;
     }
     .section-2:hover {
+      color: #ffa931;
+    }
+    .section-2:focus {
       color: #ffa931;
     }
     .login {
@@ -92,7 +98,7 @@ const OrderList = () => {
       font-weight: bold;
       margin: 0 auto;
     }
-    .action-button{
+    .action-button {
       width: 110px;
       height: 60px;
     }
@@ -125,12 +131,18 @@ const OrderList = () => {
     .flat()
     .map(product => product.name);
 
-
+  // 사용하지 않은 카페 상품의 id 모음
   const productId = data.item
     .filter(item => item.state !== 'completed')
-    .map(item => item.products)
-    .flat()
-    .map(product => product._id);
+    // eslint-disable-next-line no-unused-vars
+    .map((item, _) => item._id);
+
+  // eslint-disable-next-line no-unused-vars
+  const productIndex = data.item
+    .filter(item => item.state !== 'completed')
+    .map((_, index) => index);
+
+  console.log(productId);
 
   // 모달
   const closeModal = () => {
@@ -140,6 +152,8 @@ const OrderList = () => {
   const showModal = () => {
     setModalOpen(true);
   };
+
+  // 보유, 사용 완료 섹션 선택
 
   function handleSection1() {
     setSection(true);
@@ -153,10 +167,11 @@ const OrderList = () => {
 
   async function handleState() {
     try {
-      await axios.patch(`/orders/${data.item[2]._id}`, {
+      await axios.patch(`/orders/${productId[0]}`, {
         state: 'completed',
       });
       alert('정상 처리되었습니다.');
+      location.reload();
     } catch (err) {
       console.error(err);
       alert('다시 시도해 주세요.');
@@ -195,7 +210,8 @@ const OrderList = () => {
               {unusedProducts.map(name => (
                 <div key={name} className="unused-list">
                   <p>{name}</p>
-                  <Button className="action-button"
+                  <Button
+                    className="action-button"
                     fontSize="18px"
                     fontWeight="bold"
                     onClick={() => showModal()}
@@ -210,7 +226,8 @@ const OrderList = () => {
               {usedProducts.map(name => (
                 <div key={name} className="unused-list">
                   <p>{name}</p>
-                  <Button className="action-button"
+                  <Button
+                    className="action-button"
                     fontSize="18px"
                     fontWeight="bold"
                     onClick={() => {
