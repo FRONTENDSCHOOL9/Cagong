@@ -50,6 +50,7 @@ const OrderList = () => {
       padding: 10px 20px;
       display: flex;
       justify-content: space-between;
+      align-items: center;
       border-bottom: 1px solid #d8d8d8;
     }
     .qr {
@@ -57,10 +58,9 @@ const OrderList = () => {
       display: block;
       margin: 0 auto;
     }
-    .close-button{
-      background-color: #FF6666;
+    .close-button {
+      background-color: #ff6666;
       border: unset;
-      border-radius: 0 8px 0 0;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -68,18 +68,22 @@ const OrderList = () => {
       margin-left: auto;
       cursor: pointer;
     }
-    .close-button:hover{
-      background-color: #FF4444;
+    .close-button:hover {
+      background-color: #ff4444;
     }
-    .cross{
+    .cross {
       width: 14px;
     }
-    .completed-button{
+    .completed-button {
       display: block;
       font-size: 16px;
       padding: 10px;
       font-weight: bold;
       margin: 0 auto;
+    }
+    .action-button{
+      width: 110px;
+      height: 60px;
     }
   `;
 
@@ -109,6 +113,13 @@ const OrderList = () => {
     .map(item => item.products)
     .flat()
     .map(product => product.name);
+
+
+  const productId = data.item
+    .filter(item => item.state !== 'completed')
+    .map(item => item.products)
+    .flat()
+    .map(product => product._id);
 
   // 모달
   const closeModal = () => {
@@ -173,11 +184,10 @@ const OrderList = () => {
               {unusedProducts.map(name => (
                 <div key={name} className="unused-list">
                   <p>{name}</p>
-                  <Button
-                    padding="10px 20px;"
+                  <Button className="action-button"
                     fontSize="18px"
                     fontWeight="bold"
-                    onClick={showModal}
+                    onClick={() => showModal()}
                   >
                     QR 보기
                   </Button>
@@ -189,8 +199,7 @@ const OrderList = () => {
               {usedProducts.map(name => (
                 <div key={name} className="unused-list">
                   <p>{name}</p>
-                  <Button
-                    padding="10px 20px;"
+                  <Button className="action-button"
                     fontSize="18px"
                     fontWeight="bold"
                     onClick={() => {
@@ -208,10 +217,12 @@ const OrderList = () => {
       {modalOpen && (
         <Modal className="modal">
           <button className="close-button" onClick={closeModal}>
-            <img className='cross' src="../public/close.png" alt="" />
+            <img className="cross" src="../public/close.png" alt="" />
           </button>
           <img className="qr" src="../public/qr.png" alt="" />
-          <Button className='completed-button' onClick={handleState}>사용 완료</Button>
+          <Button className="completed-button" onClick={handleState}>
+            사용 완료
+          </Button>
         </Modal>
       )}
     </OrderStyle>
