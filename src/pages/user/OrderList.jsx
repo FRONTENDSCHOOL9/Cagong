@@ -53,8 +53,33 @@ const OrderList = () => {
       border-bottom: 1px solid #d8d8d8;
     }
     .qr {
-      width: 200px;
+      width: 150px;
       display: block;
+      margin: 0 auto;
+    }
+    .close-button{
+      background-color: #FF6666;
+      border: unset;
+      border-radius: 0 8px 0 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 26px;
+      margin-left: auto;
+      cursor: pointer;
+    }
+    .close-button:hover{
+      background-color: #FF4444;
+    }
+    .cross{
+      width: 14px;
+    }
+    .completed-button{
+      display: block;
+      font-size: 16px;
+      padding: 10px;
+      font-weight: bold;
+      margin: 0 auto;
     }
   `;
 
@@ -100,6 +125,20 @@ const OrderList = () => {
 
   function handleSection2() {
     setSection(false);
+  }
+
+  // 사용 완료 버튼을 눌렀을 때 patch
+
+  async function handleState() {
+    try {
+      await axios.patch(`/orders/${data.item[2]._id}`, {
+        state: 'completed',
+      });
+      alert('정상 처리되었습니다.');
+    } catch (err) {
+      console.error(err);
+      alert('다시 시도해 주세요.');
+    }
   }
 
   return (
@@ -154,6 +193,9 @@ const OrderList = () => {
                     padding="10px 20px;"
                     fontSize="18px"
                     fontWeight="bold"
+                    onClick={() => {
+                      navigate('/boards/reviewform');
+                    }}
                   >
                     리뷰 쓰기
                   </Button>
@@ -164,11 +206,12 @@ const OrderList = () => {
         </>
       )}
       {modalOpen && (
-        <Modal>
-          <button className="close" onClick={closeModal}>
-            x
+        <Modal className="modal">
+          <button className="close-button" onClick={closeModal}>
+            <img className='cross' src="../public/close.png" alt="" />
           </button>
           <img className="qr" src="../public/qr.png" alt="" />
+          <Button className='completed-button' onClick={handleState}>사용 완료</Button>
         </Modal>
       )}
     </OrderStyle>
