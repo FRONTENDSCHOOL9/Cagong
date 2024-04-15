@@ -19,15 +19,33 @@ const HomeStyle = styled.div`
   margin: 0;
   padding-bottom: 200px;
 
-  .swiper-ad {
-    width: 100%;
+  .ad-container {
+    position: relative;
     height: 600px;
-    display: block;
-    object-fit: cover;
+  }
+
+  box-shawdow: inset 0 0 20px red;
+
+  .ad-title-sub {
+    font-weight: 400;
+  }
+
+  .ad-title-overlay {
+    position: absolute;
+    bottom: 0; /* 텍스트를 하단에 위치시킵니다. */
+    left: 0; /* 텍스트를 왼쪽에 위치시킵니다. */
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    padding: 100px;
+    box-shawdow: inset 0 0 20px red;
   }
 
   .swiper-ad img {
     width: 100%;
+    object-fit: cover;
+    height: 100%;
   }
 
   .swiper-pagination-bullet-active {
@@ -39,12 +57,9 @@ const HomeStyle = styled.div`
     height: 500px;
   }
 
-  .cafelist-title {
-  }
-
   h1 {
     font-weight: 800;
-    font-size: 40px;
+    font-size: 28px;
   }
 
   .swiper-button-prev,
@@ -69,7 +84,6 @@ function Home() {
 
   return (
     <HomeStyle>
-      <h1>집중할 수 있는 카페 찾는다면 카공여지도</h1>
       <Swiper
         className="swiper-ad"
         modules={[Navigation, Pagination, Autoplay, A11y]}
@@ -85,25 +99,55 @@ function Home() {
         }}
       >
         <SwiperSlide>
-          <img
-            className="ad-img"
-            src={ad_01_Img}
-            alt="카공여지도 광고 이미지"
-          />
+          <div className="ad-container">
+            <img
+              className="ad-img"
+              src={ad_01_Img}
+              alt="카공여지도 광고 이미지"
+            />
+            <h1 className="ad-title-overlay">
+              <span className="ad-title-sub">
+                집중할 수 있는
+                <br /> 카페 찾는다면
+              </span>
+              <br />
+              카공여지도
+            </h1>
+          </div>
         </SwiperSlide>
         <SwiperSlide>
-          <img
-            className="ad-img"
-            src={ad_02_Img}
-            alt="카공여지도 광고 이미지"
-          />
+          <div className="ad-container">
+            <img
+              className="ad-img"
+              src={ad_02_Img}
+              alt="카공여지도 광고 이미지"
+            />
+            <h1 className="ad-title-overlay">
+              <span className="ad-title-sub">
+                차분한 공간에서
+                <br /> 커피 마시고 싶다면
+              </span>
+              <br />
+              카공여지도
+            </h1>
+          </div>
         </SwiperSlide>
         <SwiperSlide>
-          <img
-            className="ad-img"
-            src={ad_03_Img}
-            alt="카공여지도 광고 이미지"
-          />
+          <div className="ad-container">
+            <img
+              className="ad-img"
+              src={ad_03_Img}
+              alt="카공여지도 광고 이미지"
+            />
+            <h1 className="ad-title-overlay">
+              <span className="ad-title-sub">
+                시험 기간에 가기 좋은
+                <br /> 카페 찾고 있다면
+              </span>
+              <br />
+              카공여지도
+            </h1>
+          </div>
         </SwiperSlide>
       </Swiper>
 
