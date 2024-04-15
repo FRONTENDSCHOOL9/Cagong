@@ -1,8 +1,8 @@
 import useCustomAxios from '@hooks/useCustomAxios.mjs';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 const { kakao } = window;
 import { useQuery } from '@tanstack/react-query';
-// Todo 1.지도 레벨에 따라 리스트 필터링 구현
+
 function Map() {
   const mapRef = useRef(null);
   const infowindowRef = useRef(null);
@@ -14,6 +14,8 @@ function Map() {
     select: response => response.data,
     suspense: true,
   });
+
+  const [filteredCafeList, setFilteredCafeList] = useState([]);
 
   useEffect(() => {
     const container = document.getElementById('map'); // 지도를 표시할 div
@@ -81,6 +83,51 @@ function Map() {
       }
     }
 
+    kakao.maps.event.addListener(map, 'bounds_changed', () => {
+      // // 지도 영역정보를 얻어옵니다
+      let bounds = map.getBounds();
+      // // 영역정보의 남서쪽 정보를 얻어옵니다
+      let swLatlng = bounds.getSouthWest();
+      // // 영역정보의 북동쪽 정보를 얻어옵니다
+      let neLatlng = bounds.getNorthEast();
+      let mapBounds = new kakao.maps.LatLngBounds(swLatlng, neLatlng); // 인자를 주지 않으면 빈 영역을 생성한다.
+      // // 지도 영역정보를 얻어옵니다
+      const filteredPositions = data?.item?.filter(item => {
+        const lating = new kakao.maps.LatLng(
+          item.extra.location[0],
+          item.extra.location[1],
+        );
+        return mapBounds.contain(lating);
+      });
+      // console.log(mapBounds);
+
+      //필터링 된 카페리스트들을 map함수로 state에 담기
+      setFilteredCafeList(
+        filteredPositions.map(item => ({
+          content: `
+        <div style="width:200px; height:100px;, position:absolute; top:0px; padding:10px" class="wrapper">
+          <div>
+            <a href="/boards/cafeDetail/${item._id}">
+              <h1 style="font-size:1px;">${item.name} </h1>
+            </a>
+            <img style="width:50px;" src=${
+              import.meta.env.VITE_API_SERVER
+            }/files/${import.meta.env.VITE_CLIENT_ID}/${
+            item.mainImages[0].name
+          } alt="${item.name} 사진"
+        />
+            <p style="font-size:12px">${item.extra.address}</P>
+          </div>
+        </div>
+        `,
+          extra: item.extra,
+          _id: item._id,
+          mainImages: item.mainImages,
+          name: item.name,
+        })),
+      );
+    });
+
     function makeClickListener(map, marker, infowindow) {
       return function () {
         //마커 클릭시 인포윈도우 열고 닫기
@@ -105,31 +152,36 @@ function Map() {
 
     setCoffeeMarkers(mapRef.current);
   }, [data]);
-
-  console.log(data);
+  // console.log(data);
+  // console.log(filteredCafeList);
   // data를 받아 지도 핀에 뿌려 줄 정보를 담은 positions 배열을 만든다.
   const positions = data?.item?.map(item => ({
     content: `
-    <div style="width:200px; height:100px;, position:absolute; top:0px; padding:10px" class="wrapper">
-      <div>
-        <a href="/boards/cafeDetail/${item._id}">
-          <h1 style="font-size:1px;">${item.name} </h1>
-        </a>
-        <img style="width:50px;" src=${import.meta.env.VITE_API_SERVER}/files/${
+  <div style="width:200px; height:100px;, position:absolute; top:0px; padding:10px" class="wrapper">
+    <div>
+      <a href="/boards/cafeDetail/${item._id}">
+        <h1 style="font-size:1px;">${item.name} </h1>
+      </a>
+      <img style="width:50px;" src=${import.meta.env.VITE_API_SERVER}/files/${
       import.meta.env.VITE_CLIENT_ID
     }/${item.mainImages[0].name} alt="${item.name} 사진"
-    />
-        <p style="font-size:12px">${item.extra.address}</P>
-      </div>
+  />
+      <p style="font-size:12px">${item.extra.address}</P>
     </div>
-    `,
+  </div>
+  `,
     lating: new kakao.maps.LatLng(
       item.extra.location[0],
       item.extra.location[1],
     ),
+    _id: item._id,
+    mainImages: item.mainImages,
+    name: item.name,
   }));
-  console.log(positions);
 
+  // console.log(positions);
+
+  //현재 사용자 위치로 가는 함수
   function handleCurrentLocation() {
     // HTML5의 geolocation으로 사용할 수 있는지 확인
     if (navigator.geolocation) {
@@ -146,6 +198,20 @@ function Map() {
       // HTML5의 GeoLocation을 사용할 수 없을때 처리
       alert('현재 위치를 찾을 수 없습니다.');
     }
+  }
+
+  //초기 위치로 돌아가는 함수
+  function handleInitLocation() {
+    const initPosition = new kakao.maps.LatLng(
+      36.349396783484984,
+      127.76185524802845,
+    );
+    mapRef.current.panTo(initPosition);
+    mapRef.current.setLevel(15);
+    // mapRef.current.setCenter(36.349396783484984, 127.76185524802845);
+
+    // center: new kakao.maps.LatLng(36.349396783484984, 127.76185524802845), // 지도의 중심좌표
+    // level: 15, // 지도의 확대 레벨
   }
   //리스트에서 해당 가게 클릭시 지도에서 위치 이동
   function handleSelectLocation(item) {
@@ -166,8 +232,9 @@ function Map() {
       });
     };
   }
-  //카페 리스트 받아오기
-  const cafeList = data?.item?.map(item => (
+
+  // 카페 리스트 받아오기
+  const allCafeList = data?.item?.map(item => (
     <li
       style={{ cursor: 'pointer', width: '200px' }}
       key={item._id}
@@ -185,14 +252,41 @@ function Map() {
       />
     </li>
   ));
+
+  //카페 리스트 받아오기
+  const changedCafeList = filteredCafeList?.map(item => (
+    <li
+      style={{ cursor: 'pointer', width: '200px' }}
+      key={item._id}
+      onClick={handleSelectLocation(item)}
+    >
+      {item.name}
+      <img
+        style={{ width: '200px' }}
+        src={
+          import.meta.env.VITE_API_SERVER +
+          '/files/05-cagong/' +
+          item.mainImages[0].name
+        }
+        alt="카페사진"
+      />
+    </li>
+  ));
+  // console.log(changedCafeList);
+
   return (
     <>
       <div>
         <div id="map" style={{ width: '355px', height: '355px' }} />
         <button onClick={handleCurrentLocation}>현재 위치</button>
+        <button onClick={handleInitLocation}>초기 화면</button>
       </div>
       <h1>카페 리스트</h1>
-      <ul>{cafeList}</ul>
+      {filteredCafeList.length === 0 ? (
+        <ul>{allCafeList}</ul>
+      ) : (
+        <ul>{changedCafeList}</ul>
+      )}
     </>
   );
 }
