@@ -3,7 +3,14 @@ import useCustomAxios from '@hooks/useCustomAxios.mjs';
 import CafeListItem from '@pages/board/CafeListItem';
 import styled from 'styled-components';
 
-const MyComponent = styled.div``;
+const MyComponent = styled.div`
+  .cafelist-title {
+    font-size: 20px;
+    font-weight: 800;
+    text-align: center;
+    padding: 10px;
+  }
+`;
 
 function CafeList() {
   const axios = useCustomAxios();
@@ -21,7 +28,7 @@ function CafeList() {
 
   return (
     <MyComponent>
-      <h1>카공 인기카페</h1>
+      <h1 className="cafelist-title">카공 인기카페</h1>
       {cafeList}
     </MyComponent>
   );
