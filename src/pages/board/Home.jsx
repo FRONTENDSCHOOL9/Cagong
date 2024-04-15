@@ -24,25 +24,30 @@ const HomeStyle = styled.div`
     height: 600px;
   }
 
-  box-shawdow: inset 0 0 20px red;
-
   .ad-title-sub {
     font-weight: 400;
   }
 
   .ad-title-overlay {
     position: absolute;
-    bottom: 0; /* 텍스트를 하단에 위치시킵니다. */
-    left: 0; /* 텍스트를 왼쪽에 위치시킵니다. */
-    transform: translate(-50%, -50%);
+    bottom: 0;
+    left: 0;
+    padding-bottom: 40px;
+    padding-left: 20px;
     color: white;
-    font-size: 24px;
+    font-size: 30px;
     font-weight: bold;
-    padding: 100px;
-    box-shawdow: inset 0 0 20px red;
+    line-height: 36px;
   }
 
   .swiper-ad img {
+    width: 100%;
+    object-fit: cover;
+    height: 100%;
+    position: relative; /* 이미지 위에 요소를 배치할 수 있도록 위치 속성을 설정 */
+  }
+
+  .ad-img {
     width: 100%;
     object-fit: cover;
     height: 100%;
@@ -52,16 +57,6 @@ const HomeStyle = styled.div`
     background: orange;
   }
 
-  .cafe-thumb {
-    width: 500px;
-    height: 500px;
-  }
-
-  h1 {
-    font-weight: 800;
-    font-size: 28px;
-  }
-
   .swiper-button-prev,
   .swiper-button-next {
     color: #fff;
@@ -69,6 +64,18 @@ const HomeStyle = styled.div`
     border-radius: 50%;
     width: 40px;
     height: 40px;
+  }
+
+  .cafelist-title {
+    font-size: 20px;
+    font-weight: 800;
+    padding: 15px;
+    padding-top: 30px;
+    padding-bottom: 20px;
+  }
+
+  .cafelist-more {
+    padding-left: 7px;
   }
 `;
 
@@ -154,7 +161,11 @@ function Home() {
       <Link to="/boards/CafeList">
         <div className="cafelist-title">
           카공 인기 카페
-          <img src="/public/more-items.svg" alt="more-items 버튼" />
+          <img
+            className="cafelist-more"
+            src="/public/more-items.svg"
+            alt="more-items 버튼"
+          />
         </div>
       </Link>
 
