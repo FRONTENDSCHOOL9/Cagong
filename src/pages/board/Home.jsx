@@ -40,7 +40,11 @@ const HomeStyle = styled.div`
   }
 
   .cafelist-title {
-    font-size: 50px;
+  }
+
+  h1 {
+    font-weight: 800;
+    font-size: 40px;
   }
 
   .swiper-button-prev,
