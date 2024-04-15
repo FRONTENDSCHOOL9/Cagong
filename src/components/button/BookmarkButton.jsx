@@ -10,34 +10,33 @@ BookmarkButton.propTypes = {
 
 function BookmarkButton({ cafeId }) {
   const axios = useCustomAxios();
-  const [isBookmarked, setIsBookmarked] = useState(false);
   const user = useRecoilValue(memberState);
-  const [bookmarkId, setBookmarkId] = useState(null);
-
-  // const { data } = useQuery({
-  //   queryKey: ['bookmarks', 'product'],
-  //   queryFn: async () => await axios.get('/bookmarks/product'),
-  //   select: response => response.data,
-  //   suspense: true,
-  // });
+  const [isBookmarked, setIsBookmarked] = useState();
+  const [bookmarkId, setBookmarkId] = useState();
 
   const bookmarkData = async () => {
     try {
       if (user) {
         const { data } = await axios.get(`/bookmarks/product`);
-        const getId = data?.item.find(item => item.product._id === cafeId);
-        console.log(getId._id);
-        if (getId) {
-          console.log(getId._id);
-          setBookmarkId(getId._id);
-          setIsBookmarked(true);
+        if (data) {
+          const getId = data?.item.find(
+            item => item.product._id === cafeId,
+          )._id;
+          if (getId !== undefined) {
+            setIsBookmarked(true);
+            setBookmarkId(getId);
+          } else {
+            setIsBookmarked(false);
+            setBookmarkId();
+          }
         } else {
-          console.log('Cafe ID not found in bookmarks.');
           setIsBookmarked(false);
+          setBookmarkId();
         }
       }
     } catch (err) {
-      // console.error(err.response?.data.message);
+      console.log('북마크 데이터가 없습니다.');
+      console.error(err.response?.data.message);
     }
   };
 
@@ -45,23 +44,26 @@ function BookmarkButton({ cafeId }) {
     bookmarkData();
   }, []);
 
-  // console.log(data.item.map(item => item._id));
-  // console.log(data);
-
   const handleBookmark = async () => {
-    if (user) {
-      if (isBookmarked) {
+    try {
+      if (!bookmarkId || bookmarkId === undefined) {
+        const response = await axios.post(`/bookmarks/product/${cafeId}`);
+        const data = response.data;
+        console.log('북마크 추가함!');
+        setIsBookmarked(true);
+        setBookmarkId(data.item._id);
+      } else {
         await axios.delete(`/bookmarks/${bookmarkId}`);
         console.log('북마크 삭제함!');
         setIsBookmarked(false);
         setBookmarkId();
       }
-    } else {
-      const response = await axios.post(`/bookmarks/product/${cafeId}`);
-      const data = response.data;
-      console.log('북마크 추가함!');
-      setIsBookmarked(true);
-      setBookmarkId(data.item._id);
+    } catch (error) {
+      if (error.response && error.response.status === 409) {
+        await axios.delete(`/bookmarks/${bookmarkId}`);
+      } else {
+        console.error('북마크 추가/삭제 중 오류 발생:', error);
+      }
     }
   };
 
