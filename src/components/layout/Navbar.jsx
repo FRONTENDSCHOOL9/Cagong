@@ -1,4 +1,6 @@
+import { memberState } from '@recoil/user/atoms.mjs';
 import { NavLink } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 
 const StyledNav = styled.nav`
@@ -31,6 +33,7 @@ const StyledNav = styled.nav`
 `;
 
 function Navbar() {
+  const user = useRecoilValue(memberState);
 
   return (
     <StyledNav>
@@ -39,11 +42,11 @@ function Navbar() {
 
         <NavLink to="/boards/map"><img src="../public/nav-map.png" alt="" /><span>지도</span></NavLink>
 
-        <NavLink to="/users/orderlist"><img src="../public/nav-order.png" alt="" /><span>내 구매</span></NavLink>
+        <NavLink to={user ? "/users/orderlist" : "/users/login"}><img src="../public/nav-order.png" alt="" /><span>내 구매</span></NavLink>
 
-        <NavLink to="/users/bookmark"><img src="../public/nav-bookmark.png" alt="" /><span>북마크</span></NavLink>
+        <NavLink to={user ? "/users/bookmark" : "/users/login"}><img src="../public/nav-bookmark.png" alt="" /><span>북마크</span></NavLink>
 
-        <NavLink to="/users/mypage"><img src="../public/nav-mypage.png" alt="" /><span>내 정보</span></NavLink>
+        <NavLink to={user ? "/users/mypage" : "/users/login"}><img src="../public/nav-mypage.png" alt="" /><span>내 정보</span></NavLink>
       </nav>
     </StyledNav>
   );

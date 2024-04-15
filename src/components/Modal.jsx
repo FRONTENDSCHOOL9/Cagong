@@ -16,7 +16,6 @@ function Modal({ children }) {
     transform: translate(-50%, -50%);
     background-color: #fff;
     border: 1px solid #D8D8D8;
-    border-radius: 8px;
   `;
 
   return (
