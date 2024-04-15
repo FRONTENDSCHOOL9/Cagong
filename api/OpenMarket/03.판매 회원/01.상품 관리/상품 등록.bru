@@ -1,0 +1,67 @@
+meta {
+  name: 상품 등록
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{url}}/seller/products
+  body: json
+  auth: bearer
+}
+
+headers {
+  client-id: {{client-id}}
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+body:json {
+      {
+  
+          seller_id: 1,
+          price: 5000,
+          shippingFees: 0,
+          show: true,
+          active: true,
+          name: '코쿠',
+          quantity: 4,
+          buyQuantity: 1,
+          mainImages: [
+            {
+              originalname: 'koku_01.jpg',
+              name: 'hYcDzWDIv.jpg',
+              path: '/files/hYcDzWDIv.jpg',
+            },
+            {
+              originalname: 'koku_02.jpg',
+              name: 'TnUHAnFJSV.jpg',
+              path: '/files/TnUHAnFJSV.jpg',
+            },
+            {
+              originalname: 'koku_03.jpg',
+              name: 'fm5xjWkjMk.jpg',
+              path: '/files/fm5xjWkjMk.jpg',
+            },
+            {
+              originalname: 'koku_04.jpg',
+              name: 'kK3YhgZ0y5.jpg',
+              path: '/files/kK3YhgZ0y5.jpg',
+            },
+            {
+              originalname: 'koku_05.jpg',
+              name: 'uNZZQDPar.jpg',
+              path: '/files/uNZZQDPar.jpg',
+            },
+          ],
+          content: '대구 중구 공평로8길 46 2층, 3층',
+          createdAt: '2024.04.09 09:50:56',
+          updatedAt: '2024.04.09 04:44:29',
+          extra: {
+            location: ['35.86631723090858', '128.60244477112175'],
+            
+          },
+        },
+}
