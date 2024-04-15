@@ -39,31 +39,20 @@ function Search() {
     refetch();
   }, [searchParams.toString()]);
 
-  //검색기록 저장 함수
-  function saveSearchHistory(keyword) {
-    const trimmedKeyword = keyword.trim();
-    if (!trimmedKeyword) return; // 빈 값은 저장하지 않음
-
-    const currentHistory = JSON.parse(
-      sessionStorage.getItem('searchHistory') || '[]',
-    );
-    const newHistory = [...new Set([keyword, ...currentHistory])]; //중복 제거
-    sessionStorage.setItem('searchHistory', JSON.stringify(newHistory));
-    setSearchHistory(newHistory);
-  }
-
   // 검색 기록 지워주는 함수
   function clearSearchHistory() {
     sessionStorage.removeItem('searchHistory');
     setSearchHistory([]);
   }
 
-  // 검색어를 저장해주는 함수
+  // URL 검색 매개 변수 업데이트
   function handleSearch(keyword) {
     searchParams.set('keyword', keyword);
-    saveSearchHistory(keyword);
+    // searchParams.set('adress', data?.item[0].extra.adress);
     setSearchParams(searchParams);
   }
+  // console.log(searchParams);
+
   // 검색기록 옆 X 버튼 삭제 함수
   function removeSearchHistory(keyword) {
     const filteredHistory = searchHistory.filter(item => item !== keyword);
@@ -102,7 +91,7 @@ function Search() {
         ) : (
           <p>최근 검색어 내역이 존재하지 않습니다.</p>
         )}
-        <button onClick={clearSearchHistory}>지우기</button>
+        <button onClick={clearSearchHistory}>검색 기록 지우기</button>
         <hr />
         {searchHistory.length > 0 ? (
           <h1>총 카페 {data?.item.length}건이 검색 되었습니다.</h1>
