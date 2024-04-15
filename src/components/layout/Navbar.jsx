@@ -11,13 +11,15 @@ const StyledNav = styled.nav`
   background-color: white;
   z-index: 999;
   box-shadow: 10px 10px 20px 8px gray;
+  display: flex;
+  justify-content: center;
   nav{
     padding: 0px 30px;
     height: 100%;
-    display: flex;
-    gap: 50px;
-    justify-content: center;
-    align-items: center;
+    display: grid;
+    grid-template-columns: repeat(5, 50px);
+    gap: 25px;
+    place-items: center;
   }
   a{
     text-decoration: unset;
