@@ -1,33 +1,66 @@
 import useCustomAxios from '@hooks/useCustomAxios.mjs';
-import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+
+const MyComponent = styled.div`
+  width: 100%;
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  img {
+    margin: 0;
+    padding: 0;
+  }
+
+  .cafe-thumb {
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    aspect-ratio: 1/1;
+  }
+
+  a {
+    text-decoration: none;
+  }
+`;
 
 function Bookmark() {
-  const axios = useCustomAxios();
-  const [data, setData] = useState([]);
+  const BASE_IMAGE_URL = `${import.meta.env.VITE_API_SERVER}/files/05-cagong/`;
 
-  useEffect(() => {
-    axios
-      .get(`${import.meta.env.VITE_API_SERVER}/bookmarks/product/`)
-      .then(res => {
-        const items = res.data.item;
-        for (let i = 0; i < items.length; i++) {
-          console.log(res.data.item);
-          const productNames = items.map(item => (
-            <li key={item._id}>{item.product.name}</li>
-          ));
-          setData(productNames);
-          // console.log(items[i].product.name);
-          // setData(items[i].product.name);
-        }
-      });
-  }, []);
+  const axios = useCustomAxios();
+
+  const { data } = useQuery({
+    queryKey: ['isBookmarkedlist'],
+    queryFn: () => axios.get('/bookmarks/product'),
+    select: response => response.data.item,
+    suspense: true,
+  });
+
+  const bookmarkList = data?.map(item => (
+    <Link key={item._id} to={`/boards/cafeDetail/${item.product._id}`}>
+      <li key={item._id}>
+        <img
+          className="cafe-thumb"
+          src={`${BASE_IMAGE_URL}` + item.product.image.name}
+        />
+        <h2> {item.product.name}</h2>
+        <div>{item.product.extra.address}</div>
+      </li>
+    </Link>
+  ));
 
   return (
-    <div>
-      <h1>찜한 카페</h1>
-
-      {data}
-    </div>
+    <MyComponent>
+      <div>
+        <h1>찜한 카페</h1>
+        <ul>{bookmarkList}</ul>
+      </div>
+    </MyComponent>
   );
 }
 

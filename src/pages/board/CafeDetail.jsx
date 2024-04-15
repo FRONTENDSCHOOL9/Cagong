@@ -14,6 +14,7 @@ import { memberState } from '@recoil/user/atoms.mjs';
 import { useQuery } from '@tanstack/react-query';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import styled from 'styled-components';
+import BookmarkButton from '@components/button/BookmarkButton';
 
 function CafeDetail() {
   const axios = useCustomAxios();
@@ -22,7 +23,6 @@ function CafeDetail() {
   const user = useRecoilValue(memberState);
   const [isOrdered, setIsOrdered] = useState(false);
   const navigate = useNavigate();
-  const [isBookmarked, setIsBookmarked] = useState(false);
 
   const DetailStyle = styled.div`
     margin: 30px;
@@ -78,22 +78,14 @@ function CafeDetail() {
     }
   `;
 
-  const handleBookmark = async () => {
-    axios
-      .post(`${import.meta.env.VITE_API_SERVER}/bookmarks/product/${_id}`)
-      .then(res => {
-        console.log(res.data.item);
-        console.log('북마크 저장');
-        setIsBookmarked(!isBookmarked);
-      });
-  };
-
   const { data } = useQuery({
     queryKey: ['products', _id],
     queryFn: () => axios.get(`/products/${_id}`),
     select: response => response.data,
     suspense: true,
   });
+
+  const cafeId = Number(data.item._id);
 
   async function handleOrder() {
     try {
@@ -182,9 +174,7 @@ function CafeDetail() {
           {/* <text className="copiedText">복사하기</text> */}
         </CopyToClipboard>
 
-        <button onClick={handleBookmark}>
-          {isBookmarked ? '북마크 삭제하기' : '북마크 등록하기'}
-        </button>
+        <BookmarkButton cafeId={cafeId} />
       </div>
 
       <div className="order">
