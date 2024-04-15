@@ -19,6 +19,33 @@
   /* font-family: 'UhBeeSe_hyun'; */
 }
 
-/* a {
+a {
   all: unset;
-} */
+  text-decoration: none;
+  cursor: pointer;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+h1,
+h2,
+h2,
+h4 {
+  margin: unset;
+  font-weight: unset;
+  font-size: unset;
+}
+
+p {
+  padding: unset;
+  margin: unset;
+}
+
+body {
+  margin: 0;
+  padding-bottom: 100px;
+}

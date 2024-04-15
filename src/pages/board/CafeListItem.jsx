@@ -4,12 +4,6 @@ import styled from 'styled-components';
 const MyComponent = styled.div`
   width: 100%;
 
-  ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
   img {
     margin: 0;
     padding: 0;
@@ -20,10 +14,6 @@ const MyComponent = styled.div`
     height: 100%;
     border-radius: 20px;
     aspect-ratio: 1/1;
-  }
-
-  a {
-    text-decoration: none;
   }
 `;
 

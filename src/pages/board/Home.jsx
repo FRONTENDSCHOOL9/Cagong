@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { useQuery } from '@tanstack/react-query';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import ad_01_Img from '@assets/ad_01.jpeg';
+import ad_02_Img from '@assets/ad_02.jpeg';
+import ad_03_Img from '@assets/ad_03.jpeg';
 import {
   Navigation,
   Pagination,
@@ -78,13 +81,25 @@ function Home() {
         }}
       >
         <SwiperSlide>
-          <img className="ad-img" src="/public/cagongAd01.png" alt="" />
+          <img
+            className="ad-img"
+            src={ad_01_Img}
+            alt="카공여지도 광고 이미지"
+          />
         </SwiperSlide>
         <SwiperSlide>
-          <img className="ad-img" src="/public/cagongAd01.png" alt="" />
+          <img
+            className="ad-img"
+            src={ad_02_Img}
+            alt="카공여지도 광고 이미지"
+          />
         </SwiperSlide>
         <SwiperSlide>
-          <img className="ad-img" src="/public/cagongAd01.png" alt="" />
+          <img
+            className="ad-img"
+            src={ad_03_Img}
+            alt="카공여지도 광고 이미지"
+          />
         </SwiperSlide>
       </Swiper>
 
