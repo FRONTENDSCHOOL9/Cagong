@@ -27,7 +27,7 @@ function Search() {
     suspense: true,
   });
 
-  console.log(data);
+  // console.log(data);
 
   //검색기록 변수
   const [searchHistory, setSearchHistory] = useState([]);
@@ -48,7 +48,6 @@ function Search() {
   // URL 검색 매개 변수 업데이트
   function handleSearch(keyword) {
     searchParams.set('keyword', keyword);
-    // searchParams.set('adress', data?.item[0].extra.adress);
     setSearchParams(searchParams);
   }
   // console.log(searchParams);
