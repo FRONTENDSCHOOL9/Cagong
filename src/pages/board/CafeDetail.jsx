@@ -14,7 +14,6 @@ import { memberState } from '@recoil/user/atoms.mjs';
 import { useQuery } from '@tanstack/react-query';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import styled from 'styled-components';
-import BookmarkButton from '@components/button/BookmarkButton';
 
 function CafeDetail() {
   const axios = useCustomAxios();
@@ -23,68 +22,124 @@ function CafeDetail() {
   const user = useRecoilValue(memberState);
   const [isOrdered, setIsOrdered] = useState(false);
   const navigate = useNavigate();
+  const cafeId = Number(_id);
 
   const DetailStyle = styled.div`
-  margin: 30px;
-  .slide-src {
-    width: 100%;
-    height: 80vw;
-    object-fit: cover;
-    color: black;
-  }
-  .address-bundle {
-    margin: 20px 0px;
-  }
-  .address {
-    font-size: 16px;
-    font-weight: 600;
-  }
-  .title{
-    font-size: 22px;
-    font-weight: 800;
-  }
-  .order{
-    margin: 50px 0px;
-  }
-  .order-menu {
-    display: flex;
-    justify-content: space-between;
-    font-size: 14px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    margin: 30px 10px;
-  }
-  .order-price {
-    color: #ff6666;
-  }
-  .order-button {
-    width: 100%;
-  }
-  .review-list {
-    margin: 25px 10px;
-  }
-  .review-user {
-    margin-right: 10px;
-    font-size: 16px;
-    font-weight: bold;
-  }
-  .review-createdAt {
-    font-size: 12px;
-    font-weight: bold;
-    color: #828282;
-  }
-  .review-content {
-    margin-top: 20px;
-    font-size: 14px;
-  }
-  text{
-    margin-left: 10px;
-    font-size: 12px;
-    cursor: pointer;
-    text-decoration: underline;
-    color: #828282;
-  }
+    margin: 30px;
+    .slide-src {
+      width: 100%;
+      height: 80vw;
+      object-fit: cover;
+      color: black;
+    }
+    .address-bundle {
+      margin: 20px 0px;
+    }
+    .address {
+      font-size: 16px;
+      font-weight: 600;
+    }
+    .title {
+      font-size: 22px;
+      font-weight: 800;
+    }
+    .order {
+      margin: 50px 0px;
+    }
+    .order-menu {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      margin: 30px 10px;
+    }
+    .order-price {
+      color: #ff6666;
+    }
+    .order-button {
+      width: 100%;
+    }
+    .review-list {
+      margin: 25px 10px;
+    }
+    .review-user {
+      margin-right: 10px;
+      font-size: 16px;
+      font-weight: bold;
+    }
+    .review-createdAt {
+      font-size: 12px;
+      font-weight: bold;
+      color: #828282;
+    }
+    .review-content {
+      margin-top: 20px;
+      font-size: 14px;
+    }
+    text {
+      margin-left: 10px;
+      font-size: 12px;
+      cursor: pointer;
+      text-decoration: underline;
+      color: #828282;
+    }
   `;
+
+  const [isBookmarked, setIsBookmarked] = useState(false);
+  const [bookmarkId, setBookmarkId] = useState(null);
+
+  useEffect(() => {
+    const fetchBookmarkData = async () => {
+      try {
+        if (user) {
+          const { data } = await axios.get(`/bookmarks/product`);
+          if (data && data.item) {
+            const foundItem = data.item.find(
+              item => item.product._id === cafeId,
+            );
+            if (foundItem) {
+              setIsBookmarked(true);
+              setBookmarkId(foundItem._id);
+            } else {
+              setIsBookmarked(false);
+              setBookmarkId(null);
+            }
+          } else {
+            setIsBookmarked(false);
+            setBookmarkId(null);
+          }
+        }
+      } catch (error) {
+        console.error('북마크 데이터를 가져오는 중 오류 발생:', error);
+      }
+    };
+
+    fetchBookmarkData();
+  }, [axios, cafeId, user]);
+
+  const handleBookmark = async () => {
+    try {
+      if (!bookmarkId) {
+        const response = await axios.post(`/bookmarks/product/${cafeId}`);
+        const data = response.data;
+        console.log('북마크 추가함!');
+        setIsBookmarked(true);
+        setBookmarkId(data.item._id);
+      } else {
+        await axios.delete(`/bookmarks/${bookmarkId}`);
+        console.log('북마크 삭제함!');
+        setIsBookmarked(false);
+        setBookmarkId(null);
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 409) {
+        await axios.delete(`/bookmarks/${bookmarkId}`);
+      } else {
+        console.error('북마크 추가/삭제 중 오류 발생:', error);
+      }
+    }
+  };
 
   const { data } = useQuery({
     queryKey: ['products', _id],
@@ -92,8 +147,6 @@ function CafeDetail() {
     select: response => response.data,
     suspense: true,
   });
-
-  const cafeId = Number(data.item._id);
 
   async function handleOrder() {
     try {
@@ -168,7 +221,8 @@ function CafeDetail() {
       >
         {data.item.mainImages?.map((image, index) => (
           <SwiperSlide key={index}>
-            <img className='slide-src'
+            <img
+              className="slide-src"
               src={`${import.meta.env.VITE_API_SERVER}/files/05-cagong/${
                 image.name
               }`}
@@ -188,12 +242,16 @@ function CafeDetail() {
         >
           <text className="copiedText">복사하기</text>
         </CopyToClipboard>
-
-        <BookmarkButton cafeId={cafeId} />
       </div>
-
+      <img
+        className="bookmark-icon"
+        src={isBookmarked ? '/public/bookmarked.svg' : '/public/bookmark.svg'}
+        alt="북마크 버튼 이미지"
+        onClick={handleBookmark}
+        style={{ cursor: 'pointer' }}
+      />
       <div className="order">
-        <h2 className='title'>카공단 제공 메뉴</h2>
+        <h2 className="title">카공단 제공 메뉴</h2>
         <div className="order-menu">
           <span>{data?.item.content} </span>
           <span className="order-price">{data?.item.price} 원</span>
@@ -210,9 +268,9 @@ function CafeDetail() {
         </Button>
       </div>
       <div className="review">
-        <h2 className='title'>방문자 리뷰</h2>
+        <h2 className="title">방문자 리뷰</h2>
         {review?.item.map(item => (
-          <div key={_id} className='review-list'>
+          <div key={_id} className="review-list">
             <span className="review-user">{item.user.name}</span>
             <span className="review-createdAt">{item.createdAt}</span>
             <p className="review-content">{item.content}</p>
