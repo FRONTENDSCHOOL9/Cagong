@@ -25,57 +25,65 @@ function CafeDetail() {
   const navigate = useNavigate();
 
   const DetailStyle = styled.div`
-    margin: 30px;
-    img {
-      width: 100%;
-      height: 80vw;
-      object-fit: cover;
-      border-radius: 20px;
-    }
-    text {
-      margin: 5px;
-      cursor: pointer;
-      font-size: 12px;
-      text-decoration: underline;
-      color: #878787;
-    }
-    a {
-      text-decoration: none;
-      color: black;
-    }
-    .address-bundle {
-      margin-top: 10px;
-    }
-    .address {
-      font-size: 14px;
-    }
-    .order-menu {
-      display: flex;
-      justify-content: space-between;
-      font-size: 14px;
-      font-weight: bold;
-      margin-bottom: 20px;
-    }
-    .order-price {
-      color: #ff6666;
-    }
-    .order-button {
-      width: 100%;
-    }
-    .review {
-      margin-bottom: 60px;
-    }
-    .review-user {
-      margin-right: 10px;
-    }
-    .review-createdAt {
-      font-size: 12px;
-      font-weight: bold;
-      color: #828282;
-    }
-    .review-content {
-      font-size: 14px;
-    }
+  margin: 30px;
+  .slide-src {
+    width: 100%;
+    height: 80vw;
+    object-fit: cover;
+    color: black;
+  }
+  .address-bundle {
+    margin: 20px 0px;
+  }
+  .address {
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .title{
+    font-size: 22px;
+    font-weight: 800;
+  }
+  .order{
+    margin: 50px 0px;
+  }
+  .order-menu {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    margin: 30px 10px;
+  }
+  .order-price {
+    color: #ff6666;
+  }
+  .order-button {
+    width: 100%;
+  }
+  .review-list {
+    margin: 25px 10px;
+  }
+  .review-user {
+    margin-right: 10px;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  .review-createdAt {
+    font-size: 12px;
+    font-weight: bold;
+    color: #828282;
+  }
+  .review-content {
+    margin-top: 20px;
+    font-size: 14px;
+  }
+  text{
+    margin-left: 10px;
+    font-size: 12px;
+    cursor: pointer;
+    text-decoration: underline;
+    color: #828282;
+  }
   `;
 
   const { data } = useQuery({
@@ -125,13 +133,21 @@ function CafeDetail() {
   const [review, setReview] = useState();
 
   async function getReview() {
-    const response = await axios.get(`/replies/${_id - 1}`);
+    const response = await axios.get(`/replies/products/${_id}`);
     setReview(response.data);
   }
 
   useEffect(() => {
     getReview();
   }, []);
+
+  useEffect(() => {
+    const savedIds = JSON.parse(localStorage.getItem('viewedCafeIds')) || [];
+    if (!savedIds.includes(_id)) {
+      const updatedIds = [...savedIds, _id];
+      localStorage.setItem('viewedCafeIds', JSON.stringify(updatedIds));
+    }
+  }, [_id]);
 
   return (
     <DetailStyle>
@@ -152,7 +168,7 @@ function CafeDetail() {
       >
         {data.item.mainImages?.map((image, index) => (
           <SwiperSlide key={index}>
-            <img
+            <img className='slide-src'
               src={`${import.meta.env.VITE_API_SERVER}/files/05-cagong/${
                 image.name
               }`}
@@ -170,15 +186,14 @@ function CafeDetail() {
           text={data.item.extra.address}
           onCopy={() => alert('클립보드에 복사되었습니다.')}
         >
-          <button className="copiedText">복사하기</button>
-          {/* <text className="copiedText">복사하기</text> */}
+          <text className="copiedText">복사하기</text>
         </CopyToClipboard>
 
         <BookmarkButton cafeId={cafeId} />
       </div>
 
       <div className="order">
-        <h2>카공단 제공 메뉴</h2>
+        <h2 className='title'>카공단 제공 메뉴</h2>
         <div className="order-menu">
           <span>{data?.item.content} </span>
           <span className="order-price">{data?.item.price} 원</span>
@@ -195,9 +210,9 @@ function CafeDetail() {
         </Button>
       </div>
       <div className="review">
-        <h2>방문자 리뷰</h2>
+        <h2 className='title'>방문자 리뷰</h2>
         {review?.item.map(item => (
-          <div key={_id}>
+          <div key={_id} className='review-list'>
             <span className="review-user">{item.user.name}</span>
             <span className="review-createdAt">{item.createdAt}</span>
             <p className="review-content">{item.content}</p>

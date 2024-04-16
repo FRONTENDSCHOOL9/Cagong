@@ -44,7 +44,7 @@ function Header() {
 
   return (
     <HeaderStyle>
-      <img className='logo' src="../public/logo.svg" alt="" />
+      <img className='logo' src="/public/logo.svg" alt="" />
       <span className='title'>카공여지도</span>
       <SearchButton className='search-button' />
       <div>
