@@ -1,5 +1,6 @@
 import useCustomAxios from '@hooks/useCustomAxios.mjs';
 import { useQuery } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -21,15 +22,15 @@ padding: 10px;
   li {
     border-radius: 20px;
     position: relative;
-    margin-bottom: 40px;
+    margin-top: 20px;
   }
-
 
   .bookmark-icon {
     position: absolute;
     right: 0;
     z-index: 1;
-    padding: 10px
+    padding: 10px;
+    cursor: pointer;
   }
 
   .cafe-thumb {
@@ -77,8 +78,8 @@ padding: 10px;
 
 function Bookmark() {
   const BASE_IMAGE_URL = `${import.meta.env.VITE_API_SERVER}/files/05-cagong/`;
-
   const axios = useCustomAxios();
+  const [bookmarks, setBookmarks] = useState([]);
 
   const { data } = useQuery({
     queryKey: ['isBookmarkedlist'],
@@ -87,33 +88,51 @@ function Bookmark() {
     suspense: true,
   });
 
+  const deleteBookmark = async index => {
+    try {
+      const getId = data[index]._id;
+      await axios.delete(`/bookmarks/${getId}`);
+      console.log('북마크 삭제함!');
+      const updatedBookmarks = [...bookmarks];
+      updatedBookmarks.splice(index, 1);
+      setBookmarks(updatedBookmarks);
+    } catch (error) {
+      console.error('북마크 추가/삭제 중 오류 발생:', error);
+    }
+  };
+
+  useEffect(() => {
+    setBookmarks(data.map(item => item._id));
+  }, [data]);
+
   return (
     <MyComponent>
       <div>
         <h1 className="cafelist-title">찜한 카페</h1>
         <ul>
-          {data?.map(item => (
-            <Link key={item._id} to={`/boards/cafeDetail/${item.product._id}`}>
-              <li key={item._id}>
+          {bookmarks.map((bookmarkId, index) => (
+            <li key={bookmarkId}>
+              <img
+                className="bookmark-icon"
+                src="/public/bookmarked.svg"
+                alt="북마크 버튼 이미지"
+                onClick={() => deleteBookmark(index)}
+              />
+              <Link to={`/boards/cafeDetail/${data[index].product._id}`}>
                 <div className="bookmarked-cafe">
-                  <img
-                    className="bookmark-icon"
-                    src="/public/bookmarked.svg"
-                    alt="북마크 버튼 이미지"
-                  />
                   <div className="cafe-thumb-overlay">
                     <img
                       className="cafe-thumb"
-                      src={`${BASE_IMAGE_URL}` + item.product.image.name}
+                      src={`${BASE_IMAGE_URL}${data[index].product.image.name}`}
                     />
                   </div>
-                  <h2 className="item-name">{item.product.name}</h2>
+                  <h2 className="item-name">{data[index].product.name}</h2>
                   <div className="item-address">
-                    {item.product.extra.address}
+                    {data[index].product.extra.address}
                   </div>
                 </div>
-              </li>
-            </Link>
+              </Link>
+            </li>
           ))}
         </ul>
       </div>
