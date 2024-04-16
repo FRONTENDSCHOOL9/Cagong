@@ -109,6 +109,7 @@ const OrderList = () => {
   const axios = useCustomAxios();
   const [modalOpen, setModalOpen] = useState(false);
   const [section, setSection] = useState(true);
+  const [id, setId] = useState(null);
 
   const { data } = useQuery({
     queryKey: ['orders'],
@@ -137,20 +138,14 @@ const OrderList = () => {
     // eslint-disable-next-line no-unused-vars
     .map((item, _) => item._id);
 
-  // eslint-disable-next-line no-unused-vars
-  const productIndex = data.item
-    .filter(item => item.state !== 'completed')
-    .map((_, index) => index);
-
-  console.log(productId);
-
   // 모달
   const closeModal = () => {
     setModalOpen(false);
   };
 
-  const showModal = () => {
+  const showModal = (index) => {
     setModalOpen(true);
+    setId(productId[index]);
   };
 
   // 보유, 사용 완료 섹션 선택
@@ -167,7 +162,7 @@ const OrderList = () => {
 
   async function handleState() {
     try {
-      await axios.patch(`/orders/${productId[0]}`, {
+      await axios.patch(`/orders/${id}`, {
         state: 'completed',
       });
       alert('정상 처리되었습니다.');
@@ -177,6 +172,7 @@ const OrderList = () => {
       alert('다시 시도해 주세요.');
     }
   }
+  
 
   return (
     <OrderStyle>
@@ -207,14 +203,14 @@ const OrderList = () => {
         <>
           {section ? (
             <div className="unused">
-              {unusedProducts.map(name => (
+              {unusedProducts.map((name, index) => (
                 <div key={name} className="unused-list">
                   <p>{name}</p>
                   <Button
                     className="action-button"
                     fontSize="18px"
                     fontWeight="bold"
-                    onClick={() => showModal()}
+                    onClick={() => showModal(index)}
                   >
                     QR 보기
                   </Button>
