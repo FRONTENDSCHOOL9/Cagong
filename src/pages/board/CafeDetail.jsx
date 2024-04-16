@@ -136,7 +136,7 @@ function CafeDetail() {
   const [review, setReview] = useState();
 
   async function getReview() {
-    const response = await axios.get(`/replies/${_id - 1}`);
+    const response = await axios.get(`/replies/products/${_id}`);
     setReview(response.data);
   }
 
