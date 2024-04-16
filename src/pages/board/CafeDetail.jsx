@@ -140,6 +140,8 @@ function CafeDetail() {
     setReview(response.data);
   }
 
+  // 
+
   useEffect(() => {
     getReview();
   }, []);
