@@ -4,17 +4,32 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const MyComponent = styled.div`
-  width: 100%;
-
-  ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
+padding: 10px;
+  .cafelist-title {
+    font-size: 20px;
+    font-weight: 800;
+    text-align: center;
+    padding: 10px;
   }
 
-  img {
-    margin: 0;
-    padding: 0;
+  ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(45%, 1fr));
+    gap: 10px;
+  }
+
+  li {
+    border-radius: 20px;
+    position: relative;
+    margin-bottom: 40px;
+  }
+
+
+  .bookmark-icon {
+    position: absolute;
+    right: 0;
+    z-index: 1;
+    padding: 10px
   }
 
   .cafe-thumb {
@@ -24,16 +39,40 @@ const MyComponent = styled.div`
     aspect-ratio: 1/1;
   }
 
-  a {
-    text-decoration: none;
+  .cafe-thumb-overlay {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
   }
 
-  .cafelist-title {
-    font-size: 20px;
-    font-weight: 800;
-    text-align: center;
-    padding: 10px;
-  }
+    .item-name {
+      font-weight: 700;
+      padding: 0 2px;
+      padding-top: 10px;
+    }
+  
+    .item-address {
+      font-size: 12px;
+      padding: 0 2px;
+      line-height: 16px;
+    }
+
+    .cafe-thumb-overlay::after {
+      display: inline;
+      content: '';
+      position: absolute;
+      overflow: hidden;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 20px;
+      background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.5) 0%,
+        rgba(0, 0, 0, 0) 100%
+      );
 `;
 
 function Bookmark() {
@@ -48,24 +87,35 @@ function Bookmark() {
     suspense: true,
   });
 
-  const bookmarkList = data?.map(item => (
-    <Link key={item._id} to={`/boards/cafeDetail/${item.product._id}`}>
-      <li key={item._id}>
-        <img
-          className="cafe-thumb"
-          src={`${BASE_IMAGE_URL}` + item.product.image.name}
-        />
-        <h2> {item.product.name}</h2>
-        <div>{item.product.extra.address}</div>
-      </li>
-    </Link>
-  ));
-
   return (
     <MyComponent>
       <div>
         <h1 className="cafelist-title">찜한 카페</h1>
-        <ul>{bookmarkList}</ul>
+        <ul>
+          {data?.map(item => (
+            <Link key={item._id} to={`/boards/cafeDetail/${item.product._id}`}>
+              <li key={item._id}>
+                <div className="bookmarked-cafe">
+                  <img
+                    className="bookmark-icon"
+                    src="/public/bookmarked.svg"
+                    alt="북마크 버튼 이미지"
+                  />
+                  <div className="cafe-thumb-overlay">
+                    <img
+                      className="cafe-thumb"
+                      src={`${BASE_IMAGE_URL}` + item.product.image.name}
+                    />
+                  </div>
+                  <h2 className="item-name">{item.product.name}</h2>
+                  <div className="item-address">
+                    {item.product.extra.address}
+                  </div>
+                </div>
+              </li>
+            </Link>
+          ))}
+        </ul>
       </div>
     </MyComponent>
   );

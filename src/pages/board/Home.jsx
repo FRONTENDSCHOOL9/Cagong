@@ -36,7 +36,7 @@ const HomeStyle = styled.div`
       rgba(0, 0, 0, 0.8) 0%,
       rgba(0, 0, 0, 0) 100%
     );
-    pointer-events: none; /* 클릭 이벤트를 방지하여 이미지를 클릭할 수 있도록 합니다. */
+    pointer-events: none;
   }
 
   .ad-title-sub {
@@ -60,7 +60,7 @@ const HomeStyle = styled.div`
     width: 100%;
     object-fit: cover;
     height: 100%;
-    position: relative; /* 이미지 위에 요소를 배치할 수 있도록 위치 속성을 설정 */
+    position: relative;
   }
 
   .ad-img {
