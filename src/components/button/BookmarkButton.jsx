@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import useCustomAxios from '@hooks/useCustomAxios.mjs';
 import { useRecoilValue } from 'recoil';
 import { memberState } from '@recoil/user/atoms.mjs';
+import { useQuery } from '@tanstack/react-query';
 
 BookmarkButton.propTypes = {
   cafeId: PropTypes.number,
@@ -13,50 +14,36 @@ function BookmarkButton({ cafeId }) {
   const user = useRecoilValue(memberState);
   const [isBookmarked, setIsBookmarked] = useState();
   const [bookmarkId, setBookmarkId] = useState();
+  const [loading, setLoading] = useState(true); // 북마크 데이터 로딩 상태 추가
 
-  const bookmarkData = async () => {
-    try {
-      if (user) {
-        const { data } = await axios.get(`/bookmarks/product`);
-        if (data) {
-          const getId = data?.item.find(
-            item => item.product._id === cafeId,
-          )._id;
-          if (getId !== undefined) {
-            setIsBookmarked(true);
-            setBookmarkId(getId);
-          } else {
-            setIsBookmarked(false);
-            setBookmarkId();
-          }
-        } else {
-          setIsBookmarked(false);
-          setBookmarkId();
-        }
-      }
-    } catch (err) {
-      console.log('북마크 데이터가 없습니다.');
-      console.error(err.response?.data.message);
-    }
-  };
+  const { data: bookmarkData } = useQuery({
+    queryKey: ['isBookmarkedlist'],
+    queryFn: () => axios.get('/bookmarks/product'),
+    select: response => response.data.item || [],
+  });
 
   useEffect(() => {
-    bookmarkData();
+    if (bookmarkData && user) {
+      const getId = bookmarkData.find(item => item.product._id === cafeId)?._id;
+      setIsBookmarked(!!getId);
+      setBookmarkId(getId);
+      setLoading(false);
+    }
   }, []);
 
   const handleBookmark = async () => {
     try {
-      if (!bookmarkId || bookmarkId === undefined) {
+      if (!bookmarkId) {
         const response = await axios.post(`/bookmarks/product/${cafeId}`);
         const data = response.data;
-        console.log('북마크 추가함!');
-        setIsBookmarked(true);
+        console.log('북마크 추가됨!');
         setBookmarkId(data.item._id);
+        setIsBookmarked(true);
       } else {
         await axios.delete(`/bookmarks/${bookmarkId}`);
-        console.log('북마크 삭제함!');
-        setIsBookmarked(false);
+        console.log('북마크 삭제됨!');
         setBookmarkId();
+        setIsBookmarked(false);
       }
     } catch (error) {
       if (error.response && error.response.status === 409) {
@@ -69,11 +56,13 @@ function BookmarkButton({ cafeId }) {
 
   return (
     <div>
-      <button onClick={handleBookmark}>
-        {isBookmarked
-          ? '북마크 이미 추가됨 삭제 할래?'
-          : '북마크 없다. 추가 해줘!'}
-      </button>
+      {loading ? (
+        <button>북마크 로딩중</button> // 로딩 중일 때 표시할 메시지
+      ) : (
+        <button onClick={handleBookmark}>
+          {isBookmarked ? '북마크 있당' : '북마크 추가할래?'}
+        </button>
+      )}
     </div>
   );
 }

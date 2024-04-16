@@ -27,6 +27,13 @@ const MyComponent = styled.div`
   a {
     text-decoration: none;
   }
+
+  .cafelist-title {
+    font-size: 20px;
+    font-weight: 800;
+    text-align: center;
+    padding: 10px;
+  }
 `;
 
 function Bookmark() {
@@ -57,7 +64,7 @@ function Bookmark() {
   return (
     <MyComponent>
       <div>
-        <h1>찜한 카페</h1>
+        <h1 className="cafelist-title">찜한 카페</h1>
         <ul>{bookmarkList}</ul>
       </div>
     </MyComponent>
