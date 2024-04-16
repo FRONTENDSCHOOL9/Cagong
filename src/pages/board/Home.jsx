@@ -24,6 +24,21 @@ const HomeStyle = styled.div`
     height: 600px;
   }
 
+  .ad-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.8) 0%,
+      rgba(0, 0, 0, 0) 100%
+    );
+    pointer-events: none; /* 클릭 이벤트를 방지하여 이미지를 클릭할 수 있도록 합니다. */
+  }
+
   .ad-title-sub {
     font-weight: 400;
   }
@@ -38,6 +53,7 @@ const HomeStyle = styled.div`
     font-size: 30px;
     font-weight: bold;
     line-height: 36px;
+    z-index: 100;
   }
 
   .swiper-ad img {
@@ -131,8 +147,8 @@ function Home() {
             />
             <h1 className="ad-title-overlay">
               <span className="ad-title-sub">
-                차분한 공간에서
-                <br /> 커피 마시고 싶다면
+                시험 기간에 가기 좋은
+                <br /> 카페 찾고 있다면
               </span>
               <br />
               카공여지도
@@ -148,8 +164,8 @@ function Home() {
             />
             <h1 className="ad-title-overlay">
               <span className="ad-title-sub">
-                시험 기간에 가기 좋은
-                <br /> 카페 찾고 있다면
+                차분한 공간에서
+                <br /> 커피 마시고 싶다면
               </span>
               <br />
               카공여지도
@@ -170,7 +186,7 @@ function Home() {
       </Link>
 
       <Swiper
-        modules={[Navigation, A11y, Pagination, Scrollbar]}
+        modules={[Navigation, A11y, Scrollbar]}
         slidesPerView={2}
         loop={false}
         pagination={{
