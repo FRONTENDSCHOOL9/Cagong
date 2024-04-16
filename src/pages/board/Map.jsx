@@ -19,8 +19,28 @@ function Map() {
     select: response => response.data,
     suspense: true,
   });
+
   dataRef.current = data;
+
+  const cafeListCopy =
+    data?.item?.map(item => ({
+      active: item?.active ?? false,
+      bookmarks: item?.bookmarks ?? [],
+      extra: item?.extra,
+      mainImages: item?.mainImages ?? [],
+      name: item?.name,
+      price: item?.price ?? 0,
+      quantity: item?.quantity ?? 0,
+      replies: item?.replies ?? [],
+      seller_id: item?.seller_id,
+      shippingFees: item?.shippingFees ?? 0,
+      _id: item?._id,
+      distance:
+        distanceToCafeRef.current?.find(distance => distance._id === item._id)
+          ?.res ?? -1,
+    })) || [];
   currentLocation();
+
   function currentLocation() {
     // HTML5의 geolocation으로 사용할 수 있는지 확인
 
@@ -38,9 +58,7 @@ function Map() {
       alert('현재 위치를 찾을 수 없습니다.');
     }
   }
-
-  // KakaoAK ${import.meta.env.VITE_KAKAO_REST_API_KEY}
-
+  //카카오 로컬 API
   useEffect(() => {
     //첫번 째는 받아오는 주소, 두,세 번째는 현재 위치 (좌표)
     async function getDistanceBetweenTwoAddresses(addr, curLon, curLat) {
@@ -93,7 +111,6 @@ function Map() {
         );
 
         const { x: wtmX2, y: wtmY2 } = wtmResponse2.data.documents[0];
-
         // console.log(wtmResponse2.data.documents[0]);
         //최단거리 계산 후 distance에 담음
         const distance = calculateDistance(wtmX1, wtmY1, wtmX2, wtmY2);
@@ -152,7 +169,7 @@ function Map() {
     const coffeeMarkers = [];
     createCoffeeMarkers();
 
-    // 마커이미지의 주소와, 크기, 옵션으로 마커 이미지를 생성하여 리턴하는 함수입니다
+    // 마커이미지의 주소와, 크기, 옵션으로 마커 이미지를 생성하여 리턴하는 함수
     function createMarkerImage(src, size, options) {
       const markerImage = new kakao.maps.MarkerImage(src, size, options);
       return markerImage;
@@ -167,8 +184,11 @@ function Map() {
 
       return marker;
     }
-    let infowindowArray = []; //마커 클릭시 인포윈도우 온 오프 기능을 위한 배열
-    // 커피숍 마커를 생성하고 커피숍 마커 배열에 추가하는 함수입니다
+
+    //마커 클릭시 인포윈도우 온 오프 기능을 위한 배열
+    let infowindowArray = [];
+
+    // 커피숍 마커를 생성하고 커피숍 마커 배열에 추가하는 함수
     function createCoffeeMarkers() {
       for (let i = 0; i < positions.length; i++) {
         const imageSize = new kakao.maps.Size(22, 26),
@@ -177,23 +197,23 @@ function Map() {
             spriteSize: new kakao.maps.Size(24, 24),
           };
 
-        // 마커이미지와 마커를 생성합니다
+        // 마커이미지와 마커를 생성
         const markerImage = createMarkerImage(
             markerImageSrc,
             imageSize,
             imageOptions,
           ),
           marker = createMarker(positions[i].lating, markerImage);
-        // 인포윈도우를 생성합니다
+        // 인포윈도우를 생성
         let infowindow = new kakao.maps.InfoWindow({
           content: positions[i].content,
           removable: true,
         });
         infowindowRef.current = infowindow;
 
-        // 생성된 마커를 커피숍 마커 배열에 추가합니다
+        // 생성된 마커를 커피숍 마커 배열에 추가
         coffeeMarkers.push(marker);
-        // 마커에 마우스클릭 이벤트를 등록합니다
+        // 마커에 마우스클릭 이벤트를 등록
         kakao.maps.event.addListener(
           marker,
           'click',
@@ -203,24 +223,25 @@ function Map() {
     }
 
     kakao.maps.event.addListener(map, 'bounds_changed', () => {
-      // // 지도 영역정보를 얻어옵니다
+      // // 지도 영역정보를 얻어옴
       let bounds = map.getBounds();
-      // // 영역정보의 남서쪽 정보를 얻어옵니다
+      // // 영역정보의 남서쪽 정보를 얻어옴
       let swLatlng = bounds.getSouthWest();
-      // // 영역정보의 북동쪽 정보를 얻어옵니다
+      // // 영역정보의 북동쪽 정보를 얻어옴
       let neLatlng = bounds.getNorthEast();
       let mapBounds = new kakao.maps.LatLngBounds(swLatlng, neLatlng); // 인자를 주지 않으면 빈 영역을 생성한다.
-      // // 지도 영역정보를 얻어옵니다
-      const filteredPositions = data?.item?.filter(item => {
+      // // 지도 영역정보를 얻어옴
+      const filteredPositions = cafeListCopy.filter(item => {
         const lating = new kakao.maps.LatLng(
           item.extra.location[0],
           item.extra.location[1],
         );
         return mapBounds.contain(lating);
       });
+      // console.log(filteredPositions);
       // console.log(mapBounds);
 
-      //필터링 된 카페리스트들을 map함수로 state에 담기
+      //필터링 된 카페리스트들을 map함수로 필터 된 카페리스트 state에 담기
       setFilteredCafeList(
         filteredPositions.map(item => ({
           content: `
@@ -243,6 +264,7 @@ function Map() {
           _id: item._id,
           mainImages: item.mainImages,
           name: item.name,
+          distance: item.distance,
         })),
       );
     });
@@ -258,7 +280,7 @@ function Map() {
           infowindow.open(map, marker);
           infowindowArray.push(infowindow);
         }
-        console.log(infowindowArray);
+        // console.log(infowindowArray);
       };
     }
 
@@ -310,7 +332,7 @@ function Map() {
         const lat = position.coords.latitude; // 위도
         const lon = position.coords.longitude; // 경도
         const locPosition = new kakao.maps.LatLng(lat, lon); // geolocation으로 얻어온 좌표
-        mapRef.current.setLevel(4, { animate: true });
+        mapRef.current.setLevel(6, { animate: true });
         mapRef.current.panTo(locPosition); // geolocation으로 얻어온 좌표로 이동
       });
     } else {
@@ -318,10 +340,12 @@ function Map() {
       alert('현재 위치를 찾을 수 없습니다.');
     }
   }
+
+  //5초 동안 기다린 후 현재 위치로 이동
   useEffect(() => {
     setTimeout(() => {
-      handleCurrentLocation(); // 페이지 렌더 3초 후 현재 위치로
-    }, 3000);
+      handleCurrentLocation(); // 현재 위치로
+    }, 4000);
   }, []);
 
   //초기 위치로 돌아가는 함수
@@ -332,10 +356,6 @@ function Map() {
     );
     mapRef.current.panTo(initPosition);
     mapRef.current.setLevel(15, { animate: true });
-    // mapRef.current.setCenter(36.349396783484984, 127.76185524802845);
-
-    // center: new kakao.maps.LatLng(36.349396783484984, 127.76185524802845), // 지도의 중심좌표
-    // level: 15, // 지도의 확대 레벨
   }
   //리스트에서 해당 가게 클릭시 지도에서 위치 이동
   function handleSelectLocation(item) {
@@ -356,11 +376,16 @@ function Map() {
       });
     };
   }
+  //거리 정보가 추가 된 데이터 복사본
 
-  useEffect(() => {}, [distanceToCafeRef.current]);
-  // 카페 리스트 받아오기
+  // console.log(data.item);
+  // console.log(cafeListCopy);
+  const sortedAllCafeList = cafeListCopy.sort(
+    (a, b) => a.distance - b.distance,
+  );
 
-  const allCafeList = data?.item?.map(item => (
+  // console.log(sortedCafeList);
+  const allCafeList = sortedAllCafeList.map(item => (
     <li
       style={{ cursor: 'pointer', width: '200px' }}
       key={item._id}
@@ -384,8 +409,7 @@ function Map() {
     </li>
   ));
 
-  //카페 리스트 받아오기
-
+  //지도영역 안의 카페 리스트 불러오기
   const changedCafeList = filteredCafeList?.map(item => (
     <li
       style={{ cursor: 'pointer', width: '200px' }}
@@ -409,13 +433,16 @@ function Map() {
       </span>
     </li>
   ));
-  // .map(item =>
-  //   console.log(
-  //     parseInt(item.props.children[2].props.children.filter(el => el)),
-  //   ),
-  // );
+  const sortedChangedCafeList = changedCafeList.sort(
+    (a, b) => a.distance - b.distance,
+  );
   // console.log(changedCafeList);
+  // console.log(allCafeList);
 
+  //실시간 변화 리스트를 거리순으로 오름차순 정렬하여 변수에 저장
+
+  // console.log(sortedCafeList);
+  // console.log(sortedChangedCafeList);
   return (
     <>
       <div>
@@ -427,7 +454,7 @@ function Map() {
       {filteredCafeList.length === 0 ? (
         <ul>{allCafeList}</ul>
       ) : (
-        <ul>{changedCafeList}</ul>
+        <ul>{sortedChangedCafeList}</ul>
       )}
     </>
   );
