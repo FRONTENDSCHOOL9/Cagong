@@ -40,15 +40,15 @@ function Navbar() {
   return (
     <StyledNav>
       <nav>
-        <NavLink to="/"><img src="../public/nav-home.png" alt="" /><span>홈</span></NavLink>
+        <NavLink to="/"><img src="/public/nav-home.png" alt="" /><span>홈</span></NavLink>
 
-        <NavLink to="/boards/map"><img src="../public/nav-map.png" alt="" /><span>지도</span></NavLink>
+        <NavLink to="/boards/map"><img src="/public/nav-map.png" alt="" /><span>지도</span></NavLink>
 
-        <NavLink to={user ? "/users/orderlist" : "/users/login"}><img src="../public/nav-order.png" alt="" /><span>내 구매</span></NavLink>
+        <NavLink to={user ? "/users/orderlist" : "/users/login"}><img src="/public/nav-order.png" alt="" /><span>내 구매</span></NavLink>
 
-        <NavLink to={user ? "/users/bookmark" : "/users/login"}><img src="../public/nav-bookmark.png" alt="" /><span>북마크</span></NavLink>
+        <NavLink to={user ? "/users/bookmark" : "/users/login"}><img src="/public/nav-bookmark.png" alt="" /><span>북마크</span></NavLink>
 
-        <NavLink to={user ? "/users/mypage" : "/users/login"}><img src="../public/nav-mypage.png" alt="" /><span>내 정보</span></NavLink>
+        <NavLink to={user ? "/users/mypage" : "/users/login"}><img src="/public/nav-mypage.png" alt="" /><span>내 정보</span></NavLink>
       </nav>
     </StyledNav>
   );
