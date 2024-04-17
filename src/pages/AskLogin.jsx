@@ -11,7 +11,7 @@ const StyledAsk = styled.div`
 
   .wrapper h1 {
     font-weight: 700;
-    padding: 18px;
+    padding: 20px;
     text-align: center;
     font-size: 18px;
     line-height: 22px;
@@ -28,7 +28,7 @@ const StyledAsk = styled.div`
     margin: 0 auto;
     display: block;
     font-size: 16px;
-    padding: 15px 20px;
+    padding: 15px 35px;
     font-weight: bold;
   }
 `;
