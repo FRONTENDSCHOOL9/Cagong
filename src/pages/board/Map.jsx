@@ -7,7 +7,7 @@ import styled from 'styled-components';
 
 const MapStyle = styled.div`
   margin: 0;
-  padding-bottom: 200px;
+  font-family: 'NanumSquareRound';
 
   #map {
     min-height: 390px;
@@ -51,6 +51,43 @@ const MapStyle = styled.div`
     width: 100%;
     position: relative;
     top: 5px;
+  }
+
+  .info_wrapper {
+    width: 350px;
+    height: 180px;
+    position: relative;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .info_name {
+    text-align: center;
+    font-size: 20px;
+    color: #222222;
+  }
+
+  .info_cover {
+    height: 100px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .info_thumb {
+    position: absolute;
+    left: 10%;
+    width: 80%;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 20px;
+  }
+
+  .info_adress {
+    text-align: center;
+    padding: 10px;
+    font-size: 12px;
   }
 `;
 
@@ -200,8 +237,8 @@ function Map() {
   useEffect(() => {
     const container = document.getElementById('map'); // 지도를 표시할 div
     const options = {
-      center: new kakao.maps.LatLng(36.349396783484984, 127.76185524802845), // 지도의 중심좌표
-      level: 15, // 지도의 확대 레벨
+      center: new kakao.maps.LatLng(curLatRef.current, curLonRef.current), // 지도의 중심좌표
+      level: 6, // 지도의 확대 레벨
     };
 
     const map = new kakao.maps.Map(container, options);
@@ -325,17 +362,17 @@ function Map() {
   // data를 받아 지도 핀에 뿌려 줄 정보를 담은 positions 배열을 만든다.
   const positions = cafeListCopy.map(item => ({
     content: `
-  <div style="width:200px; height:100px;, position:absolute; top:0px; padding:10px" class="wrapper">
-    <div>
-      <a href="/boards/cafeDetail/${item._id}">
-        <h1 style="font-size:1px;">${item.name} </h1>
-      </a>
-      <img style="width:50px;" src=${import.meta.env.VITE_API_SERVER}/files/${
+  <div class="info_wrapper">
+  <a  href="/boards/cafeDetail/${item._id}">
+  <h1 class="info_name">${item.name} </h1>
+  <div class="info_cover">
+  <img class="info_thumb" src=${import.meta.env.VITE_API_SERVER}/files/${
       import.meta.env.VITE_CLIENT_ID
     }/${item.mainImages[0].name} alt="${item.name} 사진"
   />
-      <p style="font-size:12px">${item.extra.address}</P>
-    </div>
+  </div>
+  </a>
+      <p class="info_adress">${item.extra.address}</P>
   </div>
   
   `,
@@ -368,15 +405,8 @@ function Map() {
     }
   }
 
-  //5초 동안 기다린 후 현재 위치로 이동
-  useEffect(() => {
-    setTimeout(() => {
-      handleCurrentLocation(); // 현재 위치로
-    }, 4000);
-  }, []);
-
-  //초기 위치로 돌아가는 함수
-  function handleInitLocation() {
+  //줌 아웃 함수
+  function handleZoomOut() {
     const initPosition = new kakao.maps.LatLng(
       36.349396783484984,
       127.76185524802845,
@@ -472,7 +502,7 @@ function Map() {
         <button className="btn-map current" onClick={handleCurrentLocation}>
           <img src="../public/map_current-position.svg" alt="" />
         </button>
-        <button className="btn-map zoom-out" onClick={handleInitLocation}>
+        <button className="btn-map zoom-out" onClick={handleZoomOut}>
           <img src="../public/map_zoom-out.svg" alt="" />
         </button>
       </div>
