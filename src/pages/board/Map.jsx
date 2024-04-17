@@ -3,6 +3,56 @@ import { useEffect, useRef, useState } from 'react';
 const { kakao } = window;
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
+import styled from 'styled-components';
+
+const MapStyle = styled.div`
+  margin: 0;
+  padding-bottom: 200px;
+
+  #map {
+    min-height: 390px;
+    width: 100%;
+  }
+
+  .wrapper {
+    position: relative;
+  }
+
+  .btn-map {
+    position: absolute;
+    cursor: pointer;
+    border-radius: 8px;
+    background-color: #ffffff;
+    display: flex;
+    width: 33px;
+    height: 33px;
+    border: none;
+  }
+
+  .btn-map.current {
+    bottom: 15px;
+    right: 15px;
+    z-index: 9999;
+  }
+
+  .btn-map.zoom-out {
+    bottom: 62px;
+    right: 15px;
+    z-index: 9999;
+  }
+
+  .btn-map.current img {
+    width: 100%;
+    position: relative;
+    top: 4px;
+  }
+
+  .btn-map.zoom-out img {
+    width: 100%;
+    position: relative;
+    top: 5px;
+  }
+`;
 
 function Map() {
   const mapRef = useRef(null);
@@ -416,11 +466,15 @@ function Map() {
   // console.log(sortedCafeList);
   // console.log(sortedChangedCafeList);
   return (
-    <>
-      <div>
-        <div id="map" style={{ width: '355px', height: '355px' }} />
-        <button onClick={handleCurrentLocation}>현재 위치</button>
-        <button onClick={handleInitLocation}>초기 화면</button>
+    <MapStyle>
+      <div className="wrapper">
+        <div id="map" />
+        <button className="btn-map current" onClick={handleCurrentLocation}>
+          <img src="../public/map_current-position.svg" alt="" />
+        </button>
+        <button className="btn-map zoom-out" onClick={handleInitLocation}>
+          <img src="../public/map_zoom-out.svg" alt="" />
+        </button>
       </div>
       <h1>카페 리스트</h1>
       {filteredCafeList.length === 0 ? (
@@ -428,7 +482,7 @@ function Map() {
       ) : (
         <ul>{changedCafeList}</ul>
       )}
-    </>
+    </MapStyle>
   );
 }
 
