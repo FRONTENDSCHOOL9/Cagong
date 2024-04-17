@@ -1,4 +1,5 @@
 import Layout from '@components/layout';
+import AskLogin from '@pages/AskLogin';
 import ErrorPage from '@pages/ErrorPage';
 import CafeDetail from '@pages/board/CafeDetail';
 import CafeList from '@pages/board/CafeList';
@@ -61,6 +62,10 @@ const router = createBrowserRouter([
       {
         path: '/users/login',
         element: <Login />,
+      },
+      {
+        path: '/asklogin',
+        element: <AskLogin />,
       },
       {
         path: '/users/reviewlist',
