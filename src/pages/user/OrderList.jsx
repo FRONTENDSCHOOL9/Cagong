@@ -36,9 +36,6 @@ const OrderList = () => {
     .section-1:hover {
       color: #ffa931;
     }
-    .section-1:focus {
-      color: #ffa931;
-    }
     .section-2 {
       font-family: 'NanumSquareRound';
       flex-grow: 2;
@@ -52,7 +49,7 @@ const OrderList = () => {
     .section-2:hover {
       color: #ffa931;
     }
-    .section-2:focus {
+    .is_active{
       color: #ffa931;
     }
     .login {
@@ -68,7 +65,7 @@ const OrderList = () => {
       justify-content: space-between;
       align-items: center;
       border-bottom: 1px solid #d8d8d8;
-      font-weight: 400;
+      font-weight: 600;
     }
     .qr {
       width: 150px;
@@ -194,10 +191,10 @@ const OrderList = () => {
         <h1>구매 내역</h1>
       </div>
       <div className="section">
-        <button onClick={handleSection1} className="section-1">
+        <button onClick={handleSection1} className={`section-1 ${section ? 'is_active' : ''}`}>
           <h2>보유</h2>
         </button>
-        <button onClick={handleSection2} className="section-2">
+        <button onClick={handleSection2} className={`section-2 ${section ? '' : 'is_active'}`}>
           <h2>사용 완료</h2>
         </button>
       </div>

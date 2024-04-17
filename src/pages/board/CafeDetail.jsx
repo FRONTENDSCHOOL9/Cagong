@@ -34,10 +34,17 @@ function CafeDetail() {
     }
     .address-bundle {
       margin: 20px 0px;
+      display: flex;
+      align-items: center;
     }
     .address {
       font-size: 16px;
       font-weight: 600;
+      display: flex;
+      align-items: center;
+    }
+    .bookmark-icon{
+      margin-left: auto;
     }
     .title {
       font-size: 22px;
@@ -232,6 +239,7 @@ function CafeDetail() {
       </Swiper>
       <div className="address-bundle">
         <Link className="address" to="/boards/map">
+          <img src="/public/map_pin.svg" alt="지도로 연결되는 아이콘" />
           {data.item.extra.address}
         </Link>
         <CopyToClipboard
@@ -241,14 +249,14 @@ function CafeDetail() {
         >
           <text className="copiedText">복사하기</text>
         </CopyToClipboard>
+        <img
+          className="bookmark-icon"
+          src={isBookmarked ? '/public/bookmarked.svg' : '/public/bookmark.svg'}
+          alt="북마크 버튼 이미지"
+          onClick={handleBookmark}
+          style={{ cursor: 'pointer' }}
+        />
       </div>
-      <img
-        className="bookmark-icon"
-        src={isBookmarked ? '/public/bookmarked.svg' : '/public/bookmark.svg'}
-        alt="북마크 버튼 이미지"
-        onClick={handleBookmark}
-        style={{ cursor: 'pointer' }}
-      />
       <div className="order">
         <h2 className="title">카공단 제공 메뉴</h2>
         <div className="order-menu">
