@@ -52,6 +52,7 @@ function ReviewForm() {
       border: 1px solid #828282;
       background-color: #f1f1f1;
       border-radius: 5px;
+      padding: 5px;
     }
   `;
 
@@ -69,7 +70,7 @@ function ReviewForm() {
         formData.product_id = parsedId;
         await axios.post('/replies', formData);
         alert('등록이 완료되었습니다.'); // 등록 후에 orderList에서 어떻게 관리해 줘야 할지......
-        navigate('/boards/reviewlist');
+        navigate('/users/orderlist');
       } catch (err) {
         alert('다시 시도해 주세요.');
       }
