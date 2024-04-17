@@ -9,9 +9,9 @@ function Map() {
   const infowindowRef = useRef(null);
   const curLatRef = useRef(null);
   const curLonRef = useRef(null);
-  const distanceToCafeRef = useRef(null);
-  const dataRef = useRef(null);
   const customAxios = useCustomAxios();
+  const [filteredCafeList, setFilteredCafeList] = useState([]);
+  const [distanceToCafe, setDistanceToCafe] = useState([]);
 
   const { data } = useQuery({
     queryKey: ['products'],
@@ -19,8 +19,6 @@ function Map() {
     select: response => response.data,
     suspense: true,
   });
-
-  dataRef.current = data;
 
   const cafeListCopy =
     data?.item?.map(item => ({
@@ -35,10 +33,16 @@ function Map() {
       seller_id: item?.seller_id,
       shippingFees: item?.shippingFees ?? 0,
       _id: item?._id,
-      distance:
-        distanceToCafeRef.current?.find(distance => distance._id === item._id)
-          ?.res ?? -1,
+      distance: distanceToCafe?.find(distance => distance._id === item._id)
+        ?.res,
     })) || [];
+  // console.log(cafeListCopy);
+
+  const sortedAllCafeList = cafeListCopy.sort(
+    (a, b) => a.distance - b.distance,
+  );
+
+  // console.log(sortedAllCafeList);
   currentLocation();
 
   function currentLocation() {
@@ -60,6 +64,11 @@ function Map() {
   }
   //카카오 로컬 API
   useEffect(() => {
+    // 하버사인 공식으로 최단거리 계산하는 함수
+    function calculateDistance(x1, y1, x2, y2) {
+      return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+    }
+
     //첫번 째는 받아오는 주소, 두,세 번째는 현재 위치 (좌표)
     async function getDistanceBetweenTwoAddresses(addr, curLon, curLat) {
       try {
@@ -97,8 +106,8 @@ function Map() {
           'https://dapi.kakao.com/v2/local/geo/transcoord.json',
           {
             params: {
-              x: curLon ? curLon : 0,
-              y: curLat ? curLat : 0,
+              x: curLon ? curLon : 127.76185524802845,
+              y: curLat ? curLat : 36.349396783484984,
               input_coord: 'WGS84',
               output_coord: 'WTM',
             },
@@ -112,13 +121,11 @@ function Map() {
 
         const { x: wtmX2, y: wtmY2 } = wtmResponse2.data.documents[0];
         // console.log(wtmResponse2.data.documents[0]);
+
         //최단거리 계산 후 distance에 담음
         const distance = calculateDistance(wtmX1, wtmY1, wtmX2, wtmY2);
         //미터 단위를 1km부터 킬로미터 단위로 변환
-        const formattedDistance =
-          distance <= 1000
-            ? parseInt(distance / 1000)
-            : parseInt(distance / 1000);
+        const formattedDistance = (distance / 1000).toFixed(2);
         return formattedDistance;
       } catch (error) {
         console.error('주소를 가져오지 못 했습니다.', error);
@@ -126,33 +133,20 @@ function Map() {
       }
     }
 
-    // 하버사인 공식으로 최단거리 계산하는 함수
-    function calculateDistance(x1, y1, x2, y2) {
-      return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-    }
-    // console.log(data?.item[0].extra.address);
-
-    const distanceArray = [];
-    data?.item?.map(async item => {
-      await getDistanceBetweenTwoAddresses(
+    const distancePromises = cafeListCopy.map(item =>
+      getDistanceBetweenTwoAddresses(
         item.extra.address,
         curLonRef.current,
         curLatRef.current,
-      ).then(res =>
-        distanceArray.push({
-          res: res,
-          _id: item._id,
-        }),
-      );
-
-      distanceToCafeRef.current = distanceArray;
-
-      // console.log(distanceToCafeRef.current);
+      ).then(res => ({
+        res: res,
+        _id: item._id,
+      })),
+    );
+    Promise.all(distancePromises).then(distances => {
+      setDistanceToCafe(distances);
     });
-  }, [curLonRef.current, curLatRef.current]);
-
-  const [filteredCafeList, setFilteredCafeList] = useState([]);
-
+  }, [data, mapRef.current]);
   useEffect(() => {
     const container = document.getElementById('map'); // 지도를 표시할 div
     const options = {
@@ -222,53 +216,6 @@ function Map() {
       }
     }
 
-    kakao.maps.event.addListener(map, 'bounds_changed', () => {
-      // // 지도 영역정보를 얻어옴
-      let bounds = map.getBounds();
-      // // 영역정보의 남서쪽 정보를 얻어옴
-      let swLatlng = bounds.getSouthWest();
-      // // 영역정보의 북동쪽 정보를 얻어옴
-      let neLatlng = bounds.getNorthEast();
-      let mapBounds = new kakao.maps.LatLngBounds(swLatlng, neLatlng); // 인자를 주지 않으면 빈 영역을 생성한다.
-      // // 지도 영역정보를 얻어옴
-      const filteredPositions = cafeListCopy.filter(item => {
-        const lating = new kakao.maps.LatLng(
-          item.extra.location[0],
-          item.extra.location[1],
-        );
-        return mapBounds.contain(lating);
-      });
-      // console.log(filteredPositions);
-      // console.log(mapBounds);
-
-      //필터링 된 카페리스트들을 map함수로 필터 된 카페리스트 state에 담기
-      setFilteredCafeList(
-        filteredPositions.map(item => ({
-          content: `
-        <div style="width:200px; height:100px;, position:absolute; top:0px; padding:10px" class="wrapper">
-          <div>
-            <a href="/boards/cafeDetail/${item._id}">
-              <h1 style="font-size:1px;">${item.name} </h1>
-            </a>
-            <img style="width:50px;" src=${
-              import.meta.env.VITE_API_SERVER
-            }/files/${import.meta.env.VITE_CLIENT_ID}/${
-            item.mainImages[0].name
-          } alt="${item.name} 사진"
-        />
-            <p style="font-size:12px">${item.extra.address}</P>
-          </div>
-        </div>
-        `,
-          extra: item.extra,
-          _id: item._id,
-          mainImages: item.mainImages,
-          name: item.name,
-          distance: item.distance,
-        })),
-      );
-    });
-
     function makeClickListener(map, marker, infowindow) {
       return function () {
         //마커 클릭시 인포윈도우 열고 닫기
@@ -293,10 +240,40 @@ function Map() {
 
     setCoffeeMarkers(mapRef.current);
   }, [data]);
+
+  useEffect(() => {
+    kakao.maps.event.addListener(mapRef.current, 'bounds_changed', () => {
+      // // 지도 영역정보를 얻어옴
+      let bounds = mapRef.current.getBounds();
+      // // 영역정보의 남서쪽 정보를 얻어옴
+      let swLatlng = bounds.getSouthWest();
+      // // 영역정보의 북동쪽 정보를 얻어옴
+      let neLatlng = bounds.getNorthEast();
+      let mapBounds = new kakao.maps.LatLngBounds(swLatlng, neLatlng); // 인자를 주지 않으면 빈 영역을 생성한다.
+      // // 지도 영역정보를 얻어옴
+      const filteredPositions = cafeListCopy
+        .sort((a, b) => a.distance - b.distance)
+        .filter(item => {
+          const lating = new kakao.maps.LatLng(
+            item.extra.location[0],
+            item.extra.location[1],
+          );
+          return mapBounds.contain(lating);
+        });
+      setFilteredCafeList(filteredPositions);
+      // console.log(cafeListCopy);
+      // console.log(filteredPositions);
+      // console.log(cafeListCopy);
+      // console.log(sortedAllCafeList);
+      // console.log(filteredPositions);
+      // console.log(allCafeList);
+      // console.log(mapBounds);
+    });
+  }, [distanceToCafe]);
   // console.log(data);
   // console.log(filteredCafeList);
   // data를 받아 지도 핀에 뿌려 줄 정보를 담은 positions 배열을 만든다.
-  const positions = data?.item?.map(item => ({
+  const positions = cafeListCopy.map(item => ({
     content: `
   <div style="width:200px; height:100px;, position:absolute; top:0px; padding:10px" class="wrapper">
     <div>
@@ -380,9 +357,6 @@ function Map() {
 
   // console.log(data.item);
   // console.log(cafeListCopy);
-  const sortedAllCafeList = cafeListCopy.sort(
-    (a, b) => a.distance - b.distance,
-  );
 
   // console.log(sortedCafeList);
   const allCafeList = sortedAllCafeList.map(item => (
@@ -402,7 +376,7 @@ function Map() {
       />
       <span>{item.name}</span>
       <span style={{ fontSize: '12px' }}>
-        {distanceToCafeRef.current?.map(distance =>
+        {distanceToCafe?.map(distance =>
           item._id === distance._id ? `${distance.res}km` : '',
         )}
       </span>
@@ -427,15 +401,13 @@ function Map() {
       />
       <span>{item.name}</span>
       <span style={{ fontSize: '12px' }}>
-        {distanceToCafeRef.current?.map(distance =>
+        {distanceToCafe?.map(distance =>
           item._id === distance._id ? `${distance.res}km` : '',
         )}
       </span>
     </li>
   ));
-  const sortedChangedCafeList = changedCafeList.sort(
-    (a, b) => a.distance - b.distance,
-  );
+
   // console.log(changedCafeList);
   // console.log(allCafeList);
 
@@ -454,7 +426,7 @@ function Map() {
       {filteredCafeList.length === 0 ? (
         <ul>{allCafeList}</ul>
       ) : (
-        <ul>{sortedChangedCafeList}</ul>
+        <ul>{changedCafeList}</ul>
       )}
     </>
   );
