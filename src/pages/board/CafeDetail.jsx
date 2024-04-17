@@ -143,10 +143,9 @@ function CafeDetail() {
 
   useEffect(() => {
     const savedIds = JSON.parse(localStorage.getItem('viewedCafeIds')) || [];
-    if (!savedIds.includes(_id)) {
-      const updatedIds = [...savedIds, _id];
-      localStorage.setItem('viewedCafeIds', JSON.stringify(updatedIds));
-    }
+    const updatedIds = savedIds.filter(id => id !== _id); // 기존 id 제거
+    updatedIds.unshift(_id); // 새 id를 배열 첫 인덱스에 추가
+    localStorage.setItem('viewedCafeIds', JSON.stringify(updatedIds));
   }, [_id]);
 
   return (

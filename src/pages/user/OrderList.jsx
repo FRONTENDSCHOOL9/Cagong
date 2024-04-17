@@ -16,7 +16,7 @@ const OrderList = () => {
       justify-content: center;
       align-items: center;
       font-size: 30px;
-      font-weight: bold;
+      font-weight: 800;
     }
     .section {
       display: flex;
@@ -110,6 +110,8 @@ const OrderList = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [section, setSection] = useState(true);
   const [id, setId] = useState(null);
+  // eslint-disable-next-line no-unused-vars
+  const [reviewId, setReviewId] = useState(null);
 
   const { data } = useQuery({
     queryKey: ['orders'],
@@ -118,14 +120,21 @@ const OrderList = () => {
     suspense: true,
   });
 
-  // state가 completed인 카페 필터링
+  // 사용한 카페 상품 이름 모음
   const usedProducts = data.item
     .filter(item => item.state === 'completed')
     .map(item => item.products)
     .flat()
     .map(product => product.name);
 
-  // 아직 사용하지 않은 카페 상품
+  // 사용한 카페 상품 id 모음
+  const usedProductsId = data.item
+    .filter(item => item.state === 'completed')
+    .map(item => item.products)
+    .flat()
+    .map(product => product._id);
+
+  // 사용하지 않은 카페 상품 이름 모음
   const unusedProducts = data.item
     .filter(item => item.state !== 'completed')
     .map(item => item.products)
@@ -135,17 +144,23 @@ const OrderList = () => {
   // 사용하지 않은 카페 상품의 id 모음
   const productId = data.item
     .filter(item => item.state !== 'completed')
-    // eslint-disable-next-line no-unused-vars
-    .map((item, _) => item._id);
+    .map((item) => item._id);
 
   // 모달
   const closeModal = () => {
     setModalOpen(false);
   };
 
-  const showModal = (index) => {
+  const showModal = index => {
     setModalOpen(true);
     setId(productId[index]);
+  };
+
+  // 리뷰 페이지로 연결
+  const gotoReview = async index => {
+    const reviewId = usedProductsId[index];
+    await setReviewId(reviewId);
+    navigate(`/boards/reviewform/${reviewId}`);
   };
 
   // 보유, 사용 완료 섹션 선택
@@ -172,7 +187,6 @@ const OrderList = () => {
       alert('다시 시도해 주세요.');
     }
   }
-  
 
   return (
     <OrderStyle>
@@ -219,16 +233,14 @@ const OrderList = () => {
             </div>
           ) : (
             <div className="unused">
-              {usedProducts.map(name => (
+              {usedProducts.map((name, index) => (
                 <div key={name} className="unused-list">
                   <p>{name}</p>
                   <Button
                     className="action-button"
                     fontSize="18px"
                     fontWeight="bold"
-                    onClick={() => {
-                      navigate('/boards/reviewform');
-                    }}
+                    onClick={() => gotoReview(index)}
                   >
                     리뷰 쓰기
                   </Button>
@@ -243,7 +255,7 @@ const OrderList = () => {
           <button className="close-button" onClick={closeModal}>
             <img className="cross" src="../public/close.png" alt="" />
           </button>
-          <img className="qr" src="../public/qr.png" alt="" />
+          <img className="qr" src="/public/qr.png" alt="" />
           <Button className="completed-button" onClick={handleState}>
             사용 완료
           </Button>
