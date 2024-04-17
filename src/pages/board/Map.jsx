@@ -412,8 +412,8 @@ function Map() {
     }, 4000);
   }, []);
 
-  //초기 위치로 돌아가는 함수
-  function handleInitLocation() {
+  //줌 아웃 함수
+  function handleZoomOut() {
     const initPosition = new kakao.maps.LatLng(
       36.349396783484984,
       127.76185524802845,
@@ -509,7 +509,7 @@ function Map() {
         <button className="btn-map current" onClick={handleCurrentLocation}>
           <img src="../public/map_current-position.svg" alt="" />
         </button>
-        <button className="btn-map zoom-out" onClick={handleInitLocation}>
+        <button className="btn-map zoom-out" onClick={handleZoomOut}>
           <img src="../public/map_zoom-out.svg" alt="" />
         </button>
       </div>
