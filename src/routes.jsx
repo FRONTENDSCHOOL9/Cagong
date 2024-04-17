@@ -39,7 +39,7 @@ const router = createBrowserRouter([
         element: <CafeDetail />,
       },
       {
-        path: '/boards/reviewform',
+        path: '/boards/reviewform/:reviewId',
         element: <ReviewForm />,
       },
       {

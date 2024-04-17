@@ -1,35 +1,107 @@
 import Submit from '@components/Submit';
 import { useForm } from 'react-hook-form';
 import useCustomAxios from '@hooks/useCustomAxios.mjs';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { memberState } from '@recoil/user/atoms.mjs';
+import { useRecoilValue } from 'recoil';
+import styled from 'styled-components';
 
 function ReviewForm() {
   const { register, handleSubmit } = useForm();
   const axios = useCustomAxios();
+  const { reviewId } = useParams();
+  const parsedId = parseInt(reviewId);
+  const user = useRecoilValue(memberState);
+  const navigate = useNavigate();
 
-  // v 테스트 중...... 그런데 아예 전송 자체가 안 됨 ㄱ- 대략난감한 상태~
+  const ReviewFormStyle = styled.div`
+    .header{
+      display: flex;
+      justify-content: center;
+      border-bottom: 1px solid #d8d8d8;
+    } 
+    .title {
+      font-size: 30px;
+      margin: 30px;
+      font-weight: 800;
+    }
+    .content{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .name {
+      font-size: 24px;
+      font-weight: 600;
+      margin: 20px;
+    }
+    .board{
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .submit-button{
+      padding: 10px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    #content{
+      all: unset;
+      border: 1px solid #828282;
+      background-color: #f1f1f1;
+      border-radius: 5px;
+    }
+  `;
+
+  const { data } = useQuery({
+    queryKey: ['products', reviewId],
+    queryFn: () => axios.get(`/products/${reviewId}`),
+    select: response => response.data,
+    suspense: true,
+  });
+
   const onSubmit = async formData => {
-    formData.order_id = 1;
-    formData.product_id = 5;
-    await axios.post('/replies', formData);
-    alert('등록이 완료되었습니다.');
+    if (user) {
+      try {
+        formData.order_id = 1; // order_id는 언제 쓰는 걸까요...???
+        formData.product_id = parsedId;
+        await axios.post('/replies', formData);
+        alert('등록이 완료되었습니다.'); // 등록 후에 orderList에서 어떻게 관리해 줘야 할지......
+        navigate('/boards/reviewlist');
+      } catch (err) {
+        alert('다시 시도해 주세요.');
+      }
+    } else {
+      const gotoLogin = confirm(
+        '로그인 후 이용 가능합니다.\n로그인 화면으로 이동하시겠습니까?',
+      );
+      gotoLogin && navigate('/users/login');
+    }
   };
 
   return (
-    <>
-      <h1>리뷰 작성</h1>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <textarea
-            name="content"
-            id="content"
-            cols="30"
-            rows="10"
-            {...register('content')}
-          ></textarea>
-        </div>
-      </form>
-      <Submit>등록하기</Submit>
-    </>
+    <ReviewFormStyle>
+      <div className="header">
+        <h1 className="title">리뷰 작성</h1>
+      </div>
+      <div className='content'>
+        <h2 className="name">{data.item.name}</h2>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className='board'>
+            <textarea
+              name="content"
+              id="content"
+              cols="30"
+              rows="10"
+              {...register('content')}
+            ></textarea>
+            <Submit className='submit-button'>등록하기</Submit>
+          </div>
+        </form>
+      </div>
+    </ReviewFormStyle>
   );
 }
 
