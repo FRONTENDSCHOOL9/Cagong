@@ -85,6 +85,7 @@ function Bookmark() {
     queryFn: () => axios.get('/bookmarks/product'),
     select: response => response.data.item,
     suspense: true,
+    gcTime: 10,
   });
 
   const deleteBookmark = async bookmarkId => {
