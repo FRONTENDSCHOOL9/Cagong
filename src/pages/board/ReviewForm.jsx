@@ -52,7 +52,14 @@ function ReviewForm() {
       border: 1px solid #828282;
       background-color: #f1f1f1;
       border-radius: 5px;
-      padding: 5px;
+      padding: 8px;
+    }
+    #content:focus{
+      border: 1px solid #ffa931;
+    }
+    #content::placeholder{
+      font-size: 12px;
+      padding-top: 150px;
     }
   `;
 
@@ -97,6 +104,7 @@ function ReviewForm() {
               cols="30"
               rows="10"
               {...register('content')}
+              placeholder='악의적인 비방글, 욕설, 도배 등은 관리자에 의해 제제를 받을 수 있습니다.'
             ></textarea>
             <Submit className='submit-button'>등록하기</Submit>
           </div>
