@@ -75,26 +75,23 @@ padding: 10px;
         rgba(0, 0, 0, 0) 100%
       );
 `;
-
 function Bookmark() {
   const BASE_IMAGE_URL = `${import.meta.env.VITE_API_SERVER}/files/05-cagong/`;
   const axios = useCustomAxios();
   const [bookmarks, setBookmarks] = useState([]);
 
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ['isBookmarkedlist'],
     queryFn: () => axios.get('/bookmarks/product'),
     select: response => response.data.item,
     suspense: true,
   });
 
-  const deleteBookmark = async index => {
+  const deleteBookmark = async bookmarkId => {
     try {
-      const getId = data[index]._id;
-      await axios.delete(`/bookmarks/${getId}`);
+      await axios.delete(`/bookmarks/${bookmarkId}`);
       console.log('북마크 삭제함!');
-      const updatedBookmarks = [...bookmarks];
-      updatedBookmarks.splice(index, 1);
+      const updatedBookmarks = bookmarks.filter(id => id !== bookmarkId);
       setBookmarks(updatedBookmarks);
     } catch (error) {
       console.error('북마크 추가/삭제 중 오류 발생:', error);
@@ -102,39 +99,48 @@ function Bookmark() {
   };
 
   useEffect(() => {
-    setBookmarks(data.map(item => item._id));
+    if (data) {
+      setBookmarks(data.map(item => item._id));
+    }
   }, [data]);
 
   return (
     <MyComponent>
       <div>
         <h1 className="cafelist-title">찜한 카페</h1>
-        <ul>
-          {bookmarks.map((bookmarkId, index) => (
-            <li key={bookmarkId}>
-              <img
-                className="bookmark-icon"
-                src="/public/bookmarked.svg"
-                alt="북마크 버튼 이미지"
-                onClick={() => deleteBookmark(index)}
-              />
-              <Link to={`/boards/cafeDetail/${data[index].product._id}`}>
-                <div className="bookmarked-cafe">
-                  <div className="cafe-thumb-overlay">
-                    <img
-                      className="cafe-thumb"
-                      src={`${BASE_IMAGE_URL}${data[index].product.image.name}`}
-                    />
-                  </div>
-                  <h2 className="item-name">{data[index].product.name}</h2>
-                  <div className="item-address">
-                    {data[index].product.extra.address}
-                  </div>
-                </div>
-              </Link>
-            </li>
-          ))}
-        </ul>
+        {!isLoading && (
+          <ul>
+            {bookmarks.map(bookmarkId => {
+              const bookmarkItem = data.find(item => item._id === bookmarkId);
+              if (!bookmarkItem || !bookmarkItem.product) return null;
+              return (
+                <li key={bookmarkId}>
+                  <img
+                    className="bookmark-icon"
+                    src="/public/bookmarked.svg"
+                    alt="북마크 버튼 이미지"
+                    onClick={() => deleteBookmark(bookmarkId)}
+                  />
+                  <Link to={`/boards/cafeDetail/${bookmarkItem.product._id}`}>
+                    <div className="bookmarked-cafe">
+                      <div className="cafe-thumb-overlay">
+                        <img
+                          className="cafe-thumb"
+                          src={`${BASE_IMAGE_URL}${bookmarkItem.product.image.name}`}
+                          alt={bookmarkItem.product.name}
+                        />
+                      </div>
+                      <h2 className="item-name">{bookmarkItem.product.name}</h2>
+                      <div className="item-address">
+                        {bookmarkItem.product.extra.address}
+                      </div>
+                    </div>
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        )}
       </div>
     </MyComponent>
   );
