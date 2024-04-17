@@ -13,7 +13,7 @@ const StyledNav = styled.nav`
   box-shadow: 10px 10px 20px 8px gray;
   display: flex;
   justify-content: center;
-  nav{
+  nav {
     padding: 0px 30px;
     height: 100%;
     display: grid;
@@ -21,7 +21,7 @@ const StyledNav = styled.nav`
     gap: 25px;
     place-items: center;
   }
-  a{
+  a {
     text-decoration: unset;
     color: black;
     display: flex;
@@ -29,8 +29,14 @@ const StyledNav = styled.nav`
     align-items: center;
     gap: 5px;
   }
-  img{
+  img {
     width: 30px;
+  }
+
+  @media (max-width: 390px) {
+      background: red;
+      color:red;
+    }
   }
 `;
 
@@ -40,15 +46,30 @@ function Navbar() {
   return (
     <StyledNav>
       <nav>
-        <NavLink to="/"><img src="/public/nav-home.png" alt="" /><span>홈</span></NavLink>
+        <NavLink to="/">
+          <img src="/public/nav-home.png" alt="" />
+          <span>홈</span>
+        </NavLink>
 
-        <NavLink to="/boards/map"><img src="/public/nav-map.png" alt="" /><span>지도</span></NavLink>
+        <NavLink to="/boards/map">
+          <img src="/public/nav-map.png" alt="" />
+          <span>지도</span>
+        </NavLink>
 
-        <NavLink to={user ? "/users/orderlist" : "/users/login"}><img src="/public/nav-order.png" alt="" /><span>내 구매</span></NavLink>
+        <NavLink to={user ? '/users/orderlist' : '/users/login'}>
+          <img src="/public/nav-order.png" alt="" />
+          <span>내 구매</span>
+        </NavLink>
 
-        <NavLink to={user ? "/users/bookmark" : "/users/login"}><img src="/public/nav-bookmark.png" alt="" /><span>북마크</span></NavLink>
+        <NavLink to={user ? '/users/bookmark' : '/users/login'}>
+          <img src="/public/nav-bookmark.png" alt="" />
+          <span>북마크</span>
+        </NavLink>
 
-        <NavLink to={user ? "/users/mypage" : "/users/login"}><img src="/public/nav-mypage.png" alt="" /><span>내 정보</span></NavLink>
+        <NavLink to={user ? '/users/mypage' : '/users/login'}>
+          <img src="/public/nav-mypage.png" alt="" />
+          <span>내 정보</span>
+        </NavLink>
       </nav>
     </StyledNav>
   );
