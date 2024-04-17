@@ -25,17 +25,32 @@ function CafeDetail() {
   const cafeId = Number(_id);
 
   const DetailStyle = styled.div`
-    margin: 30px;
+    margin: 0 30px;
+    padding: 30px 0;
     .slide-src {
       width: 100%;
       height: 80vw;
       object-fit: cover;
       color: black;
     }
+    .header{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .main-title{
+      padding-top: 20px;
+      font-size: 30px;
+      font-weight: 800;
+    }
     .address-bundle {
       margin: 20px 0px;
       display: flex;
       align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
     }
     .address {
       font-size: 16px;
@@ -44,7 +59,8 @@ function CafeDetail() {
       align-items: center;
     }
     .bookmark-icon{
-      margin-left: auto;
+      width: 20px;
+      margin-top: 20px;
     }
     .title {
       font-size: 22px;
@@ -237,6 +253,16 @@ function CafeDetail() {
           </SwiperSlide>
         ))}
       </Swiper>
+      <div className='header'>
+        <h1 className='main-title'>{data.item.name}</h1>
+        <img
+          className="bookmark-icon"
+          src={isBookmarked ? '/public/bookmarked.svg' : '/public/bookmark.svg'}
+          alt="북마크 버튼 이미지"
+          onClick={handleBookmark}
+          style={{ cursor: 'pointer' }}
+        />
+      </div>
       <div className="address-bundle">
         <Link className="address" to="/boards/map">
           <img src="/public/map_pin.svg" alt="지도로 연결되는 아이콘" />
@@ -249,13 +275,6 @@ function CafeDetail() {
         >
           <text className="copiedText">복사하기</text>
         </CopyToClipboard>
-        <img
-          className="bookmark-icon"
-          src={isBookmarked ? '/public/bookmarked.svg' : '/public/bookmark.svg'}
-          alt="북마크 버튼 이미지"
-          onClick={handleBookmark}
-          style={{ cursor: 'pointer' }}
-        />
       </div>
       <div className="order">
         <h2 className="title">카공단 제공 메뉴</h2>
