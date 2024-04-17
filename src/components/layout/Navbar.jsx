@@ -61,7 +61,7 @@ function Navbar() {
           <span>내 구매</span>
         </NavLink>
 
-        <NavLink to={user ? '/users/bookmark' : '/users/login'}>
+        <NavLink to={user ? '/users/bookmark' : '/asklogin'}>
           <img src="/public/nav-bookmark.png" alt="" />
           <span>북마크</span>
         </NavLink>
