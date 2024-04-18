@@ -7,9 +7,12 @@ import { useQuery } from '@tanstack/react-query';
 import useCustomAxios from '@hooks/useCustomAxios.mjs';
 import { useState } from 'react';
 import Modal from '@components/Modal';
+import SideHeader from '@components/layout/SideHeader';
+import Wrapper from '@components/Wrapper';
 
 const OrderList = () => {
   const OrderStyle = styled.div`
+    padding-top: 40px;
     .header {
       height: 100px;
       display: flex;
@@ -49,7 +52,7 @@ const OrderList = () => {
     .section-2:hover {
       color: #ffa931;
     }
-    .is_active{
+    .is_active {
       color: #ffa931;
     }
     .login {
@@ -141,7 +144,7 @@ const OrderList = () => {
   // 사용하지 않은 카페 상품의 id 모음
   const productId = data.item
     .filter(item => item.state !== 'completed')
-    .map((item) => item._id);
+    .map(item => item._id);
 
   // 모달
   const closeModal = () => {
@@ -187,77 +190,87 @@ const OrderList = () => {
 
   return (
     <OrderStyle>
-      <div className="header">
-        <h1>구매 내역</h1>
-      </div>
-      <div className="section">
-        <button onClick={handleSection1} className={`section-1 ${section ? 'is_active' : ''}`}>
-          <h2>보유</h2>
-        </button>
-        <button onClick={handleSection2} className={`section-2 ${section ? '' : 'is_active'}`}>
-          <h2>사용 완료</h2>
-        </button>
-      </div>
-      {!user ? (
-        <div className="login">
-          <p>로그인이 필요한 서비스입니다.</p>
-          <Button
-            padding="20px 60px"
-            fontSize="20px"
-            fontWeight="bold"
-            onClick={() => navigate('/users/login')}
-          >
-            로그인
-          </Button>
+      <SideHeader>
+        <div className="header">
+          <h1>구매 내역</h1>
         </div>
-      ) : (
-        <>
-          {section ? (
-            <div className="unused">
-              {unusedProducts.map((name, index) => (
-                <div key={name} className="unused-list">
-                  <p>{name}</p>
-                  <Button
-                    className="action-button"
-                    fontSize="18px"
-                    fontWeight="bold"
-                    onClick={() => showModal(index)}
-                  >
-                    QR 보기
-                  </Button>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="unused">
-              {usedProducts.map((name, index) => (
-                <div key={name} className="unused-list">
-                  <p>{name}</p>
-                  <Button
-                    className="action-button"
-                    fontSize="18px"
-                    fontWeight="bold"
-                    onClick={() => gotoReview(index)}
-                  >
-                    리뷰 쓰기
-                  </Button>
-                </div>
-              ))}
-            </div>
-          )}
-        </>
-      )}
-      {modalOpen && (
-        <Modal className="modal">
-          <button className="close-button" onClick={closeModal}>
-            <img className="cross" src="../public/close.png" alt="" />
+      </SideHeader>
+      <Wrapper>
+        <div className="section">
+          <button
+            onClick={handleSection1}
+            className={`section-1 ${section ? 'is_active' : ''}`}
+          >
+            <h2>보유</h2>
           </button>
-          <img className="qr" src="/public/qr.png" alt="" />
-          <Button className="completed-button" onClick={handleState}>
-            사용 완료
-          </Button>
-        </Modal>
-      )}
+          <button
+            onClick={handleSection2}
+            className={`section-2 ${section ? '' : 'is_active'}`}
+          >
+            <h2>사용 완료</h2>
+          </button>
+        </div>
+        {!user ? (
+          <div className="login">
+            <p>로그인이 필요한 서비스입니다.</p>
+            <Button
+              padding="20px 60px"
+              fontSize="20px"
+              fontWeight="bold"
+              onClick={() => navigate('/users/login')}
+            >
+              로그인
+            </Button>
+          </div>
+        ) : (
+          <>
+            {section ? (
+              <div className="unused">
+                {unusedProducts.map((name, index) => (
+                  <div key={name} className="unused-list">
+                    <p>{name}</p>
+                    <Button
+                      className="action-button"
+                      fontSize="18px"
+                      fontWeight="bold"
+                      onClick={() => showModal(index)}
+                    >
+                      QR 보기
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="unused">
+                {usedProducts.map((name, index) => (
+                  <div key={name} className="unused-list">
+                    <p>{name}</p>
+                    <Button
+                      className="action-button"
+                      fontSize="18px"
+                      fontWeight="bold"
+                      onClick={() => gotoReview(index)}
+                    >
+                      리뷰 쓰기
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </>
+        )}
+        {modalOpen && (
+          <Modal className="modal">
+            <button className="close-button" onClick={closeModal}>
+              <img className="cross" src="../public/close.png" alt="" />
+            </button>
+            <img className="qr" src="/public/qr.png" alt="" />
+            <Button className="completed-button" onClick={handleState}>
+              사용 완료
+            </Button>
+          </Modal>
+        )}
+      </Wrapper>
     </OrderStyle>
   );
 };

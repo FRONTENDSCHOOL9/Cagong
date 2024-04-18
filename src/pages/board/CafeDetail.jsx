@@ -14,6 +14,8 @@ import { memberState } from '@recoil/user/atoms.mjs';
 import { useQuery } from '@tanstack/react-query';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import styled from 'styled-components';
+import SideHeader from '@components/layout/SideHeader';
+import Wrapper from '@components/Wrapper';
 
 function CafeDetail() {
   const axios = useCustomAxios();
@@ -25,8 +27,11 @@ function CafeDetail() {
   const cafeId = Number(_id);
 
   const DetailStyle = styled.div`
-    margin: 0 30px;
     padding: 30px 0;
+    .header-title {
+      font-size: 30px;
+      font-weight: 800;
+    }
     .slide-src {
       width: 100%;
       height: 80vw;
@@ -49,8 +54,8 @@ function CafeDetail() {
       margin: 20px 0px;
       display: flex;
       align-items: center;
-      justify-content: center;
       flex-wrap: wrap;
+      gap: 10px;
     }
     .address {
       font-size: 16px;
@@ -59,8 +64,8 @@ function CafeDetail() {
       align-items: center;
     }
     .bookmark-icon {
+      margin-left: auto;
       width: 20px;
-      margin-top: 20px;
     }
     .title {
       font-size: 22px;
@@ -101,7 +106,6 @@ function CafeDetail() {
       font-size: 14px;
     }
     text {
-      margin-left: 10px;
       font-size: 12px;
       cursor: pointer;
       text-decoration: underline;
@@ -225,85 +229,91 @@ function CafeDetail() {
   }, [_id]);
 
   return (
-    <DetailStyle>
-      <Swiper
-        style={{
-          '--swiper-navigation-color': '#fff',
-          '--swiper-pagination-color': '#fff',
-        }}
-        modules={[Navigation, Pagination, Scrollbar, A11y]}
-        spaceBetween={10}
-        slidesPerView={1}
-        navigation={true}
-        loop={true}
-        pagination={{
-          clickable: true,
-        }}
-        centeredSlides={true}
-      >
-        {data.item.mainImages?.map((image, index) => (
-          <SwiperSlide key={index}>
+    <>
+      <DetailStyle>
+      <SideHeader>
+        <h1 style={{"fontSize": "30px", "fontWeight": "800"}}>{data.item.name}</h1>
+      </SideHeader>
+        <Wrapper>
+          <Swiper
+            style={{
+              '--swiper-navigation-color': '#fff',
+              '--swiper-pagination-color': '#fff',
+            }}
+            modules={[Navigation, Pagination, Scrollbar, A11y]}
+            spaceBetween={10}
+            slidesPerView={1}
+            navigation={true}
+            loop={true}
+            pagination={{
+              clickable: true,
+            }}
+            centeredSlides={true}
+          >
+            {data.item.mainImages?.map((image, index) => (
+              <SwiperSlide key={index}>
+                <img
+                  className="slide-src"
+                  src={`${import.meta.env.VITE_API_SERVER}/files/05-cagong/${
+                    image.name
+                  }`}
+                  alt="카페 사진"
+                />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+          <div className="address-bundle">
+            <Link className="address" to="/boards/map">
+              <img src="/public/map_pin.svg" alt="지도로 연결되는 아이콘" />
+              {data.item.extra.address}
+            </Link>
+            <CopyToClipboard
+              className="copyBoard"
+              text={data.item.extra.address}
+              onCopy={() => alert('클립보드에 복사되었습니다.')}
+            >
+              <text className="copiedText">복사하기</text>
+            </CopyToClipboard>
             <img
-              className="slide-src"
-              src={`${import.meta.env.VITE_API_SERVER}/files/05-cagong/${
-                image.name
-              }`}
-              alt="카페 사진"
+              className="bookmark-icon"
+              src={
+                isBookmarked ? '/public/bookmarked.svg' : '/public/bookmark.svg'
+              }
+              alt="북마크 버튼 이미지"
+              onClick={handleBookmark}
+              style={{ cursor: 'pointer' }}
             />
-          </SwiperSlide>
-        ))}
-      </Swiper>
-      <div className="header">
-        <h1 className="main-title">{data.item.name}</h1>
-        <img
-          className="bookmark-icon"
-          src={isBookmarked ? '/public/bookmarked.svg' : '/public/bookmark.svg'}
-          alt="북마크 버튼 이미지"
-          onClick={handleBookmark}
-          style={{ cursor: 'pointer' }}
-        />
-      </div>
-      <div className="address-bundle">
-        <Link className="address" to="/boards/map">
-          <img src="/public/map_pin.svg" alt="지도로 연결되는 아이콘" />
-          {data.item.extra.address}
-        </Link>
-        <CopyToClipboard
-          className="copyBoard"
-          text={data.item.extra.address}
-          onCopy={() => alert('클립보드에 복사되었습니다.')}
-        >
-          <text className="copiedText">복사하기</text>
-        </CopyToClipboard>
-      </div>
-      <div className="order">
-        <h2 className="title">카공단 제공 메뉴</h2>
-        <div className="order-menu">
-          <span>{data?.item.content} </span>
-          <span className="order-price">{data?.item.price} 원</span>
-        </div>
-        <Button
-          className="order-button"
-          padding="10px 80px"
-          fontWeight="bold"
-          fontSize="14px"
-          onClick={confirmUser}
-          disabled={isOrdered}
-        >
-          구매하기
-        </Button>
-      </div>
-      <div className="review">
-        <h2 className="title">방문자 리뷰</h2>
-        {review?.item.map(item => (
-          <div key={_id} className="review-list">
-            <span className="review-user">{item.user.name}</span>
-            <span className="review-createdAt">{item.createdAt}</span>
-            <p className="review-content">{item.content}</p>
           </div>
-        ))}
-      </div>
-    </DetailStyle>
+          <div className="order">
+            <h2 className="title">카공단 제공 메뉴</h2>
+            <div className="order-menu">
+              <span>{data?.item.content} </span>
+              <span className="order-price">{data?.item.price} 원</span>
+            </div>
+            <Button
+              className="order-button"
+              padding="10px 80px"
+              fontWeight="bold"
+              fontSize="14px"
+              onClick={confirmUser}
+              disabled={isOrdered}
+            >
+              구매하기
+            </Button>
+          </div>
+          <div className="review">
+            <h2 className="title">방문자 리뷰</h2>
+            {review?.item.map(item => (
+              <div key={_id} className="review-list">
+                <span className="review-user">{item.user.name}</span>
+                <span className="review-createdAt">{item.createdAt}</span>
+                <p className="review-content">{item.content}</p>
+              </div>
+            ))}
+          </div>
+        </Wrapper>
+      </DetailStyle>
+    </>
   );
 }
 

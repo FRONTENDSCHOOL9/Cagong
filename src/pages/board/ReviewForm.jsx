@@ -6,6 +6,8 @@ import { useQuery } from '@tanstack/react-query';
 import { memberState } from '@recoil/user/atoms.mjs';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
+import Wrapper from '@components/Wrapper';
+import SideHeader from '@components/layout/SideHeader';
 
 function ReviewForm() {
   const { register, handleSubmit } = useForm();
@@ -16,10 +18,10 @@ function ReviewForm() {
   const navigate = useNavigate();
 
   const ReviewFormStyle = styled.div`
+    padding: 40px 0;
     .header{
       display: flex;
       justify-content: center;
-      border-bottom: 1px solid #d8d8d8;
     } 
     .title {
       font-size: 30px;
@@ -91,9 +93,12 @@ function ReviewForm() {
 
   return (
     <ReviewFormStyle>
+      <SideHeader>
       <div className="header">
         <h1 className="title">리뷰 작성</h1>
       </div>
+      </SideHeader>
+      <Wrapper>
       <div className='content'>
         <h2 className="name">{data.item.name}</h2>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -110,6 +115,7 @@ function ReviewForm() {
           </div>
         </form>
       </div>
+      </Wrapper>
     </ReviewFormStyle>
   );
 }
