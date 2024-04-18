@@ -127,7 +127,7 @@ function Bookmark() {
                     <li key={bookmarkId}>
                       <img
                         className="bookmark-icon"
-                        src="/public/bookmarked.svg"
+                        src="/bookmarked.svg"
                         alt="북마크 버튼 이미지"
                         onClick={() => deleteBookmark(bookmarkId)}
                       />

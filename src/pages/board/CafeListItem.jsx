@@ -54,7 +54,7 @@ function CafeListItem({ item }) {
                 <h2 className="item-name">{item.name}</h2>
                 <div className="item-address">{item.extra.address}</div>
                 <div className="item-review">
-                  <img src="/public/stars.svg" />
+                  <img src="/stars.svg" />
                   리뷰 {item.replies}
                 </div>
               </div>
