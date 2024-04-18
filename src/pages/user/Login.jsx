@@ -5,6 +5,8 @@ import { useSetRecoilState } from 'recoil';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import Submit from '@components/Submit';
 import Button from '@components/button/Button';
+import Wrapper from '@components/Wrapper';
+import Header from '@components/layout/MainHeader';
 
 function Login() {
   const location = useLocation();
@@ -51,44 +53,46 @@ function Login() {
 
   return (
     <>
-      <h1>Login</h1>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <label htmlFor="email">이메일</label>
-          <input
-            type="email"
-            id="email"
-            placeholder="이메일을 입력하세요"
-            {...register('email', {
-              required: '이메일을 입력하세요.',
-              pattern: {
-                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                message: '이메일 형식이 아닙니다.',
-              },
-            })}
-          />
-          {errors.email && <p>{errors.email.message}</p>}
-        </div>
-        <div>
-          <label htmlFor="password">비밀번호</label>
-          <input
-            type="password"
-            id="password"
-            placeholder="비밀번호를 입력하세요"
-            {...register('password', {
-              required: '비밀번호를 입력하세요.',
-            })}
-          />
-          {errors.password && <p>{errors.password.message}</p>}
-          <Link to="#">비밀번호를 잊으셨나요?</Link>
-        </div>
-        <div>
-          <Submit>로그인</Submit>
-          <Link to="/users/signup">
-            <Button>회원가입</Button>
-          </Link>
-        </div>
-      </form>
+      <Header />
+      <Wrapper>
+        <h1>Login</h1>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div>
+            <label htmlFor="email">이메일</label>
+            <input
+              type="email"
+              id="email"
+              placeholder="이메일을 입력하세요"
+              {...register('email', {
+                required: '이메일을 입력하세요.',
+                pattern: {
+                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                  message: '이메일 형식이 아닙니다.',
+                },
+              })}
+            />
+            {errors.email && <p>{errors.email.message}</p>}
+          </div>
+          <div>
+            <label htmlFor="password">비밀번호</label>
+            <input
+              type="password"
+              id="password"
+              placeholder="비밀번호를 입력하세요"
+              {...register('password', {
+                required: '비밀번호를 입력하세요.',
+              })}
+            />
+            {errors.password && <p>{errors.password.message}</p>}
+          </div>
+          <div>
+            <Submit>로그인</Submit>
+            <Link to="/users/signup">
+              <Button>회원가입</Button>
+            </Link>
+          </div>
+        </form>
+      </Wrapper>
     </>
   );
 }
