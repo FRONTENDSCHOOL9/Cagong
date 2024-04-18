@@ -4,6 +4,8 @@ const { kakao } = window;
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import styled from 'styled-components';
+import Wrapper from '@components/Wrapper';
+import MainHeader from '@components/layout/MainHeader';
 
 const MapStyle = styled.div`
   //스크롤바 숨기기
@@ -430,17 +432,19 @@ function Map() {
       return function () {
         //마커 클릭시 인포윈도우 열고 닫기
 
-        if (infowindowArray.length === 1) {
+        if (infowindowArray[0] === infowindow) {
           infowindow.close();
-          infowindowArray.push(infowindow);
+          infowindowArray = [];
+          // infowindowArray.push(infowindow);
+          // console.log(infowindowArray + 'if');
         } else {
-          // console.log(infowindowArray);
           for (let i = 0; i < infowindowArray.length; i++) {
             infowindowArray[i].close();
             infowindowArray = [];
           }
           infowindow.open(map, marker);
           infowindowArray.push(infowindow);
+          // console.log(infowindowArray + 'else');
         }
       };
     }
@@ -655,30 +659,35 @@ function Map() {
   // console.log(sortedCafeList);
   // console.log(sortedChangedCafeList);
   return (
-    <MapStyle>
-      <div className="wrapper">
-        <div id="map" style={{ width: '100%', minHeight: '100%' }} />
-        <button className="btn-map current" onClick={handleCurrentLocation}>
-          <img src="../public/map_current-position.svg" alt="" />
-        </button>
-        <button className="btn-map zoom-out" onClick={handleZoomOut}>
-          <img src="../public/map_zoom-out.svg" alt="" />
-        </button>
-      </div>
-      <div className="cafe-wrapper">
-        <div className="cafe-header">
-          {/* <button className="cafe-expand">//확장버튼
+    <>
+      <MainHeader />
+      <Wrapper>
+        <MapStyle>
+          <div className="wrapper">
+            <div id="map" style={{ width: '100%', minHeight: '100%' }} />
+            <button className="btn-map current" onClick={handleCurrentLocation}>
+              <img src="../public/map_current-position.svg" alt="" />
+            </button>
+            <button className="btn-map zoom-out" onClick={handleZoomOut}>
+              <img src="../public/map_zoom-out.svg" alt="" />
+            </button>
+          </div>
+          <div className="cafe-wrapper">
+            <div className="cafe-header">
+              {/* <button className="cafe-expand">//확장버튼
             <img src="../public/expand-up-and-down.svg" alt="" />
           </button> */}
-          <h1 className="cafe-header_title">카페 리스트</h1>
-        </div>
-        {filteredCafeList.length === 0 ? (
-          <ul>{allCafeList}</ul>
-        ) : (
-          <ul>{changedCafeList}</ul>
-        )}
-      </div>
-    </MapStyle>
+              <h1 className="cafe-header_title">카페 리스트</h1>
+            </div>
+            {filteredCafeList.length === 0 ? (
+              <ul>{allCafeList}</ul>
+            ) : (
+              <ul>{changedCafeList}</ul>
+            )}
+          </div>
+        </MapStyle>
+      </Wrapper>
+    </>
   );
 }
 
