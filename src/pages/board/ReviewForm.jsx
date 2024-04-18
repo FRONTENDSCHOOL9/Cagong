@@ -9,15 +9,7 @@ import styled from 'styled-components';
 import Wrapper from '@components/Wrapper';
 import SideHeader from '@components/layout/SideHeader';
 
-function ReviewForm() {
-  const { register, handleSubmit } = useForm();
-  const axios = useCustomAxios();
-  const { reviewId } = useParams();
-  const parsedId = parseInt(reviewId);
-  const user = useRecoilValue(memberState);
-  const navigate = useNavigate();
-
-  const ReviewFormStyle = styled.div`
+const ReviewFormStyle = styled.div`
     padding: 40px 0;
     .header{
       display: flex;
@@ -64,6 +56,14 @@ function ReviewForm() {
       padding-top: 150px;
     }
   `;
+
+function ReviewForm() {
+  const { register, handleSubmit } = useForm();
+  const axios = useCustomAxios();
+  const { reviewId } = useParams();
+  const parsedId = parseInt(reviewId);
+  const user = useRecoilValue(memberState);
+  const navigate = useNavigate();
 
   const { data } = useQuery({
     queryKey: ['products', reviewId],
