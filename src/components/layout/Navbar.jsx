@@ -33,7 +33,7 @@ const StyledNav = styled.nav`
   img {
     width: 30px;
   }
-  span{
+  span {
     font-size: 12px;
   }
 `;
@@ -46,7 +46,7 @@ function Navbar() {
   const [bookmark, setBookmark] = useState(false);
   const [myPage, setMyPage] = useState(false);
 
-  function handleHome(){
+  function handleHome() {
     setHome(true);
     setMap(false);
     setOrder(false);
@@ -54,7 +54,7 @@ function Navbar() {
     setMyPage(false);
   }
 
-  function handleMap(){
+  function handleMap() {
     setHome(false);
     setMap(true);
     setOrder(false);
@@ -62,7 +62,7 @@ function Navbar() {
     setMyPage(false);
   }
 
-  function handleOrder(){
+  function handleOrder() {
     setHome(false);
     setMap(false);
     setOrder(true);
@@ -70,7 +70,7 @@ function Navbar() {
     setMyPage(false);
   }
 
-  function handleBookmark(){
+  function handleBookmark() {
     setHome(false);
     setMap(false);
     setOrder(false);
@@ -78,7 +78,7 @@ function Navbar() {
     setMyPage(false);
   }
 
-  function handleMyPage(){
+  function handleMyPage() {
     setHome(false);
     setMap(false);
     setOrder(false);
@@ -90,27 +90,57 @@ function Navbar() {
     <StyledNav>
       <nav>
         <NavLink onClick={handleHome} to="/">
-          <img src={home ? "public/home-active.svg" : "/public/nav-home.svg" } alt="" />
+          <img
+            src={home ? 'public/home-active.svg' : '/public/nav-home.svg'}
+            alt=""
+          />
           <span>홈</span>
         </NavLink>
 
         <NavLink onClick={handleMap} to="/boards/map">
-          <img src={map ? "/public/map-active.svg" : "/public/nav-map.svg" } alt="" />
+          <img
+            src={map ? '/public/map-active.svg' : '/public/nav-map.svg'}
+            alt=""
+          />
           <span>지도</span>
         </NavLink>
 
-        <NavLink onClick={handleOrder} to={user ? '/users/orderlist' : '/asklogin'}>
-          <img src={order ? "/public/order-active.svg" : "/public/nav-order.svg" } alt="" />
+        <NavLink
+          onClick={handleOrder}
+          to={user ? '/users/orderlist' : '/asklogin'}
+        >
+          <img
+            src={order ? '/public/order-active.svg' : '/public/nav-order.svg'}
+            alt=""
+          />
           <span>내 구매</span>
         </NavLink>
 
-        <NavLink onClick={handleBookmark} to={user ? '/users/bookmark' : '/asklogin'}>
-          <img src={bookmark ? "/public/bookmark-active.svg" : "/public/nav-bookmark.svg" } alt="" />
+        <NavLink
+          onClick={handleBookmark}
+          to={user ? '/users/bookmark' : '/asklogin'}
+        >
+          <img
+            src={
+              bookmark
+                ? '/public/bookmark-active.svg'
+                : '/public/nav-bookmark.svg'
+            }
+            alt=""
+          />
           <span>북마크</span>
         </NavLink>
 
-        <NavLink onClick={handleMyPage} to={user ? '/users/mypage' : '/asklogin'}>
-          <img src={myPage ? "/public/mypage-active.svg" : "/public/nav-mypage.svg" } alt="" />
+        <NavLink
+          onClick={handleMyPage}
+          to={user ? '/users/mypage' : '/asklogin'}
+        >
+          <img
+            src={
+              myPage ? '/public/mypage-active.svg' : '/public/nav-mypage.svg'
+            }
+            alt=""
+          />
           <span>내 정보</span>
         </NavLink>
       </nav>

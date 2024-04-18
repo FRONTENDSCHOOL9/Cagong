@@ -1,6 +1,11 @@
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+
+CafeListItem.propTypes = {
+  item: PropTypes.object.isRequired,
+};
+
 const MyComponent = styled.div`
   .cafe-thumb {
     width: 100%;
@@ -31,10 +36,6 @@ const MyComponent = styled.div`
     font-size: 12px;
   }
 `;
-
-CafeListItem.propTypes = {
-  item: PropTypes.object.isRequired,
-};
 
 function CafeListItem({ item }) {
   const BASE_IMAGE_URL = `${import.meta.env.VITE_API_SERVER}/files/05-cagong/`;
