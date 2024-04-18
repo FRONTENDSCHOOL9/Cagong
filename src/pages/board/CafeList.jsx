@@ -2,6 +2,8 @@ import { useQuery } from '@tanstack/react-query';
 import useCustomAxios from '@hooks/useCustomAxios.mjs';
 import CafeListItem from '@pages/board/CafeListItem';
 import styled from 'styled-components';
+import Wrapper from '@components/Wrapper';
+import MainHeader from '@components/layout/MainHeader';
 
 const MyComponent = styled.div`
   .cafelist-title {
@@ -27,10 +29,15 @@ function CafeList() {
   ));
 
   return (
-    <MyComponent>
-      <h1 className="cafelist-title">카공 인기카페</h1>
-      {cafeList}
-    </MyComponent>
+    <>
+      <MainHeader />
+      <Wrapper>
+        <MyComponent>
+          <h1 className="cafelist-title">카공 인기카페</h1>
+          {cafeList}
+        </MyComponent>
+      </Wrapper>
+    </>
   );
 }
 
