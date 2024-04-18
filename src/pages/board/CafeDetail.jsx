@@ -33,14 +33,14 @@ function CafeDetail() {
       object-fit: cover;
       color: black;
     }
-    .header{
+    .header {
       display: flex;
       align-items: center;
       justify-content: center;
       flex-wrap: wrap;
       gap: 10px;
     }
-    .main-title{
+    .main-title {
       padding-top: 20px;
       font-size: 30px;
       font-weight: 800;
@@ -58,7 +58,7 @@ function CafeDetail() {
       display: flex;
       align-items: center;
     }
-    .bookmark-icon{
+    .bookmark-icon {
       width: 20px;
       margin-top: 20px;
     }
@@ -253,8 +253,8 @@ function CafeDetail() {
           </SwiperSlide>
         ))}
       </Swiper>
-      <div className='header'>
-        <h1 className='main-title'>{data.item.name}</h1>
+      <div className="header">
+        <h1 className="main-title">{data.item.name}</h1>
         <img
           className="bookmark-icon"
           src={isBookmarked ? '/public/bookmarked.svg' : '/public/bookmark.svg'}

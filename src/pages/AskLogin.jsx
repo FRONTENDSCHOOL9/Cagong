@@ -43,7 +43,7 @@ function AskLogin() {
           <h1>
             집중하기 좋은
             <br />
-            카페를 찾아 보세요.
+            카페를 찾아보세요.
           </h1>
           <Link to="/users/login">
             <Button className="login-button" fontSize="18px" fontWeight="bold">

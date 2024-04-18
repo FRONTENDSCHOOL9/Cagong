@@ -5,7 +5,8 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const MyComponent = styled.div`
-padding: 10px;
+  padding: 20px;
+  min-height: 100vh;
   .cafelist-title {
     font-size: 20px;
     font-weight: 800;
@@ -47,33 +48,34 @@ padding: 10px;
     gap: 10px;
   }
 
-    .item-name {
-      font-weight: 700;
-      padding: 0 2px;
-      padding-top: 10px;
-    }
-  
-    .item-address {
-      font-size: 12px;
-      padding: 0 2px;
-      line-height: 16px;
-    }
+  .item-name {
+    font-weight: 700;
+    padding: 0 2px;
+    padding-top: 10px;
+  }
 
-    .cafe-thumb-overlay::after {
-      display: inline;
-      content: '';
-      position: absolute;
-      overflow: hidden;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border-radius: 20px;
-      background: linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 0.5) 0%,
-        rgba(0, 0, 0, 0) 100%
-      );
+  .item-address {
+    font-size: 12px;
+    padding: 0 2px;
+    line-height: 16px;
+  }
+
+  .cafe-thumb-overlay::after {
+    display: inline;
+    content: '';
+    position: absolute;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.5) 0%,
+      rgba(0, 0, 0, 0) 100%
+    );
+  }
 `;
 function Bookmark() {
   const BASE_IMAGE_URL = `${import.meta.env.VITE_API_SERVER}/files/05-cagong/`;
