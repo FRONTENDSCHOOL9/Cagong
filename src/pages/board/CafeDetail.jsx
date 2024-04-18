@@ -14,6 +14,8 @@ import { memberState } from '@recoil/user/atoms.mjs';
 import { useQuery } from '@tanstack/react-query';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import styled from 'styled-components';
+import toast, { Toaster } from 'react-hot-toast';
+const notify = () => toast('구매가 완료되었습니다. 내 구매에서 확인하세요!');
 
 function CafeDetail() {
   const axios = useCustomAxios();
@@ -253,6 +255,17 @@ function CafeDetail() {
           </SwiperSlide>
         ))}
       </Swiper>
+      <button onClick={notify}>click</button>
+      <Toaster
+        toastOptions={{
+          className: '',
+          style: {
+            border: '1px solid #713200',
+            padding: '16px',
+            color: '#713200',
+          },
+        }}
+      />
       <div className="header">
         <h1 className="main-title">{data.item.name}</h1>
         <img
