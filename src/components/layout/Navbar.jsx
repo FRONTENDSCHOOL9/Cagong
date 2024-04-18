@@ -13,14 +13,13 @@ const StyledNav = styled.nav`
   z-index: 999;
   box-shadow: 10px 10px 20px 8px gray;
   display: flex;
+  justify-content: center;
   nav {
     padding: 0px 30px;
     height: 100%;
     display: flex;
     align-items: center;
-    margin: 0 auto;
-    gap: 30px;
-    flex-wrap: wrap;
+    gap: 20px;
   }
   a {
     text-decoration: unset;
@@ -29,9 +28,13 @@ const StyledNav = styled.nav`
     flex-direction: column;
     align-items: center;
     gap: 5px;
+    min-width: 37px;
   }
   img {
     width: 30px;
+  }
+  span{
+    font-size: 12px;
   }
 `;
 

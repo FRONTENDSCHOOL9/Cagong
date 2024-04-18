@@ -1,8 +1,6 @@
 import SearchButton from '@components/button/SearchButton';
-import { memberState } from '@recoil/user/atoms.mjs';
-import { useRecoilState } from 'recoil';
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import PrevButton from '@components/button/PrevButton';
 
 function Header() {
   const HeaderStyle = styled.div`
@@ -22,44 +20,24 @@ function Header() {
     }
     .title {
       margin-right: auto;
+      min-width: 100px;
     }
-    .log-button {
-      margin: 0 15px;
-      border: unset;
-      background-color: white;
-      border-radius: 4px;
-      font-family: 'NanumSquareRound';
-      font-weight: bold;
-      padding: 8px 12px;
-      color: #222;
-      cursor: pointer;
+    .button-bundle{
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-right: 10px;
+      margin-top: 10px;
     }
   `;
-  const navigate = useNavigate();
-  const handleLogout = () => {
-    setUser(null);
-    navigate('/');
-  };
-  const [user, setUser] = useRecoilState(memberState);
 
   return (
     <HeaderStyle>
       <img className="logo" src="/public/logo.svg" alt="" />
       <span className="title">카공여지도</span>
-      <SearchButton className="search-button" />
-      <div>
-        {user ? (
-          <button className="log-button" size="sm" onClick={handleLogout}>
-            로그아웃
-          </button>
-        ) : (
-          <button
-            className="log-button"
-            onClick={() => navigate('/users/login')}
-          >
-            로그인
-          </button>
-        )}
+      <div className='button-bundle'>
+        <PrevButton className="prev-button" />
+        <SearchButton className="search-button" />
       </div>
     </HeaderStyle>
   );
