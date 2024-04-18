@@ -15,95 +15,95 @@ import { useQuery } from '@tanstack/react-query';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import styled from 'styled-components';
 import SideHeader from '@components/layout/SideHeader';
-import Wrapper from '@components/Wrapper';
+import Wrapper from '@components/layout/Wrapper';
 
 const DetailStyle = styled.div`
-    padding: 30px 0;
-    .header-title {
-      font-size: 30px;
-      font-weight: 800;
-    }
-    .slide-src {
-      width: 100%;
-      height: 80vw;
-      object-fit: cover;
-      color: black;
-    }
-    .header {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-    .main-title {
-      padding-top: 20px;
-      font-size: 30px;
-      font-weight: 800;
-    }
-    .address-bundle {
-      margin: 20px 0px;
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-    .address {
-      font-size: 16px;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-    }
-    .bookmark-icon {
-      margin-left: auto;
-      width: 20px;
-    }
-    .title {
-      font-size: 22px;
-      font-weight: 800;
-    }
-    .order {
-      margin: 50px 0px;
-    }
-    .order-menu {
-      display: flex;
-      justify-content: space-between;
-      font-size: 14px;
-      font-weight: bold;
-      margin-bottom: 20px;
-      margin: 30px 10px;
-    }
-    .order-price {
-      color: #ff6666;
-    }
-    .order-button {
-      width: 100%;
-    }
-    .review-list {
-      margin: 25px 10px;
-    }
-    .review-user {
-      margin-right: 10px;
-      font-size: 16px;
-      font-weight: bold;
-    }
-    .review-createdAt {
-      font-size: 12px;
-      font-weight: bold;
-      color: #828282;
-    }
-    .review-content {
-      margin-top: 20px;
-      font-size: 14px;
-    }
-    text {
-      font-size: 12px;
-      cursor: pointer;
-      text-decoration: underline;
-      color: #828282;
-    }
-  `;
-  
+  padding: 30px 0;
+  .header-title {
+    font-size: 30px;
+    font-weight: 800;
+  }
+  .slide-src {
+    width: 100%;
+    height: 80vw;
+    object-fit: cover;
+    color: black;
+  }
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .main-title {
+    padding-top: 20px;
+    font-size: 30px;
+    font-weight: 800;
+  }
+  .address-bundle {
+    margin: 20px 0px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .address {
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+  }
+  .bookmark-icon {
+    margin-left: auto;
+    width: 20px;
+  }
+  .title {
+    font-size: 22px;
+    font-weight: 800;
+  }
+  .order {
+    margin: 50px 0px;
+  }
+  .order-menu {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    margin: 30px 10px;
+  }
+  .order-price {
+    color: #ff6666;
+  }
+  .order-button {
+    width: 100%;
+  }
+  .review-list {
+    margin: 25px 10px;
+  }
+  .review-user {
+    margin-right: 10px;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  .review-createdAt {
+    font-size: 12px;
+    font-weight: bold;
+    color: #828282;
+  }
+  .review-content {
+    margin-top: 20px;
+    font-size: 14px;
+  }
+  text {
+    font-size: 12px;
+    cursor: pointer;
+    text-decoration: underline;
+    color: #828282;
+  }
+`;
+
 function CafeDetail() {
   const axios = useCustomAxios();
   const { _id } = useParams();
@@ -112,8 +112,6 @@ function CafeDetail() {
   const [isOrdered, setIsOrdered] = useState(false);
   const navigate = useNavigate();
   const cafeId = Number(_id);
-
-  
 
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [bookmarkId, setBookmarkId] = useState(null);
@@ -233,9 +231,11 @@ function CafeDetail() {
   return (
     <>
       <DetailStyle>
-      <SideHeader>
-        <h1 style={{"fontSize": "30px", "fontWeight": "800"}}>{data.item.name}</h1>
-      </SideHeader>
+        <SideHeader>
+          <h1 style={{ fontSize: '30px', fontWeight: '800' }}>
+            {data.item.name}
+          </h1>
+        </SideHeader>
         <Wrapper>
           <Swiper
             style={{
@@ -266,7 +266,7 @@ function CafeDetail() {
           </Swiper>
           <div className="address-bundle">
             <Link className="address" to="/boards/map">
-              <img src="/public/map_pin.svg" alt="지도로 연결되는 아이콘" />
+              <img src="/map_pin.svg" alt="지도로 연결되는 아이콘" />
               {data.item.extra.address}
             </Link>
             <CopyToClipboard
@@ -278,9 +278,7 @@ function CafeDetail() {
             </CopyToClipboard>
             <img
               className="bookmark-icon"
-              src={
-                isBookmarked ? '/public/bookmarked.svg' : '/public/bookmark.svg'
-              }
+              src={isBookmarked ? '/bookmarked.svg' : '/bookmark.svg'}
               alt="북마크 버튼 이미지"
               onClick={handleBookmark}
               style={{ cursor: 'pointer' }}

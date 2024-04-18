@@ -4,8 +4,8 @@ const { kakao } = window;
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import styled from 'styled-components';
-import Wrapper from '@components/Wrapper';
 import MainHeader from '@components/layout/MainHeader';
+import Wrapper from '@components/layout/Wrapper';
 
 const MapStyle = styled.div`
   //스크롤바 숨기기
@@ -491,11 +491,11 @@ function Map() {
   <h1 class="info_name">${item.name} </h1>
   <div class="info_cover">
   <img class="info_thumb" src=${import.meta.env.VITE_API_SERVER}/files/${
-      import.meta.env.VITE_CLIENT_ID
-    }/${item.mainImages[0]?.name} alt="${item.name} 사진"
+    import.meta.env.VITE_CLIENT_ID
+  }/${item.mainImages[0]?.name} alt="${item.name} 사진"
   /><img class="info_thumb" src=${import.meta.env.VITE_API_SERVER}/files/${
-      import.meta.env.VITE_CLIENT_ID
-    }/${item.mainImages[1]?.name} alt="${item.name} 사진"
+    import.meta.env.VITE_CLIENT_ID
+  }/${item.mainImages[1]?.name} alt="${item.name} 사진"
 />
 <img class="info_thumb" src=${import.meta.env.VITE_API_SERVER}/files/${
       import.meta.env.VITE_CLIENT_ID

@@ -1,6 +1,6 @@
 import { memberState } from '@recoil/user/atoms.mjs';
 import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 
@@ -89,60 +89,39 @@ function Navbar() {
   return (
     <StyledNav>
       <nav>
-        <NavLink onClick={handleHome} to="/">
-          <img
-            src={home ? 'public/home-active.svg' : '/public/nav-home.svg'}
-            alt=""
-          />
+        <Link onClick={handleHome} to="/">
+          <img src={home ? '/home-active.svg' : '/nav-home.svg'} alt="" />
           <span>홈</span>
-        </NavLink>
+        </Link>
 
-        <NavLink onClick={handleMap} to="/boards/map">
-          <img
-            src={map ? '/public/map-active.svg' : '/public/nav-map.svg'}
-            alt=""
-          />
+        <Link onClick={handleMap} to="/boards/map">
+          <img src={map ? '/map-active.svg' : '/nav-map.svg'} alt="" />
           <span>지도</span>
-        </NavLink>
+        </Link>
 
-        <NavLink
+        <Link
           onClick={handleOrder}
           to={user ? '/users/orderlist' : '/asklogin'}
         >
-          <img
-            src={order ? '/public/order-active.svg' : '/public/nav-order.svg'}
-            alt=""
-          />
+          <img src={order ? '/order-active.svg' : '/nav-order.svg'} alt="" />
           <span>내 구매</span>
-        </NavLink>
+        </Link>
 
-        <NavLink
+        <Link
           onClick={handleBookmark}
           to={user ? '/users/bookmark' : '/asklogin'}
         >
           <img
-            src={
-              bookmark
-                ? '/public/bookmark-active.svg'
-                : '/public/nav-bookmark.svg'
-            }
+            src={bookmark ? '/bookmark-active.svg' : '/nav-bookmark.svg'}
             alt=""
           />
           <span>북마크</span>
-        </NavLink>
+        </Link>
 
-        <NavLink
-          onClick={handleMyPage}
-          to={user ? '/users/mypage' : '/asklogin'}
-        >
-          <img
-            src={
-              myPage ? '/public/mypage-active.svg' : '/public/nav-mypage.svg'
-            }
-            alt=""
-          />
+        <Link onClick={handleMyPage} to={user ? '/users/mypage' : '/asklogin'}>
+          <img src={myPage ? '/mypage-active.svg' : '/nav-mypage.svg'} alt="" />
           <span>내 정보</span>
-        </NavLink>
+        </Link>
       </nav>
     </StyledNav>
   );

@@ -5,8 +5,8 @@ import { useSetRecoilState } from 'recoil';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import Submit from '@components/Submit';
 import Button from '@components/button/Button';
-import Wrapper from '@components/Wrapper';
 import Header from '@components/layout/MainHeader';
+import Wrapper from '@components/layout/Wrapper';
 
 function Login() {
   const location = useLocation();

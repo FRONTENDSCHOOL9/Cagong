@@ -14,7 +14,7 @@ import {
   Scrollbar,
   A11y,
 } from 'swiper/modules';
-import CafeListItem from '@pages/board/CafeListItem';
+import CafeListItem from '@pages/product/CafeListItem';
 
 const HomeStyle = styled.div`
   margin: 0;

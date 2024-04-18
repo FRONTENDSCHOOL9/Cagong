@@ -10,7 +10,7 @@ import {
 } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useQuery } from '@tanstack/react-query';
-import SearchIcon from '@components/layout/SearchIcon';
+import SearchIcon from '@pages/search/SearchIcon';
 
 function Search() {
   const axios = useCustomAxios();
@@ -136,7 +136,7 @@ function Search() {
                   {item.name}
                   <div>{item.extra.address}</div>
                   <div>
-                    <img className="stars" src="/public/stars.svg" />
+                    <img className="stars" src="/stars.svg" />
                     리뷰 {item.replies}
                   </div>
                 </Link>

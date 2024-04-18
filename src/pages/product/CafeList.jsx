@@ -1,9 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import useCustomAxios from '@hooks/useCustomAxios.mjs';
-import CafeListItem from '@pages/board/CafeListItem';
 import styled from 'styled-components';
-import Wrapper from '@components/Wrapper';
+
 import MainHeader from '@components/layout/MainHeader';
+import CafeListItem from '@pages/product/CafeListItem';
+import Wrapper from '@components/layout/Wrapper';
 
 const MyComponent = styled.div`
   .cafelist-title {
