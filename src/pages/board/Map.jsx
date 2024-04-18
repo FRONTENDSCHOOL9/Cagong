@@ -185,7 +185,7 @@ const MapStyle = styled.div`
   }
 
   .cafe-list_item-cover-thumb {
-    max-width: 100%;
+    width: 100%;
     aspect-ratio: 14/5;
     object-fit: cover;
     border-radius: 20px;
@@ -430,14 +430,18 @@ function Map() {
       return function () {
         //마커 클릭시 인포윈도우 열고 닫기
 
-        if (infowindowArray.length !== 0) {
-          infowindow.close(map, marker);
-          infowindowArray = [];
+        if (infowindowArray.length === 1) {
+          infowindow.close();
+          infowindowArray.push(infowindow);
         } else {
+          // console.log(infowindowArray);
+          for (let i = 0; i < infowindowArray.length; i++) {
+            infowindowArray[i].close();
+            infowindowArray = [];
+          }
           infowindow.open(map, marker);
           infowindowArray.push(infowindow);
         }
-        // console.log(infowindowArray);
       };
     }
 
@@ -536,11 +540,11 @@ function Map() {
   }
 
   //5초 동안 기다린 후 현재 위치로 이동
-  useEffect(() => {
-    setTimeout(() => {
-      handleCurrentLocation(); // 현재 위치로
-    }, 4000);
-  }, []);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     handleCurrentLocation(); // 현재 위치로
+  //   }, 4000);
+  // }, []);
 
   //줌 아웃 함수
   function handleZoomOut() {
