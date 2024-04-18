@@ -3,6 +3,8 @@ import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import MainHeader from '@components/layout/MainHeader';
+import Wrapper from '@components/Wrapper';
 
 const MyComponent = styled.div`
   padding: 20px;
@@ -108,44 +110,55 @@ function Bookmark() {
   }, [data]);
 
   return (
-    <MyComponent>
-      <div>
-        <h1 className="cafelist-title">찜한 카페</h1>
-        {!isLoading && (
-          <ul>
-            {bookmarks.map(bookmarkId => {
-              const bookmarkItem = data.find(item => item._id === bookmarkId);
-              if (!bookmarkItem || !bookmarkItem.product) return null;
-              return (
-                <li key={bookmarkId}>
-                  <img
-                    className="bookmark-icon"
-                    src="/public/bookmarked.svg"
-                    alt="북마크 버튼 이미지"
-                    onClick={() => deleteBookmark(bookmarkId)}
-                  />
-                  <Link to={`/boards/cafeDetail/${bookmarkItem.product._id}`}>
-                    <div className="bookmarked-cafe">
-                      <div className="cafe-thumb-overlay">
-                        <img
-                          className="cafe-thumb"
-                          src={`${BASE_IMAGE_URL}${bookmarkItem.product.image.name}`}
-                          alt={bookmarkItem.product.name}
-                        />
-                      </div>
-                      <h2 className="item-name">{bookmarkItem.product.name}</h2>
-                      <div className="item-address">
-                        {bookmarkItem.product.extra.address}
-                      </div>
-                    </div>
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        )}
-      </div>
-    </MyComponent>
+    <>
+      <MainHeader />
+      <Wrapper>
+        <MyComponent>
+          <div>
+            <h1 className="cafelist-title">찜한 카페</h1>
+            {!isLoading && (
+              <ul>
+                {bookmarks.map(bookmarkId => {
+                  const bookmarkItem = data.find(
+                    item => item._id === bookmarkId,
+                  );
+                  if (!bookmarkItem || !bookmarkItem.product) return null;
+                  return (
+                    <li key={bookmarkId}>
+                      <img
+                        className="bookmark-icon"
+                        src="/public/bookmarked.svg"
+                        alt="북마크 버튼 이미지"
+                        onClick={() => deleteBookmark(bookmarkId)}
+                      />
+                      <Link
+                        to={`/boards/cafeDetail/${bookmarkItem.product._id}`}
+                      >
+                        <div className="bookmarked-cafe">
+                          <div className="cafe-thumb-overlay">
+                            <img
+                              className="cafe-thumb"
+                              src={`${BASE_IMAGE_URL}${bookmarkItem.product.image.name}`}
+                              alt={bookmarkItem.product.name}
+                            />
+                          </div>
+                          <h2 className="item-name">
+                            {bookmarkItem.product.name}
+                          </h2>
+                          <div className="item-address">
+                            {bookmarkItem.product.extra.address}
+                          </div>
+                        </div>
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
+          </div>
+        </MyComponent>
+      </Wrapper>
+    </>
   );
 }
 
