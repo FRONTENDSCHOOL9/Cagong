@@ -11,6 +11,7 @@ const MapStyle = styled.div`
   ::-webkit-scrollbar {
     display: none;
   }
+  height: 100vh;
 
   margin: 0;
   font-family: 'NanumSquareRound';
@@ -23,11 +24,11 @@ const MapStyle = styled.div`
   scroll: no;
 
   #map {
-    min-height: 300px;
-    max-width: 100%;
+    // min-height: 300px;
   }
 
   .wrapper {
+    height: 45%;
     position: relative;
   }
 
@@ -43,13 +44,13 @@ const MapStyle = styled.div`
   }
 
   .btn-map.current {
-    bottom: 35px;
+    bottom: 70px;
     right: 15px;
     z-index: 9999;
   }
 
   .btn-map.zoom-out {
-    bottom: 70px;
+    bottom: 35px;
     right: 15px;
     z-index: 9999;
   }
@@ -82,18 +83,25 @@ const MapStyle = styled.div`
   }
 
   .info_cover {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
     height: 100px;
     margin-top: 10px;
     margin-bottom: 10px;
   }
 
   .info_thumb {
-    position: absolute;
+    display: block;
+    // position: absolute;
     left: 10%;
-    width: 80%;
-    height: 100px;
+    width: 32%;
+    // height: 100px;
+    aspect-ratio: 1/1;
     object-fit: cover;
-    border-radius: 20px;
+    border-radius: 8px;
+    vertical-align: bottom;
+    box-shadow: 0px 8px 6px -6px #666;
   }
 
   .info_adress {
@@ -104,12 +112,14 @@ const MapStyle = styled.div`
 
   .cafe-wrapper {
     display: flex;
+    // display: none;
     flex-direction: column;
     align-items: center;
     max-width: 100%;
     position: relative;
     background-color: white;
-    top: -20px;
+    top: -30px;
+    height: 45%;
     max-height: 620px;
     border-radius: 20px 20px 0 0;
     overflow: auto;
@@ -134,36 +144,73 @@ const MapStyle = styled.div`
     font-weight: 800;
   }
 
-  .cafe-expand {
-    position: absolute;
-    border: none;
-    width: 33px;
-    height: 33px;
-    right: 15px;
-    top: 15px;
-    z-index: 9999;
-    cursor: pointer;
-    border-radius: 8px;
-    background-color: white;
-  }
+  //카페리스트 확장 버튼
+  // .cafe-expand {
+  //   position: absolute;
+  //   border: none;
+  //   width: 33px;
+  //   height: 33px;
+  //   right: 15px;
+  //   top: 15px;
+  //   z-index: 9999;
+  //   cursor: pointer;
+  //   border-radius: 8px;
+  //   background-color: white;
+  // }
+
+  /*카페리스트*/
 
   .cafe-list_item {
     display: flex;
     flex-direction: column;
     cursor: pointer;
-    padding: 15px;
-    align-items: center;
+    padding: 0 67px;
+    margin-bottom: 8px;
+    // align-items: center;
   }
 
   .cafe-list_item:first-child {
-    padding-top: 67px;
+    margin-top: 67px;
   }
 
-  .cafe-list_item-thumb {
+  .cafe-list_item:last-child {
+    margin-bottom: 57px;
+  }
+
+  .cafe-list_item-cover {
+    text-align: center;
+    box-shadow: 0px 8px 6px -6px #666;
+    border-radius: 20px;
+    margin-bottom: 5px;
+  }
+
+  .cafe-list_item-cover-thumb {
     max-width: 100%;
-    aspect-ratio: 1/1;
+    aspect-ratio: 14/5;
     object-fit: cover;
     border-radius: 20px;
+    vertical-align: bottom;
+  }
+
+  .cafe-list_item-detail {
+    padding: 5px 0 0 0;
+  }
+
+  .cafe-list_item-layout {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+  }
+
+  .cafe-list_item-title {
+    font-size: 1rem;
+    font-weight: 600;
+  }
+  .cafe-list_item-distance {
+    font-size: 0.5rem;
+  }
+  .cafe-list_item-address {
+    font-size: 0.8rem;
   }
 `;
 
@@ -444,8 +491,15 @@ function Map() {
   <div class="info_cover">
   <img class="info_thumb" src=${import.meta.env.VITE_API_SERVER}/files/${
       import.meta.env.VITE_CLIENT_ID
-    }/${item.mainImages[0].name} alt="${item.name} 사진"
-  />
+    }/${item.mainImages[0]?.name} alt="${item.name} 사진"
+  /><img class="info_thumb" src=${import.meta.env.VITE_API_SERVER}/files/${
+      import.meta.env.VITE_CLIENT_ID
+    }/${item.mainImages[1]?.name} alt="${item.name} 사진"
+/>
+<img class="info_thumb" src=${import.meta.env.VITE_API_SERVER}/files/${
+      import.meta.env.VITE_CLIENT_ID
+    }/${item.mainImages[2]?.name} alt="${item.name} 사진"
+/>
   </div>
   </a>
       <p class="info_adress">${item.extra.address}</P>
@@ -528,25 +582,29 @@ function Map() {
       key={item._id}
       onClick={handleSelectLocation(item)}
     >
-      <img
-        className="cafe-list_item-thumb"
-        src={
-          import.meta.env.VITE_API_SERVER +
-          '/files/05-cagong/' +
-          item.mainImages[0].name
-        }
-        alt="카페사진"
-      />
-      <div>
-        <span>{item.name}</span>
-        <span>
-          {distanceToCafe?.map(distance =>
-            item._id === distance._id ? `${distance.res}km` : '',
-          )}
-        </span>
+      <div className="cafe-list_item-cover">
+        <img
+          className="cafe-list_item-cover-thumb"
+          src={
+            import.meta.env.VITE_API_SERVER +
+            '/files/05-cagong/' +
+            item.mainImages[0].name
+          }
+          alt="카페사진"
+        />
       </div>
-      <div>
-        <span>{item.extra.address}</span>
+      <div className="cafe-list_item-detail">
+        <div className="cafe-list_item-layout">
+          <span className="cafe-list_item-title">{item.name}</span>
+          <span className="cafe-list_item-distance">
+            {distanceToCafe?.map(distance =>
+              item._id === distance._id ? `${distance.res}km` : '',
+            )}
+          </span>
+        </div>
+        <div>
+          <span className="cafe-list_item-address">{item.extra.address}</span>
+        </div>
       </div>
     </li>
   ));
@@ -558,25 +616,29 @@ function Map() {
       key={item._id}
       onClick={handleSelectLocation(item)}
     >
-      <img
-        className="cafe-list_item-thumb"
-        src={
-          import.meta.env.VITE_API_SERVER +
-          '/files/05-cagong/' +
-          item.mainImages[0].name
-        }
-        alt="카페사진"
-      />
-      <div>
-        <span>{item.name}</span>
-        <span>
-          {distanceToCafe?.map(distance =>
-            item._id === distance._id ? `${distance.res}km` : '',
-          )}
-        </span>
+      <div className="cafe-list_item-cover">
+        <img
+          className="cafe-list_item-cover-thumb"
+          src={
+            import.meta.env.VITE_API_SERVER +
+            '/files/05-cagong/' +
+            item.mainImages[0].name
+          }
+          alt="카페사진"
+        />
       </div>
-      <div>
-        <span>{item.extra.address}</span>
+      <div className="cafe-list_item-detail">
+        <div className="cafe-list_item-layout">
+          <span className="cafe-list_item-title">{item.name}</span>
+          <span className="cafe-list_item-distance">
+            {distanceToCafe?.map(distance =>
+              item._id === distance._id ? `${distance.res}km` : '',
+            )}
+          </span>
+        </div>
+        <div>
+          <span className="cafe-list_item-address">{item.extra.address}</span>
+        </div>
       </div>
     </li>
   ));
@@ -591,7 +653,7 @@ function Map() {
   return (
     <MapStyle>
       <div className="wrapper">
-        <div id="map" />
+        <div id="map" style={{ width: '100%', minHeight: '100%' }} />
         <button className="btn-map current" onClick={handleCurrentLocation}>
           <img src="../public/map_current-position.svg" alt="" />
         </button>
@@ -601,9 +663,9 @@ function Map() {
       </div>
       <div className="cafe-wrapper">
         <div className="cafe-header">
-          <button className="cafe-expand">
+          {/* <button className="cafe-expand">//확장버튼
             <img src="../public/expand-up-and-down.svg" alt="" />
-          </button>
+          </button> */}
           <h1 className="cafe-header_title">카페 리스트</h1>
         </div>
         {filteredCafeList.length === 0 ? (
