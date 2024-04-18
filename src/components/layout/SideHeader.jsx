@@ -18,6 +18,7 @@ function SideHeader({children}) {
     top: 0;
     z-index: 999;
     width: 100%;
+    color: #222;
     .container{
       display: flex;
       align-items: center;
@@ -31,8 +32,8 @@ function SideHeader({children}) {
     <HeaderStyle>
       <div className='container'>
         <PrevButtonSide className="prev" />
-        <SearchButtonSide className="search" />
         {children}
+        <SearchButtonSide className="search" />
       </div>
     </HeaderStyle>
   );
