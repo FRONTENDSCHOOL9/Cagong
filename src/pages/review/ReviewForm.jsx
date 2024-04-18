@@ -1,4 +1,3 @@
-import Submit from '@components/Submit';
 import { useForm } from 'react-hook-form';
 import useCustomAxios from '@hooks/useCustomAxios.mjs';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -6,56 +5,57 @@ import { useQuery } from '@tanstack/react-query';
 import { memberState } from '@recoil/user/atoms.mjs';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
-import Wrapper from '@components/Wrapper';
 import SideHeader from '@components/layout/SideHeader';
+import Wrapper from '@components/layout/Wrapper';
+import Submit from '@components/Submit';
 
 const ReviewFormStyle = styled.div`
-    padding: 40px 0;
-    .header{
-      display: flex;
-      justify-content: center;
-    } 
-    .title {
-      font-size: 30px;
-      margin: 30px;
-      font-weight: 800;
-    }
-    .content{
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
-    .name {
-      font-size: 24px;
-      font-weight: 600;
-      margin: 20px;
-    }
-    .board{
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-    .submit-button{
-      padding: 10px;
-      font-size: 14px;
-      font-weight: 600;
-    }
-    #content{
-      all: unset;
-      border: 1px solid #828282;
-      background-color: #f1f1f1;
-      border-radius: 5px;
-      padding: 8px;
-    }
-    #content:focus{
-      border: 1px solid #ffa931;
-    }
-    #content::placeholder{
-      font-size: 12px;
-      padding-top: 150px;
-    }
-  `;
+  padding: 40px 0;
+  .header {
+    display: flex;
+    justify-content: center;
+  }
+  .title {
+    font-size: 30px;
+    margin: 30px;
+    font-weight: 800;
+  }
+  .content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .name {
+    font-size: 24px;
+    font-weight: 600;
+    margin: 20px;
+  }
+  .board {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .submit-button {
+    padding: 10px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  #content {
+    all: unset;
+    border: 1px solid #828282;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    padding: 8px;
+  }
+  #content:focus {
+    border: 1px solid #ffa931;
+  }
+  #content::placeholder {
+    font-size: 12px;
+    padding-top: 150px;
+  }
+`;
 
 function ReviewForm() {
   const { register, handleSubmit } = useForm();
@@ -94,27 +94,27 @@ function ReviewForm() {
   return (
     <ReviewFormStyle>
       <SideHeader>
-      <div className="header">
-        <h1 className="title">리뷰 작성</h1>
-      </div>
+        <div className="header">
+          <h1 className="title">리뷰 작성</h1>
+        </div>
       </SideHeader>
       <Wrapper>
-      <div className='content'>
-        <h2 className="name">{data.item.name}</h2>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className='board'>
-            <textarea
-              name="content"
-              id="content"
-              cols="30"
-              rows="10"
-              {...register('content')}
-              placeholder='악의적인 비방글, 욕설, 도배 등은 관리자에 의해 제제를 받을 수 있습니다.'
-            ></textarea>
-            <Submit className='submit-button'>등록하기</Submit>
-          </div>
-        </form>
-      </div>
+        <div className="content">
+          <h2 className="name">{data.item.name}</h2>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="board">
+              <textarea
+                name="content"
+                id="content"
+                cols="30"
+                rows="10"
+                {...register('content')}
+                placeholder="악의적인 비방글, 욕설, 도배 등은 관리자에 의해 제제를 받을 수 있습니다."
+              ></textarea>
+              <Submit className="submit-button">등록하기</Submit>
+            </div>
+          </form>
+        </div>
       </Wrapper>
     </ReviewFormStyle>
   );

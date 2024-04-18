@@ -1,6 +1,6 @@
 import Submit from '@components/Submit';
-import Wrapper from '@components/Wrapper';
 import Header from '@components/layout/MainHeader';
+import Wrapper from '@components/layout/Wrapper';
 import useCustomAxios from '@hooks/useCustomAxios.mjs';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';

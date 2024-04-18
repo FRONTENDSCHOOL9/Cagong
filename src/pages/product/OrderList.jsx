@@ -256,9 +256,9 @@ const OrderList = () => {
       {modalOpen && (
         <Modal className="modal">
           <button className="close-button" onClick={closeModal}>
-            <img className="cross" src="../public/close.png" alt="" />
+            <img className="cross" src="/close.png" alt="" />
           </button>
-          <img className="qr" src="/public/qr.png" alt="" />
+          <img className="qr" src="/qr.png" alt="" />
           <Button className="completed-button" onClick={handleState}>
             사용 완료
           </Button>

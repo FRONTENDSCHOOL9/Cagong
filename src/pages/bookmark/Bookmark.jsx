@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import MainHeader from '@components/layout/MainHeader';
-import Wrapper from '@components/Wrapper';
+import Wrapper from '@components/layout/Wrapper';
 
 const MyComponent = styled.div`
   padding: 20px;
