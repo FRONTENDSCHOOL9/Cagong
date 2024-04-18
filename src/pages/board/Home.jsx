@@ -1,3 +1,4 @@
+import MainHeader from '@components/layout/MainHeader'
 import useCustomAxios from '@hooks/useCustomAxios.mjs';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
@@ -107,6 +108,7 @@ function Home() {
 
   return (
     <HomeStyle>
+      <MainHeader/>
       <Swiper
         className="swiper-ad"
         modules={[Navigation, Pagination, Autoplay, A11y]}

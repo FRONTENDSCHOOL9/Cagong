@@ -1,4 +1,4 @@
-import Header from '@components/layout/Header';
+import Header from '@components/layout/MainHeader';
 import Navbar from '@components/layout/Navbar';
 import { useRouteError } from 'react-router-dom';
 
