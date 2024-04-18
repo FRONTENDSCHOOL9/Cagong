@@ -10,8 +10,7 @@ import Modal from '@components/Modal';
 import SideHeader from '@components/layout/SideHeader';
 import Wrapper from '@components/Wrapper';
 
-const OrderList = () => {
-  const OrderStyle = styled.div`
+const OrderStyle = styled.div`
     padding-top: 40px;
     .header {
       height: 100px;
@@ -103,6 +102,8 @@ const OrderList = () => {
       height: 60px;
     }
   `;
+
+const OrderList = () => {
 
   const user = useRecoilValue(memberState);
   const navigate = useNavigate();

@@ -1,15 +1,16 @@
 import styled from 'styled-components'
 
+const SpinnerStyle = styled.div`
+display: flex;
+justify-content: center;
+align-items: center;
+height: 100vh;
+img{
+  width: 100px;
+}
+`
+
 function Spinner(){
-    const SpinnerStyle = styled.div`
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        img{
-          width: 100px;
-        }
-    `
 
     return (
       <SpinnerStyle>

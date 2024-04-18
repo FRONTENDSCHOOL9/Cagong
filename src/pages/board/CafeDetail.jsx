@@ -17,16 +17,7 @@ import styled from 'styled-components';
 import SideHeader from '@components/layout/SideHeader';
 import Wrapper from '@components/Wrapper';
 
-function CafeDetail() {
-  const axios = useCustomAxios();
-  const { _id } = useParams();
-  const parsedId = parseInt(_id);
-  const user = useRecoilValue(memberState);
-  const [isOrdered, setIsOrdered] = useState(false);
-  const navigate = useNavigate();
-  const cafeId = Number(_id);
-
-  const DetailStyle = styled.div`
+const DetailStyle = styled.div`
     padding: 30px 0;
     .header-title {
       font-size: 30px;
@@ -112,6 +103,17 @@ function CafeDetail() {
       color: #828282;
     }
   `;
+  
+function CafeDetail() {
+  const axios = useCustomAxios();
+  const { _id } = useParams();
+  const parsedId = parseInt(_id);
+  const user = useRecoilValue(memberState);
+  const [isOrdered, setIsOrdered] = useState(false);
+  const navigate = useNavigate();
+  const cafeId = Number(_id);
+
+  
 
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [bookmarkId, setBookmarkId] = useState(null);
