@@ -259,7 +259,6 @@ function Map() {
 
   function currentLocation() {
     // HTML5의 geolocation으로 사용할 수 있는지 확인
-
     if (navigator.geolocation) {
       // GeoLocation을 이용해서 접속 위치를 얻음
       navigator.geolocation.getCurrentPosition(async function (position) {
@@ -274,77 +273,72 @@ function Map() {
       alert('현재 위치를 찾을 수 없습니다.');
     }
   }
+
   //카카오 로컬 API
+
+  // 하버사인 공식으로 최단거리 계산하는 함수
+  function calculateDistance(x1, y1, x2, y2) {
+    return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+  }
+
+  //첫번 째는 받아오는 주소, 두,세 번째는 현재 위치 (좌표)
+  async function getDistanceBetweenTwoAddresses(addr, curLon, curLat) {
+    try {
+      //입력한 첫 주소를 WTM 좌표로 변환
+      const response1 = await axios.get(
+        'https://dapi.kakao.com/v2/local/search/address.json',
+        {
+          params: { query: addr },
+          headers: {
+            Authorization: `KakaoAK ${import.meta.env.VITE_KAKAO_REST_API_KEY}`,
+          },
+        },
+      );
+
+      const { x: x1, y: y1 } = response1.data.documents[0];
+
+      const wtmResponse1 = await axios.get(
+        'https://dapi.kakao.com/v2/local/geo/transcoord.json',
+        {
+          params: { x: x1, y: y1, output_coord: 'WTM' },
+          headers: {
+            Authorization: `KakaoAK ${import.meta.env.VITE_KAKAO_REST_API_KEY}`,
+          },
+        },
+      );
+
+      const { x: wtmX1, y: wtmY1 } = wtmResponse1.data.documents[0];
+      // console.log(wtmResponse1.data.documents[0]);
+
+      const wtmResponse2 = await axios.get(
+        'https://dapi.kakao.com/v2/local/geo/transcoord.json',
+        {
+          params: {
+            x: curLon ? curLon : 127.76185524802845,
+            y: curLat ? curLat : 36.349396783484984,
+            input_coord: 'WGS84',
+            output_coord: 'WTM',
+          },
+          headers: {
+            Authorization: `KakaoAK ${import.meta.env.VITE_KAKAO_REST_API_KEY}`,
+          },
+        },
+      );
+
+      const { x: wtmX2, y: wtmY2 } = wtmResponse2.data.documents[0];
+      // console.log(wtmResponse2.data.documents[0]);
+
+      //최단거리 계산 후 distance에 담음
+      const distance = calculateDistance(wtmX1, wtmY1, wtmX2, wtmY2);
+      //미터 단위를 1km부터 킬로미터 단위로 변환
+      const formattedDistance = (distance / 1000).toFixed(2);
+      return formattedDistance;
+    } catch (error) {
+      console.error('주소를 가져오지 못 했습니다.', error);
+      return null;
+    }
+  }
   useEffect(() => {
-    // 하버사인 공식으로 최단거리 계산하는 함수
-    function calculateDistance(x1, y1, x2, y2) {
-      return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-    }
-
-    //첫번 째는 받아오는 주소, 두,세 번째는 현재 위치 (좌표)
-    async function getDistanceBetweenTwoAddresses(addr, curLon, curLat) {
-      try {
-        //입력한 첫 주소를 WTM 좌표로 변환
-        const response1 = await axios.get(
-          'https://dapi.kakao.com/v2/local/search/address.json',
-          {
-            params: { query: addr },
-            headers: {
-              Authorization: `KakaoAK ${
-                import.meta.env.VITE_KAKAO_REST_API_KEY
-              }`,
-            },
-          },
-        );
-
-        const { x: x1, y: y1 } = response1.data.documents[0];
-
-        const wtmResponse1 = await axios.get(
-          'https://dapi.kakao.com/v2/local/geo/transcoord.json',
-          {
-            params: { x: x1, y: y1, output_coord: 'WTM' },
-            headers: {
-              Authorization: `KakaoAK ${
-                import.meta.env.VITE_KAKAO_REST_API_KEY
-              }`,
-            },
-          },
-        );
-
-        const { x: wtmX1, y: wtmY1 } = wtmResponse1.data.documents[0];
-        // console.log(wtmResponse1.data.documents[0]);
-
-        const wtmResponse2 = await axios.get(
-          'https://dapi.kakao.com/v2/local/geo/transcoord.json',
-          {
-            params: {
-              x: curLon ? curLon : 127.76185524802845,
-              y: curLat ? curLat : 36.349396783484984,
-              input_coord: 'WGS84',
-              output_coord: 'WTM',
-            },
-            headers: {
-              Authorization: `KakaoAK ${
-                import.meta.env.VITE_KAKAO_REST_API_KEY
-              }`,
-            },
-          },
-        );
-
-        const { x: wtmX2, y: wtmY2 } = wtmResponse2.data.documents[0];
-        // console.log(wtmResponse2.data.documents[0]);
-
-        //최단거리 계산 후 distance에 담음
-        const distance = calculateDistance(wtmX1, wtmY1, wtmX2, wtmY2);
-        //미터 단위를 1km부터 킬로미터 단위로 변환
-        const formattedDistance = (distance / 1000).toFixed(2);
-        return formattedDistance;
-      } catch (error) {
-        console.error('주소를 가져오지 못 했습니다.', error);
-        return null;
-      }
-    }
-
     const distancePromises = cafeListCopy.map(item =>
       getDistanceBetweenTwoAddresses(
         item.extra.address,
@@ -359,6 +353,7 @@ function Map() {
       setDistanceToCafe(distances);
     });
   }, [data, mapRef.current]);
+
   useEffect(() => {
     const container = document.getElementById('map'); // 지도를 표시할 div
     const options = {
@@ -369,9 +364,7 @@ function Map() {
     const map = new kakao.maps.Map(container, options);
     mapRef.current = map;
 
-    const markerImageSrc = `${import.meta.env.VITE_API_SERVER}/files/${
-      import.meta.env.VITE_CLIENT_ID
-    }/M766aDPww.png`;
+    const markerImageSrc = '/markerImage.png';
     const coffeeMarkers = [];
     createCoffeeMarkers();
 
@@ -595,7 +588,9 @@ function Map() {
           className="cafe-list_item-cover-thumb"
           src={
             import.meta.env.VITE_API_SERVER +
-            '/files/05-cagong/' +
+            '/files/' +
+            import.meta.env.VITE_CLIENT_ID +
+            '/' +
             item.mainImages[0].name
           }
           alt="카페사진"
@@ -629,7 +624,9 @@ function Map() {
           className="cafe-list_item-cover-thumb"
           src={
             import.meta.env.VITE_API_SERVER +
-            '/files/05-cagong/' +
+            '/files/' +
+            import.meta.env.VITE_CLIENT_ID +
+            '/' +
             item.mainImages[0].name
           }
           alt="카페사진"
@@ -666,16 +663,16 @@ function Map() {
           <div className="wrapper">
             <div id="map" style={{ width: '100%', minHeight: '100%' }} />
             <button className="btn-map current" onClick={handleCurrentLocation}>
-              <img src="../public/map_current-position.svg" alt="" />
+              <img src="/map_current-position.svg" alt="" />
             </button>
             <button className="btn-map zoom-out" onClick={handleZoomOut}>
-              <img src="../public/map_zoom-out.svg" alt="" />
+              <img src="/map_zoom-out.svg" alt="" />
             </button>
           </div>
           <div className="cafe-wrapper">
             <div className="cafe-header">
               {/* <button className="cafe-expand">//확장버튼
-            <img src="../public/expand-up-and-down.svg" alt="" />
+            <img src="/expand-up-and-down.svg" alt="" />
           </button> */}
               <h1 className="cafe-header_title">카페 리스트</h1>
             </div>
