@@ -6,12 +6,25 @@ import axios from 'axios';
 import styled from 'styled-components';
 
 const MapStyle = styled.div`
+  //스크롤바 숨기기
+  -ms-overflow-style: none;
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
   margin: 0;
   font-family: 'NanumSquareRound';
+  min-height: 100%;
+  max-width: 1000px;
+  position: fixed;
+  overflow: hidden;
+  touch-action: none;
+  width: 100%;
+  scroll: no;
 
   #map {
-    min-height: 390px;
-    width: 100%;
+    min-height: 300px;
+    max-width: 100%;
   }
 
   .wrapper {
@@ -30,13 +43,13 @@ const MapStyle = styled.div`
   }
 
   .btn-map.current {
-    bottom: 15px;
+    bottom: 35px;
     right: 15px;
     z-index: 9999;
   }
 
   .btn-map.zoom-out {
-    bottom: 62px;
+    bottom: 70px;
     right: 15px;
     z-index: 9999;
   }
@@ -54,8 +67,7 @@ const MapStyle = styled.div`
   }
 
   .info_wrapper {
-    width: 350px;
-    height: 180px;
+    width: 330px;
     position: relative;
     padding: 10px;
     display: flex;
@@ -88,6 +100,70 @@ const MapStyle = styled.div`
     text-align: center;
     padding: 10px;
     font-size: 12px;
+  }
+
+  .cafe-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 100%;
+    position: relative;
+    background-color: white;
+    top: -20px;
+    max-height: 620px;
+    border-radius: 20px 20px 0 0;
+    overflow: auto;
+    z-index: 1;
+  }
+
+  .cafe-header {
+    width: 100%;
+    max-width: 1000px;
+    text-align: center;
+    border-radius: 20px 20px 0 0;
+    padding: 22px 0 18px 0;
+    position: fixed;
+    background-color: white;
+  }
+
+  .cafe-header_title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: 800;
+  }
+
+  .cafe-expand {
+    position: absolute;
+    border: none;
+    width: 33px;
+    height: 33px;
+    right: 15px;
+    top: 15px;
+    z-index: 9999;
+    cursor: pointer;
+    border-radius: 8px;
+    background-color: white;
+  }
+
+  .cafe-list_item {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    padding: 15px;
+    align-items: center;
+  }
+
+  .cafe-list_item:first-child {
+    padding-top: 67px;
+  }
+
+  .cafe-list_item-thumb {
+    max-width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    border-radius: 20px;
   }
 `;
 
@@ -448,12 +524,12 @@ function Map() {
   // console.log(sortedCafeList);
   const allCafeList = sortedAllCafeList.map(item => (
     <li
-      style={{ cursor: 'pointer', width: '200px' }}
+      className="cafe-list_item"
       key={item._id}
       onClick={handleSelectLocation(item)}
     >
       <img
-        style={{ width: '200px' }}
+        className="cafe-list_item-thumb"
         src={
           import.meta.env.VITE_API_SERVER +
           '/files/05-cagong/' +
@@ -461,24 +537,29 @@ function Map() {
         }
         alt="카페사진"
       />
-      <span>{item.name}</span>
-      <span style={{ fontSize: '12px' }}>
-        {distanceToCafe?.map(distance =>
-          item._id === distance._id ? `${distance.res}km` : '',
-        )}
-      </span>
+      <div>
+        <span>{item.name}</span>
+        <span>
+          {distanceToCafe?.map(distance =>
+            item._id === distance._id ? `${distance.res}km` : '',
+          )}
+        </span>
+      </div>
+      <div>
+        <span>{item.extra.address}</span>
+      </div>
     </li>
   ));
 
   //지도영역 안의 카페 리스트 불러오기
   const changedCafeList = filteredCafeList?.map(item => (
     <li
-      style={{ cursor: 'pointer', width: '200px' }}
+      className="cafe-list_item"
       key={item._id}
       onClick={handleSelectLocation(item)}
     >
       <img
-        style={{ width: '200px' }}
+        className="cafe-list_item-thumb"
         src={
           import.meta.env.VITE_API_SERVER +
           '/files/05-cagong/' +
@@ -486,12 +567,17 @@ function Map() {
         }
         alt="카페사진"
       />
-      <span>{item.name}</span>
-      <span style={{ fontSize: '12px' }}>
-        {distanceToCafe?.map(distance =>
-          item._id === distance._id ? `${distance.res}km` : '',
-        )}
-      </span>
+      <div>
+        <span>{item.name}</span>
+        <span>
+          {distanceToCafe?.map(distance =>
+            item._id === distance._id ? `${distance.res}km` : '',
+          )}
+        </span>
+      </div>
+      <div>
+        <span>{item.extra.address}</span>
+      </div>
     </li>
   ));
 
@@ -513,12 +599,19 @@ function Map() {
           <img src="../public/map_zoom-out.svg" alt="" />
         </button>
       </div>
-      <h1>카페 리스트</h1>
-      {filteredCafeList.length === 0 ? (
-        <ul>{allCafeList}</ul>
-      ) : (
-        <ul>{changedCafeList}</ul>
-      )}
+      <div className="cafe-wrapper">
+        <div className="cafe-header">
+          <button className="cafe-expand">
+            <img src="../public/expand-up-and-down.svg" alt="" />
+          </button>
+          <h1 className="cafe-header_title">카페 리스트</h1>
+        </div>
+        {filteredCafeList.length === 0 ? (
+          <ul>{allCafeList}</ul>
+        ) : (
+          <ul>{changedCafeList}</ul>
+        )}
+      </div>
     </MapStyle>
   );
 }
