@@ -1,4 +1,4 @@
-import MainHeader from '@components/layout/MainHeader'
+import MainHeader from '@components/layout/MainHeader';
 import useCustomAxios from '@hooks/useCustomAxios.mjs';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
@@ -108,7 +108,7 @@ function Home() {
 
   return (
     <HomeStyle>
-      <MainHeader/>
+      <MainHeader />
       <Swiper
         className="swiper-ad"
         modules={[Navigation, Pagination, Autoplay, A11y]}
@@ -181,7 +181,7 @@ function Home() {
           카공 인기 카페
           <img
             className="cafelist-more"
-            src="/public/more-items.svg"
+            src="/more-items.svg"
             alt="more-items 버튼"
           />
         </div>
