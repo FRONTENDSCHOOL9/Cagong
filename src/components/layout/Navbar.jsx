@@ -32,12 +32,6 @@ const StyledNav = styled.nav`
   img {
     width: 30px;
   }
-
-  @media (max-width: 390px) {
-      background: red;
-      color:red;
-    }
-  }
 `;
 
 function Navbar() {

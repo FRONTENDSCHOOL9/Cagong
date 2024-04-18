@@ -8,6 +8,7 @@ const StyledAsk = styled.div`
   justify-content: center;
   align-items: center;
   height: 80vh;
+  min-height: 100vh;
 
   .wrapper h1 {
     font-weight: 700;
