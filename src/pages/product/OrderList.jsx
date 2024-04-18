@@ -3,104 +3,107 @@ import { memberState } from '@recoil/user/atoms.mjs';
 import { useRecoilValue } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import useCustomAxios from '@hooks/useCustomAxios.mjs';
 import { useState } from 'react';
 import Modal from '@components/Modal';
+import Wrapper from '@components/layout/Wrapper';
+import SideHeader from '@components/layout/SideHeader';
+
+const OrderStyle = styled.div`
+  padding: 40px 0;
+  .header {
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    font-weight: 800;
+  }
+  .section {
+    display: flex;
+    height: 65px;
+  }
+  .section-1 {
+    font-family: 'NanumSquareRound';
+    flex-grow: 1;
+    width: 50%;
+    cursor: pointer;
+    background-color: white;
+    border: 1px solid #d8d8d8;
+    border-right: none;
+    font-size: 20px;
+    font-weight: bold;
+  }
+  .section-1:hover {
+    color: #ffa931;
+  }
+  .section-2 {
+    font-family: 'NanumSquareRound';
+    flex-grow: 2;
+    width: 50%;
+    cursor: pointer;
+    background-color: white;
+    border: 1px solid #d8d8d8;
+    font-size: 20px;
+    font-weight: bold;
+  }
+  .section-2:hover {
+    color: #ffa931;
+  }
+  .is_active {
+    color: #ffa931;
+  }
+  .login {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .unused-list {
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #d8d8d8;
+    font-weight: 600;
+  }
+  .qr {
+    width: 150px;
+    display: block;
+    margin: 0 auto;
+  }
+  .close-button {
+    background-color: #ff6666;
+    border: unset;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 26px;
+    margin-left: auto;
+    cursor: pointer;
+  }
+  .close-button:hover {
+    background-color: #ff4444;
+  }
+  .cross {
+    width: 14px;
+  }
+  .completed-button {
+    display: block;
+    font-size: 16px;
+    padding: 10px;
+    font-weight: bold;
+    margin: 0 auto;
+  }
+  .action-button {
+    width: 110px;
+    height: 60px;
+  }
+`;
 
 const OrderList = () => {
-  const OrderStyle = styled.div`
-    .header {
-      height: 100px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 30px;
-      font-weight: 800;
-    }
-    .section {
-      display: flex;
-      height: 65px;
-    }
-    .section-1 {
-      font-family: 'NanumSquareRound';
-      flex-grow: 1;
-      width: 50%;
-      cursor: pointer;
-      background-color: white;
-      border: 1px solid #d8d8d8;
-      border-right: none;
-      font-size: 20px;
-      font-weight: bold;
-    }
-    .section-1:hover {
-      color: #ffa931;
-    }
-    .section-2 {
-      font-family: 'NanumSquareRound';
-      flex-grow: 2;
-      width: 50%;
-      cursor: pointer;
-      background-color: white;
-      border: 1px solid #d8d8d8;
-      font-size: 20px;
-      font-weight: bold;
-    }
-    .section-2:hover {
-      color: #ffa931;
-    }
-    .is_active {
-      color: #ffa931;
-    }
-    .login {
-      margin-top: 40px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
-    .unused-list {
-      padding: 10px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid #d8d8d8;
-      font-weight: 600;
-    }
-    .qr {
-      width: 150px;
-      display: block;
-      margin: 0 auto;
-    }
-    .close-button {
-      background-color: #ff6666;
-      border: unset;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 26px;
-      margin-left: auto;
-      cursor: pointer;
-    }
-    .close-button:hover {
-      background-color: #ff4444;
-    }
-    .cross {
-      width: 14px;
-    }
-    .completed-button {
-      display: block;
-      font-size: 16px;
-      padding: 10px;
-      font-weight: bold;
-      margin: 0 auto;
-    }
-    .action-button {
-      width: 110px;
-      height: 60px;
-    }
-  `;
-
   const user = useRecoilValue(memberState);
   const navigate = useNavigate();
   const axios = useCustomAxios();
@@ -109,6 +112,7 @@ const OrderList = () => {
   const [id, setId] = useState(null);
   // eslint-disable-next-line no-unused-vars
   const [reviewId, setReviewId] = useState(null);
+  const queryClient = useQueryClient();
 
   const { data } = useQuery({
     queryKey: ['orders'],
@@ -178,7 +182,8 @@ const OrderList = () => {
         state: 'completed',
       });
       alert('정상 처리되었습니다.');
-      location.reload();
+      queryClient.invalidateQueries(['orders']);
+      closeModal();
     } catch (err) {
       console.error(err);
       alert('다시 시도해 주세요.');
@@ -187,83 +192,87 @@ const OrderList = () => {
 
   return (
     <OrderStyle>
-      <div className="header">
-        <h1>구매 내역</h1>
-      </div>
-      <div className="section">
-        <button
-          onClick={handleSection1}
-          className={`section-1 ${section ? 'is_active' : ''}`}
-        >
-          <h2>보유</h2>
-        </button>
-        <button
-          onClick={handleSection2}
-          className={`section-2 ${section ? '' : 'is_active'}`}
-        >
-          <h2>사용 완료</h2>
-        </button>
-      </div>
-      {!user ? (
-        <div className="login">
-          <p>로그인이 필요한 서비스입니다.</p>
-          <Button
-            padding="20px 60px"
-            fontSize="20px"
-            fontWeight="bold"
-            onClick={() => navigate('/users/login')}
-          >
-            로그인
-          </Button>
+      <SideHeader>
+        <div className="header">
+          <h1>구매 내역</h1>
         </div>
-      ) : (
-        <>
-          {section ? (
-            <div className="unused">
-              {unusedProducts.map((name, index) => (
-                <div key={name} className="unused-list">
-                  <p>{name}</p>
-                  <Button
-                    className="action-button"
-                    fontSize="18px"
-                    fontWeight="bold"
-                    onClick={() => showModal(index)}
-                  >
-                    QR 보기
-                  </Button>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="unused">
-              {usedProducts.map((name, index) => (
-                <div key={name} className="unused-list">
-                  <p>{name}</p>
-                  <Button
-                    className="action-button"
-                    fontSize="18px"
-                    fontWeight="bold"
-                    onClick={() => gotoReview(index)}
-                  >
-                    리뷰 쓰기
-                  </Button>
-                </div>
-              ))}
-            </div>
-          )}
-        </>
-      )}
-      {modalOpen && (
-        <Modal className="modal">
-          <button className="close-button" onClick={closeModal}>
-            <img className="cross" src="/close.png" alt="" />
+      </SideHeader>
+      <Wrapper>
+        <div className="section">
+          <button
+            onClick={handleSection1}
+            className={`section-1 ${section ? 'is_active' : ''}`}
+          >
+            <h2>보유</h2>
           </button>
-          <img className="qr" src="/qr.png" alt="" />
-          <Button className="completed-button" onClick={handleState}>
-            사용 완료
-          </Button>
-        </Modal>
-      )}
+          <button
+            onClick={handleSection2}
+            className={`section-2 ${section ? '' : 'is_active'}`}
+          >
+            <h2>사용 완료</h2>
+          </button>
+        </div>
+        {!user ? (
+          <div className="login">
+            <p>로그인이 필요한 서비스입니다.</p>
+            <Button
+              padding="20px 60px"
+              fontSize="20px"
+              fontWeight="bold"
+              onClick={() => navigate('/users/login')}
+            >
+              로그인
+            </Button>
+          </div>
+        ) : (
+          <>
+            {section ? (
+              <div className="unused">
+                {unusedProducts.map((name, index) => (
+                  <div key={index} className="unused-list">
+                    <p>{name}</p>
+                    <Button
+                      className="action-button"
+                      fontSize="18px"
+                      fontWeight="bold"
+                      onClick={() => showModal(index)}
+                    >
+                      QR 보기
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="unused">
+                {usedProducts.map((name, index) => (
+                  <div key={index} className="unused-list">
+                    <p>{name}</p>
+                    <Button
+                      className="action-button"
+                      fontSize="18px"
+                      fontWeight="bold"
+                      onClick={() => gotoReview(index)}
+                    >
+                      리뷰 쓰기
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </>
+        )}
+        {modalOpen && (
+          <Modal className="modal">
+            <button className="close-button" onClick={closeModal}>
+              <img className="cross" src="/close.png" alt="" />
+            </button>
+            <img className="qr" src="/qr.png" alt="" />
+            <Button className="completed-button" onClick={handleState}>
+              사용 완료
+            </Button>
+          </Modal>
+        )}
+      </Wrapper>
     </OrderStyle>
   );
 };
