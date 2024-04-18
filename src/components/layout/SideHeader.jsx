@@ -4,11 +4,11 @@ import PrevButtonSide from '@components/button/PrevButtonSide';
 import PropTypes from 'prop-types';
 
 SideHeader.propTypes = {
-  children: PropTypes.string.isRequired,
+  children: PropTypes.any,
 };
 
 const HeaderStyle = styled.div`
-  height: 100px;
+  height: 60px;
   display: flex;
   align-items: center;
   background-color: #fff;
@@ -23,7 +23,10 @@ const HeaderStyle = styled.div`
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    padding: 20px;
+  }
+
+  .search {
+    padding-top: 7px;
   }
 `;
 
@@ -31,9 +34,9 @@ function SideHeader({ children }) {
   return (
     <HeaderStyle>
       <div className="container">
-        <PrevButtonSide className="prev" />
+        <PrevButtonSide />
         {children}
-        <SearchButtonSide className="search" />
+        <SearchButtonSide />
       </div>
     </HeaderStyle>
   );
