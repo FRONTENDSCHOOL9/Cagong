@@ -40,7 +40,7 @@ const StyledNav = styled.nav`
 
 function Navbar() {
   const user = useRecoilValue(memberState);
-  const [home, setHome] = useState(true);
+  const [home, setHome] = useState(false);
   const [map, setMap] = useState(false);
   const [order, setOrder] = useState(false);
   const [bookmark, setBookmark] = useState(false);
