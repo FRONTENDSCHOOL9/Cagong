@@ -1,4 +1,6 @@
 import Submit from '@components/Submit';
+import Wrapper from '@components/Wrapper';
+import Header from '@components/layout/MainHeader';
 import useCustomAxios from '@hooks/useCustomAxios.mjs';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -40,65 +42,68 @@ function Signup() {
 
   return (
     <>
-      <h1>Signup</h1>
-      <div>
+      <Header />
+      <Wrapper>
+        <h1>Signup</h1>
         <div>
           <div>
-            <h2>회원가입</h2>
+            <div>
+              <h2>회원가입</h2>
+            </div>
+
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div>
+                <label htmlFor="name">이름</label>
+                <input
+                  type="text"
+                  id="name"
+                  placeholder="이름을 입력하세요"
+                  {...register('name', {
+                    required: '이름을 입력하세요.',
+                    minLength: {
+                      value: 2,
+                      message: '이름을 2글자 이상 입력하세요.',
+                    },
+                  })}
+                />
+                {errors.name && <p>{errors.name.message}</p>}
+              </div>
+              <div>
+                <label htmlFor="email">이메일</label>
+                <input
+                  type="email"
+                  id="email"
+                  placeholder="이메일을 입력하세요"
+                  {...register('email', {
+                    required: '이메일을 입력하세요.',
+                    pattern: {
+                      value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                      message: '이메일 형식이 아닙니다.',
+                    },
+                  })}
+                />
+                {errors.email && <p>{errors.email.message}</p>}
+              </div>
+              <div>
+                <label htmlFor="password">비밀번호</label>
+                <input
+                  type="password"
+                  id="password"
+                  placeholder="비밀번호를 입력하세요"
+                  {...register('password', {
+                    required: '비밀번호를 입력하세요.',
+                  })}
+                />
+                {errors.password && <p>{errors.password.message}</p>}
+              </div>
+
+              <div>
+                <Submit>회원가입</Submit>
+              </div>
+            </form>
           </div>
-
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div>
-              <label htmlFor="name">이름</label>
-              <input
-                type="text"
-                id="name"
-                placeholder="이름을 입력하세요"
-                {...register('name', {
-                  required: '이름을 입력하세요.',
-                  minLength: {
-                    value: 2,
-                    message: '이름을 2글자 이상 입력하세요.',
-                  },
-                })}
-              />
-              {errors.name && <p>{errors.name.message}</p>}
-            </div>
-            <div>
-              <label htmlFor="email">이메일</label>
-              <input
-                type="email"
-                id="email"
-                placeholder="이메일을 입력하세요"
-                {...register('email', {
-                  required: '이메일을 입력하세요.',
-                  pattern: {
-                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                    message: '이메일 형식이 아닙니다.',
-                  },
-                })}
-              />
-              {errors.email && <p>{errors.email.message}</p>}
-            </div>
-            <div>
-              <label htmlFor="password">비밀번호</label>
-              <input
-                type="password"
-                id="password"
-                placeholder="비밀번호를 입력하세요"
-                {...register('password', {
-                  required: '비밀번호를 입력하세요.',
-                })}
-              />
-              {errors.password && <p>{errors.password.message}</p>}
-            </div>
-
-            <div>
-              <Submit>회원가입</Submit>
-            </div>
-          </form>
         </div>
-      </div>
+      </Wrapper>
     </>
   );
 }
