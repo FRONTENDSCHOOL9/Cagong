@@ -82,6 +82,10 @@ const DetailStyle = styled.div`
     width: 100%;
     padding: 15px;
   }
+  .review{
+    // box-shadow: inset 0px 0px 20px red;
+    padding-bottom: 10px;
+  }
   .review-list {
     margin: 25px 10px;
   }

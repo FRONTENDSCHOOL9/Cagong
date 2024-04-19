@@ -18,6 +18,7 @@ const HeaderStyle = styled.div`
   z-index: 999;
   width: 100%;
   color: #222;
+  border-bottom: 1px solid #d9d9d9;
   .container {
     display: flex;
     align-items: center;
