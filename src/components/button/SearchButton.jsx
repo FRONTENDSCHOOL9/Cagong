@@ -4,7 +4,11 @@ function SearchButton() {
   return (
     <>
       <Link to="/search">
-        <img src="/search-white.svg" alt="검색 버튼" />
+        <img
+          style={{ display: 'block' }}
+          src="/search-white.svg"
+          alt="검색 버튼"
+        />
       </Link>
     </>
   );

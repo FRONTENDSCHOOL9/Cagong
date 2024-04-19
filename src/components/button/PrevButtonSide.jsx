@@ -7,10 +7,8 @@ function PrevButton() {
         <img
           style={{
             display: 'block',
-            position: 'absolute',
+            marginLeft: '10px',
             width: '38px',
-            left: '4px',
-            top: '11px',
           }}
           src="/back-arrow-black.svg"
           alt="뒤로가기 버튼"
