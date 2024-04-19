@@ -10,7 +10,7 @@ function PrevButton() {
             position: 'absolute',
             width: '38px',
             left: '4px',
-            top: '13px',
+            top: '11px',
           }}
           src="/back-arrow-black.svg"
           alt="뒤로가기 버튼"
