@@ -296,34 +296,53 @@ function Map() {
 
       const { x: x1, y: y1 } = response1.data.documents[0];
 
-      const wtmResponse1 = await axios.get(
-        'https://dapi.kakao.com/v2/local/geo/transcoord.json',
-        {
-          params: { x: x1, y: y1, output_coord: 'WTM' },
-          headers: {
-            Authorization: `KakaoAK ${import.meta.env.VITE_KAKAO_REST_API_KEY}`,
+      const requestInterval = 1000;
+
+      let wtmResponse1;
+      try {
+        await new Promise(resolve => setTimeout(resolve, requestInterval)); // 요청 간격 지연
+        wtmResponse1 = await axios.get(
+          'https://dapi.kakao.com/v2/local/geo/transcoord.json',
+          {
+            params: { x: x1, y: y1, output_coord: 'WTM' },
+            headers: {
+              Authorization: `KakaoAK ${
+                import.meta.env.VITE_KAKAO_REST_API_KEY
+              }`,
+            },
           },
-        },
-      );
+        );
+      } catch (error) {
+        console.error('주소를 가져오지 못 했습니다.', error);
+        return null;
+      }
 
       const { x: wtmX1, y: wtmY1 } = wtmResponse1.data.documents[0];
       // console.log(wtmResponse1.data.documents[0]);
 
-      const wtmResponse2 = await axios.get(
-        'https://dapi.kakao.com/v2/local/geo/transcoord.json',
-        {
-          params: {
-            x: curLon ? curLon : 127.76185524802845,
-            y: curLat ? curLat : 36.349396783484984,
-            input_coord: 'WGS84',
-            output_coord: 'WTM',
+      let wtmResponse2;
+      try {
+        await new Promise(resolve => setTimeout(resolve, requestInterval)); // 요청 간격 지연
+        wtmResponse2 = await axios.get(
+          'https://dapi.kakao.com/v2/local/geo/transcoord.json',
+          {
+            params: {
+              x: curLon ? curLon : 127.76185524802845,
+              y: curLat ? curLat : 36.349396783484984,
+              input_coord: 'WGS84',
+              output_coord: 'WTM',
+            },
+            headers: {
+              Authorization: `KakaoAK ${
+                import.meta.env.VITE_KAKAO_REST_API_KEY
+              }`,
+            },
           },
-          headers: {
-            Authorization: `KakaoAK ${import.meta.env.VITE_KAKAO_REST_API_KEY}`,
-          },
-        },
-      );
-
+        );
+      } catch (error) {
+        console.error('주소를 가져오지 못 했습니다.', error);
+        return null;
+      }
       const { x: wtmX2, y: wtmY2 } = wtmResponse2.data.documents[0];
       // console.log(wtmResponse2.data.documents[0]);
 
@@ -351,7 +370,7 @@ function Map() {
     Promise.all(distancePromises).then(distances => {
       setDistanceToCafe(distances);
     });
-  }, [data, mapRef.current]);
+  }, [mapRef.current]);
 
   useEffect(() => {
     const container = document.getElementById('map'); // 지도를 표시할 div
