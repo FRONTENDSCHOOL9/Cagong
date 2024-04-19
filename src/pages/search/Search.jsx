@@ -10,7 +10,9 @@ import {
 } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useQuery } from '@tanstack/react-query';
-import SearchIcon from '@pages/search/SearchIcon';
+import SearchForm from '@pages/search/SearchForm';
+import SideHeader from '@components/layout/SideHeader';
+import Wrapper from '@components/layout/Wrapper';
 
 function Search() {
   const axios = useCustomAxios();
@@ -67,84 +69,86 @@ function Search() {
 
   return (
     <>
-      <div>
-        <SearchIcon onClick={handleSearch} />
-      </div>
+      <SideHeader>
+        <SearchForm onClick={handleSearch} />
+      </SideHeader>
 
-      <div>
-        <h1>최근 검색 카페</h1>
-        {searchHistory.length > 0 ? (
+      <Wrapper>
+        <div>
+          <h1>최근 검색 카페</h1>
+          {searchHistory.length > 0 ? (
+            <ul>
+              {searchHistory.map(keyword => (
+                <li key={keyword}>
+                  <Link to={`/search?keyword=${keyword}`}>{keyword}</Link>
+                  <button
+                    type="button"
+                    onClick={() => removeSearchHistory(keyword)}
+                  >
+                    X
+                  </button>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>최근 검색어 내역이 존재하지 않습니다.</p>
+          )}
+          <button onClick={clearSearchHistory}>검색 기록 지우기</button>
+          <hr />
+          {searchHistory.length > 0 ? (
+            <h1>총 카페 {data?.item.length}건이 검색 되었습니다.</h1>
+          ) : (
+            <h1>인기 검색 카페</h1>
+          )}
+        </div>
+        <Swiper
+          modules={[Navigation, A11y, Pagination, Scrollbar, Autoplay]}
+          slidesPerView={2}
+          loop={true}
+          autoplay={true}
+          pagination={{
+            clickable: true,
+          }}
+          navigation={{
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          }}
+        >
           <ul>
-            {searchHistory.map(keyword => (
-              <li key={keyword}>
-                <Link to={`/search?keyword=${keyword}`}>{keyword}</Link>
-                <button
-                  type="button"
-                  onClick={() => removeSearchHistory(keyword)}
+            {data?.item.map(item => (
+              <SwiperSlide key={item._id}>
+                <li
+                  style={{ width: '240px' }}
+                  className="cagong-list"
+                  key={item._id}
                 >
-                  X
-                </button>
-              </li>
+                  <Link key={item._id} to={`/boards/cafeDetail/${item._id}`}>
+                    <div>
+                      <img
+                        style={{ width: '200px', height: '200px' }}
+                        src={
+                          import.meta.env.VITE_API_SERVER +
+                          '/files/' +
+                          import.meta.env.VITE_CLIENT_ID +
+                          '/' +
+                          item.mainImages[0].name
+                        }
+                        alt="카페 메인 사진"
+                      />
+                    </div>
+                    {item.name}
+                    <div>{item.extra.address}</div>
+                    <div>
+                      <img className="stars" src="/stars.svg" />
+                      리뷰 {item.replies}
+                    </div>
+                  </Link>
+                </li>
+              </SwiperSlide>
             ))}
           </ul>
-        ) : (
-          <p>최근 검색어 내역이 존재하지 않습니다.</p>
-        )}
-        <button onClick={clearSearchHistory}>검색 기록 지우기</button>
-        <hr />
-        {searchHistory.length > 0 ? (
-          <h1>총 카페 {data?.item.length}건이 검색 되었습니다.</h1>
-        ) : (
-          <h1>인기 검색 카페</h1>
-        )}
-      </div>
-      <Swiper
-        modules={[Navigation, A11y, Pagination, Scrollbar, Autoplay]}
-        slidesPerView={2}
-        loop={true}
-        autoplay={true}
-        pagination={{
-          clickable: true,
-        }}
-        navigation={{
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev',
-        }}
-      >
-        <ul>
-          {data?.item.map(item => (
-            <SwiperSlide key={item._id}>
-              <li
-                style={{ width: '240px' }}
-                className="cagong-list"
-                key={item._id}
-              >
-                <Link key={item._id} to={`/boards/cafeDetail/${item._id}`}>
-                  <div>
-                    <img
-                      style={{ width: '200px', height: '200px' }}
-                      src={
-                        import.meta.env.VITE_API_SERVER +
-                        '/files/' +
-                        import.meta.env.VITE_CLIENT_ID +
-                        '/' +
-                        item.mainImages[0].name
-                      }
-                      alt="카페 메인 사진"
-                    />
-                  </div>
-                  {item.name}
-                  <div>{item.extra.address}</div>
-                  <div>
-                    <img className="stars" src="/stars.svg" />
-                    리뷰 {item.replies}
-                  </div>
-                </Link>
-              </li>
-            </SwiperSlide>
-          ))}
-        </ul>
-      </Swiper>
+        </Swiper>
+      </Wrapper>
     </>
   );
 }

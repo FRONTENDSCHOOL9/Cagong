@@ -5,7 +5,13 @@ function PrevButton() {
     <>
       <Link to={-1}>
         <img
-          style={{ width: '40px' }}
+          style={{
+            display: 'block',
+            position: 'absolute',
+            width: '38px',
+            left: '4px',
+            top: '11px',
+          }}
           src="/back-arrow-black.svg"
           alt="뒤로가기 버튼"
         />

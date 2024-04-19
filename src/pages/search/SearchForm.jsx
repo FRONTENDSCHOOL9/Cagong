@@ -1,7 +1,26 @@
-import Submit from '@components/Submit';
 import { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { debounce } from 'lodash';
+import styled from 'styled-components';
+
+const SearchFormStyle = styled.div`
+  margin: 0px;
+  // background-color: blue;
+  width: 100%;
+  min-width: 300px;
+
+  .search-form {
+    padding: 0 50px;
+  }
+
+  .search-form_input {
+    border: none;
+    font-family: 'NanumSquareRound';
+    font-size: 0.8rem;
+  }
+  .search-form_button {
+  }
+`;
 
 SearchIcon.propTypes = {
   onClick: PropTypes.func,
@@ -50,15 +69,24 @@ function SearchIcon({ onClick }) {
   }
 
   return (
-    <form>
-      <input
-        type="text"
-        autoFocus
-        onInput={onDebounceChange}
-        placeholder="카페명을 입력해주세요."
-      />
-      <Submit onClick={handleSubmit}>🔍</Submit>
-    </form>
+    <SearchFormStyle>
+      <form className="search-form">
+        <input
+          className="search-form_input"
+          type="text"
+          autoFocus
+          onInput={onDebounceChange}
+          placeholder="카페명을 입력해주세요."
+        />
+        <button
+          className="search-form_button"
+          type="submit"
+          onClick={handleSubmit}
+        >
+          🔍
+        </button>
+      </form>
+    </SearchFormStyle>
   );
 }
 

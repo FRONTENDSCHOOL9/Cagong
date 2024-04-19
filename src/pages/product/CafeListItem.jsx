@@ -38,7 +38,7 @@ const MyComponent = styled.div`
 `;
 
 function CafeListItem({ item }) {
-  const BASE_IMAGE_URL = `${import.meta.env.VITE_API_SERVER}/files/05-cagong/`;
+  const BASE_IMAGE_URL = `${import.meta.env.VITE_API_SERVER}/files/${import.meta.env.VITE_CLIENT_ID}/`;
 
   return (
     <MyComponent className="cafelist">
