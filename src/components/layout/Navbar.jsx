@@ -1,4 +1,7 @@
-import { NavLink } from 'react-router-dom';
+import { memberState } from '@recoil/user/atoms.mjs';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 
 const StyledNav = styled.nav`
@@ -9,41 +12,116 @@ const StyledNav = styled.nav`
   background-color: white;
   z-index: 999;
   box-shadow: 10px 10px 20px 8px gray;
-  nav{
+  display: flex;
+  justify-content: center;
+  nav {
     padding: 0px 30px;
     height: 100%;
     display: flex;
-    gap: 50px;
-    justify-content: center;
     align-items: center;
+    gap: 20px;
   }
-  a{
+  a {
     text-decoration: unset;
     color: black;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 5px;
+    min-width: 37px;
   }
-  img{
+  img {
     width: 30px;
+  }
+  span {
+    font-size: 12px;
   }
 `;
 
 function Navbar() {
+  const user = useRecoilValue(memberState);
+  const [home, setHome] = useState(false);
+  const [map, setMap] = useState(false);
+  const [order, setOrder] = useState(false);
+  const [bookmark, setBookmark] = useState(false);
+  const [myPage, setMyPage] = useState(false);
+
+  function handleHome() {
+    setHome(true);
+    setMap(false);
+    setOrder(false);
+    setBookmark(false);
+    setMyPage(false);
+  }
+
+  function handleMap() {
+    setHome(false);
+    setMap(true);
+    setOrder(false);
+    setBookmark(false);
+    setMyPage(false);
+  }
+
+  function handleOrder() {
+    setHome(false);
+    setMap(false);
+    setOrder(true);
+    setBookmark(false);
+    setMyPage(false);
+  }
+
+  function handleBookmark() {
+    setHome(false);
+    setMap(false);
+    setOrder(false);
+    setBookmark(true);
+    setMyPage(false);
+  }
+
+  function handleMyPage() {
+    setHome(false);
+    setMap(false);
+    setOrder(false);
+    setBookmark(false);
+    setMyPage(true);
+  }
 
   return (
     <StyledNav>
       <nav>
-        <NavLink to="/"><img src="../public/nav-home.png" alt="" /><span>홈</span></NavLink>
+        <Link onClick={handleHome} to="/">
+          <img src={home ? '/home-active.svg' : '/nav-home.svg'} alt="" />
+          <span>홈</span>
+        </Link>
 
-        <NavLink to="/boards/map"><img src="../public/nav-map.png" alt="" /><span>지도</span></NavLink>
+        <Link onClick={handleMap} to="/boards/map">
+          <img src={map ? '/map-active.svg' : '/nav-map.svg'} alt="" />
+          <span>지도</span>
+        </Link>
 
-        <NavLink to="/users/orderlist"><img src="../public/nav-order.png" alt="" /><span>내 구매</span></NavLink>
+        <Link
+          onClick={handleOrder}
+          to={user ? '/users/orderlist' : '/asklogin'}
+        >
+          <img src={order ? '/order-active.svg' : '/nav-order.svg'} alt="" />
+          <span>내 구매</span>
+        </Link>
 
-        <NavLink to="/users/bookmark"><img src="../public/nav-bookmark.png" alt="" /><span>북마크</span></NavLink>
+        <Link
+          onClick={handleBookmark}
+          to={user ? '/users/bookmark' : '/asklogin'}
+        >
+          <img
+            src={bookmark ? '/bookmark-active.svg' : '/nav-bookmark.svg'}
+            alt=""
+          />
+          <span>북마크</span>
+        </Link>
 
-        <NavLink to="/users/mypage"><img src="../public/nav-mypage.png" alt="" /><span>내 정보</span></NavLink>
+        <Link onClick={handleMyPage} to={user ? '/users/mypage' : '/asklogin'}>
+          <img src={myPage ? '/mypage-active.svg' : '/nav-mypage.svg'} alt="" />
+          <span>내 정보</span>
+        </Link>
       </nav>
     </StyledNav>
   );

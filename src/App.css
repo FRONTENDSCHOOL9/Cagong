@@ -1,24 +1,65 @@
 @font-face {
   font-family: 'NanumSquareRound';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/NanumSquareRound.woff')
-    format('woff');
-  font-weight: normal;
-  font-style: normal;
+  font-weight: 300;
+  src: url('/fonts/NanumSquareRoundL.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'NanumSquareRound';
+  font-weight: 400;
+  src: url('/fonts/NanumSquareRoundR.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'NanumSquareRound';
+  font-weight: 700;
+  src: url('/fonts/NanumSquareRoundB.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'NanumSquareRound';
+  font-weight: 800;
+  src: url('/fonts/NanumSquareRoundEB.woff') format('woff');
 }
 
 @font-face {
   font-family: 'UhBeeSe_hyun';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_five@.2.0/UhBeeSe_hyun.woff')
-    format('woff');
-  font-weight: normal;
-  font-style: normal;
+  src: url('/fonts/UhBeeSe_hyun.woff') format('woff');
 }
 
 :root {
   font-family: 'NanumSquareRound';
-  /* font-family: 'UhBeeSe_hyun'; */
 }
 
-/* a {
+a {
   all: unset;
-} */
+  text-decoration: none;
+  cursor: pointer;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+h1,
+h2,
+h2,
+h4 {
+  margin: unset;
+  font-weight: unset;
+  font-size: unset;
+}
+
+p {
+  padding: unset;
+  margin: unset;
+}
+
+body {
+  margin: 0;
+  padding-bottom: 80px;
+  padding-top: 60px;
+  color: #222222;
+}
