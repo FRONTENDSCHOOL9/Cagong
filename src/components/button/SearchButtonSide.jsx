@@ -5,7 +5,13 @@ function SearchButton() {
     <>
       <Link to="/search">
         <img
-          style={{ width: '30px' }}
+          style={{
+            display: 'block',
+            position: 'absolute',
+            width: '26px',
+            right: '9px',
+            top: '17px',
+          }}
           src="/search-black.svg"
           alt="검색 버튼"
         />
