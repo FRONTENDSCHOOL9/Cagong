@@ -1,6 +1,7 @@
 import SearchButton from '@components/button/SearchButton';
 import styled from 'styled-components';
 import PrevButton from '@components/button/PrevButton';
+import { Link } from 'react-router-dom';
 
 const HeaderStyle = styled.div`
   font-family: 'UhBeeSe_hyun';
@@ -12,6 +13,7 @@ const HeaderStyle = styled.div`
 
   height: 60px;
   display: flex;
+  justify-content: space-between;
   align-items: center;
   background-color: #ffa931;
   color: white;
@@ -34,13 +36,19 @@ const HeaderStyle = styled.div`
     margin-right: 10px;
     margin-top: 10px;
   }
+  .logo-title {
+    display: flex;
+  }
 `;
 
 function Header() {
   return (
     <HeaderStyle>
-      <img className="logo" src="/logo.svg" alt="" />
-      <span className="title">카공여지도</span>
+      <Link className="logo-title" to="/">
+        <img className="logo" src="/logo.svg" alt="" />
+        <span className="title">카공여지도</span>
+      </Link>
+
       <div className="button-bundle">
         <PrevButton className="prev-button" />
         <SearchButton className="search-button" />
