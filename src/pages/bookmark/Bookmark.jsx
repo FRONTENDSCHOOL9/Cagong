@@ -80,7 +80,7 @@ const MyComponent = styled.div`
   }
 `;
 function Bookmark() {
-  const BASE_IMAGE_URL = `${import.meta.env.VITE_API_SERVER}/files/05-cagong/`;
+  const BASE_IMAGE_URL = `${import.meta.env.VITE_API_SERVER}/files/${import.meta.env.VITE_CLIENT_ID}/`;
   const axios = useCustomAxios();
   const [bookmarks, setBookmarks] = useState([]);
 

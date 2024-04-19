@@ -18,7 +18,7 @@ import SideHeader from '@components/layout/SideHeader';
 import Wrapper from '@components/layout/Wrapper';
 
 const DetailStyle = styled.div`
-  .container{
+  .container {
     padding: 40px 30px;
   }
   .header-title {
@@ -241,7 +241,7 @@ function CafeDetail() {
         </h1>
       </SideHeader>
       <Wrapper>
-        <div className='container'>
+        <div className="container">
           <Swiper
             style={{
               '--swiper-navigation-color': '#fff',
@@ -261,7 +261,7 @@ function CafeDetail() {
               <SwiperSlide key={index}>
                 <img
                   className="slide-src"
-                  src={`${import.meta.env.VITE_API_SERVER}/files/05-cagong/${
+                  src={`${import.meta.env.VITE_API_SERVER}/files/${import.meta.env.VITE_CLIENT_ID}/${
                     image.name
                   }`}
                   alt="카페 사진"

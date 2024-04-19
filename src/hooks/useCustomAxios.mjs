@@ -17,7 +17,7 @@ function useCustomAxios() {
     headers: {
       'content-type': 'application/json',
       accept: 'application/json',
-      'client-id': '05-cagong',
+      'client-id': `${import.meta.env.VITE_CLIENT_ID}`,
     },
   });
 
