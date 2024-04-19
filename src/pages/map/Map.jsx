@@ -356,7 +356,7 @@ function Map() {
   useEffect(() => {
     const container = document.getElementById('map'); // 지도를 표시할 div
     const options = {
-      center: new kakao.maps.LatLng(36.349396783484984, 127.76185524802845), // 지도의 중심좌표
+      center: new kakao.maps.LatLng(curLatRef.current, curLonRef.current), // 지도의 중심좌표
       level: 6, // 지도의 확대 레벨
     };
 
