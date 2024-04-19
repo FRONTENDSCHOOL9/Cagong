@@ -15,13 +15,12 @@ const ReviewFormStyle = styled.div`
     justify-content: center;
   }
   .title {
-    font-size: 30px;
+    font-size: 25px;
     font-weight: 800;
   }
   .content {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     padding: 40px 0;
   }

@@ -11,13 +11,12 @@ import Wrapper from '@components/layout/Wrapper';
 import SideHeader from '@components/layout/SideHeader';
 
 const OrderStyle = styled.div`
-  padding: 40px 0;
   .header {
     height: 100px;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 30px;
+    font-size: 25px;
     font-weight: 800;
   }
   .section {

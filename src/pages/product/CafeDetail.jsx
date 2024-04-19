@@ -19,7 +19,7 @@ import Wrapper from '@components/layout/Wrapper';
 
 const DetailStyle = styled.div`
   .container {
-    padding: 40px 30px;
+    padding: 0px 30px;
   }
   .header-title {
     font-size: 30px;
@@ -236,7 +236,7 @@ function CafeDetail() {
   return (
     <DetailStyle>
       <SideHeader>
-        <h1 style={{ fontSize: '30px', fontWeight: '800' }}>
+        <h1 style={{ fontSize: '25px', fontWeight: '800' }}>
           {data.item.name}
         </h1>
       </SideHeader>
