@@ -10,14 +10,12 @@ import Wrapper from '@components/layout/Wrapper';
 import Submit from '@components/Submit';
 
 const ReviewFormStyle = styled.div`
-  padding: 40px 0;
   .header {
     display: flex;
     justify-content: center;
   }
   .title {
     font-size: 30px;
-    margin: 30px;
     font-weight: 800;
   }
   .content {
@@ -25,6 +23,7 @@ const ReviewFormStyle = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding: 40px 0;
   }
   .name {
     font-size: 24px;
@@ -47,13 +46,15 @@ const ReviewFormStyle = styled.div`
     background-color: #f1f1f1;
     border-radius: 5px;
     padding: 8px;
+    height: 400px;
+    width: 300px;
   }
   #content:focus {
     border: 1px solid #ffa931;
   }
   #content::placeholder {
     font-size: 12px;
-    padding-top: 150px;
+    padding-top: 370px;
   }
 `;
 

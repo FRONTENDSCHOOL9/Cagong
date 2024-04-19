@@ -18,7 +18,9 @@ import SideHeader from '@components/layout/SideHeader';
 import Wrapper from '@components/layout/Wrapper';
 
 const DetailStyle = styled.div`
-  padding: 30px 0;
+  .container{
+    padding: 40px 30px;
+  }
   .header-title {
     font-size: 30px;
     font-weight: 800;
@@ -78,6 +80,7 @@ const DetailStyle = styled.div`
   }
   .order-button {
     width: 100%;
+    padding: 15px;
   }
   .review-list {
     margin: 25px 10px;
@@ -96,7 +99,7 @@ const DetailStyle = styled.div`
     margin-top: 20px;
     font-size: 14px;
   }
-  text {
+  .copy-board {
     font-size: 12px;
     cursor: pointer;
     text-decoration: underline;
@@ -150,12 +153,10 @@ function CafeDetail() {
       if (!bookmarkId) {
         const response = await axios.post(`/bookmarks/product/${cafeId}`);
         const data = response.data;
-        console.log('북마크 추가함!');
         setIsBookmarked(true);
         setBookmarkId(data.item._id);
       } else {
         await axios.delete(`/bookmarks/${bookmarkId}`);
-        console.log('북마크 삭제함!');
         setIsBookmarked(false);
         setBookmarkId(null);
       }
@@ -221,22 +222,26 @@ function CafeDetail() {
     getReview();
   }, []);
 
-  useEffect(() => {
-    const savedIds = JSON.parse(localStorage.getItem('viewedCafeIds')) || [];
-    const updatedIds = savedIds.filter(id => id !== _id); // 기존 id 제거
-    updatedIds.unshift(_id); // 새 id를 배열 첫 인덱스에 추가
-    localStorage.setItem('viewedCafeIds', JSON.stringify(updatedIds));
-  }, [_id]);
+  const savedIds = JSON.parse(localStorage.getItem('viewedCafeIds')) || [];
+  const updatedIds = savedIds.filter(id => id !== _id); // 기존 id 제거
+  updatedIds.unshift(_id); // 배열 첫 인덱스에 추가
+
+  // 배열 길이 제한
+  if (updatedIds.length > 10) {
+    updatedIds.splice(10);
+  }
+
+  localStorage.setItem('viewedCafeIds', JSON.stringify(updatedIds));
 
   return (
-    <>
-      <DetailStyle>
-        <SideHeader>
-          <h1 style={{ fontSize: '30px', fontWeight: '800' }}>
-            {data.item.name}
-          </h1>
-        </SideHeader>
-        <Wrapper>
+    <DetailStyle>
+      <SideHeader>
+        <h1 style={{ fontSize: '30px', fontWeight: '800' }}>
+          {data.item.name}
+        </h1>
+      </SideHeader>
+      <Wrapper>
+        <div className='container'>
           <Swiper
             style={{
               '--swiper-navigation-color': '#fff',
@@ -270,11 +275,11 @@ function CafeDetail() {
               {data.item.extra.address}
             </Link>
             <CopyToClipboard
-              className="copyBoard"
+              className="copy-board"
               text={data.item.extra.address}
               onCopy={() => alert('클립보드에 복사되었습니다.')}
             >
-              <text className="copiedText">복사하기</text>
+              <span className="copy-text">복사하기</span>
             </CopyToClipboard>
             <img
               className="bookmark-icon"
@@ -292,7 +297,6 @@ function CafeDetail() {
             </div>
             <Button
               className="order-button"
-              padding="10px 80px"
               fontWeight="bold"
               fontSize="14px"
               onClick={confirmUser}
@@ -304,16 +308,16 @@ function CafeDetail() {
           <div className="review">
             <h2 className="title">방문자 리뷰</h2>
             {review?.item.map(item => (
-              <div key={_id} className="review-list">
+              <div key={item._id} className="review-list">
                 <span className="review-user">{item.user.name}</span>
                 <span className="review-createdAt">{item.createdAt}</span>
                 <p className="review-content">{item.content}</p>
               </div>
             ))}
           </div>
-        </Wrapper>
-      </DetailStyle>
-    </>
+        </div>
+      </Wrapper>
+    </DetailStyle>
   );
 }
 
