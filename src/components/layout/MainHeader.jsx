@@ -5,12 +5,6 @@ import { Link } from 'react-router-dom';
 
 const HeaderStyle = styled.div`
   font-family: 'UhBeeSe_hyun';
-
-  @font-face {
-    font-family: 'UhBeeSe_hyun';
-    src: url(/UhBeeSe_hyun.woff);
-  }
-
   height: 60px;
   display: flex;
   justify-content: space-between;
