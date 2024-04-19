@@ -4,6 +4,12 @@ import PrevButton from '@components/button/PrevButton';
 
 const HeaderStyle = styled.div`
   font-family: 'UhBeeSe_hyun';
+
+  @font-face {
+    font-family: 'UhBeeSe_hyun';
+    src: url(/UhBeeSe_hyun.woff);
+  }
+
   height: 60px;
   display: flex;
   align-items: center;
