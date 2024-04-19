@@ -22,7 +22,7 @@ const ReviewFormStyle = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 40px 0;
+    padding-bottom: 40px;
   }
   .name {
     font-size: 24px;
