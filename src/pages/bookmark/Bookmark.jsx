@@ -115,6 +115,9 @@ function Bookmark() {
       <Wrapper>
         <MyComponent>
           <div>
+            <Link to="/users/reviewlist">
+              <button>Review</button>
+            </Link>
             <h1 className="cafelist-title">찜한 카페</h1>
             {!isLoading && (
               <ul>
