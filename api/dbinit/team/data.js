@@ -141,20 +141,20 @@ export const initData = async nextSeq => {
         buyQuantity: 1,
         mainImages: [
           {
-            name: 'mood_01.png',
-            path: 'mood_01.png',
+            name: 'mood_01.jpg',
+            path: 'mood_01.jpg',
           },
           {
-            name: 'mood_02.png',
-            path: 'mood_02.png',
+            name: 'mood_02.jpg',
+            path: 'mood_02.jpg',
           },
           {
-            name: 'mood_03.png',
-            path: 'mood_03.png',
+            name: 'mood_03.jpg',
+            path: 'mood_03.jpg',
           },
           {
-            name: 'mood_04.png',
-            path: 'mood_04.png',
+            name: 'mood_04.jpg',
+            path: 'mood_04.jpg',
           },
         ],
         content: '1 커피 + 1 디저트',
@@ -179,20 +179,20 @@ export const initData = async nextSeq => {
         buyQuantity: 1,
         mainImages: [
           {
-            name: 'ediya_01.png',
-            path: 'ediya_01.png',
+            name: 'ediya_01.jpg',
+            path: 'ediya_01.jpg',
           },
           {
-            name: 'ediya_02.png',
-            path: 'ediya_02.png',
+            name: 'ediya_02.jpg',
+            path: 'ediya_02.jpg',
           },
           {
-            name: 'ediya_03.png',
-            path: 'ediya_03.png',
+            name: 'ediya_03.jpg',
+            path: 'ediya_03.jpg',
           },
           {
-            name: 'ediya_04.png',
-            path: 'ediya_04.png',
+            name: 'ediya_04.jpg',
+            path: 'ediya_04.jpg',
           },
         ],
         content: '1 커피 + 1 디저트',
@@ -259,20 +259,20 @@ export const initData = async nextSeq => {
         buyQuantity: 1,
         mainImages: [
           {
-            name: 'namju_01.png',
-            path: 'namju_01.png',
+            name: 'namju_01.jpg',
+            path: 'namju_01.jpg',
           },
           {
-            name: 'namju_02.png',
-            path: 'namju_02.png',
+            name: 'namju_02.jpg',
+            path: 'namju_02.jpg',
           },
           {
-            name: 'namju_03.png',
-            path: 'namju_03.png',
+            name: 'namju_03.jpg',
+            path: 'namju_03.jpg',
           },
           {
-            name: 'namju_04.png',
-            path: 'namju_04.png',
+            name: 'namju_04.jpg',
+            path: 'namju_04.jpg',
           },
         ],
         content: '1 커피 + 1 디저트',
@@ -297,20 +297,20 @@ export const initData = async nextSeq => {
         buyQuantity: 1,
         mainImages: [
           {
-            name: 'betterthings_01.png',
-            path: 'betterthings_01.png',
+            name: 'betterthings_01.jpg',
+            path: 'betterthings_01.jpg',
           },
           {
-            name: 'betterthings_02.png',
-            path: 'betterthings_02.png',
+            name: 'betterthings_02.jpg',
+            path: 'betterthings_02.jpg',
           },
           {
-            name: 'betterthings_03.png',
-            path: 'betterthings_03.png',
+            name: 'betterthings_03.jpg',
+            path: 'betterthings_03.jpg',
           },
           {
-            name: 'betterthings_04.png',
-            path: 'betterthings_04.png',
+            name: 'betterthings_04.jpg',
+            path: 'betterthings_04.jpg',
           },
         ],
         content: '1 커피 + 1 디저트',
@@ -374,16 +374,16 @@ export const initData = async nextSeq => {
         buyQuantity: 1,
         mainImages: [
           {
-            name: 'steady_01.png',
-            path: 'steady_01.png',
+            name: 'steady_01.jpg',
+            path: 'steady_01.jpg',
           },
           {
-            name: 'steady_02.png',
-            path: 'steady_02.png',
+            name: 'steady_02.jpg',
+            path: 'steady_02.jpg',
           },
           {
-            name: 'steady_03.png',
-            path: 'steady_03.png',
+            name: 'steady_03.jpg',
+            path: 'steady_03.jpg',
           },
         ],
         content: '1 커피 + 1 디저트',
@@ -408,20 +408,20 @@ export const initData = async nextSeq => {
         buyQuantity: 1,
         mainImages: [
           {
-            name: 'a_boutstadium_01.png',
-            path: 'a_boutstadium_01.png',
+            name: 'a_boutstadium_01.jpg',
+            path: 'a_boutstadium_01.jpg',
           },
           {
-            name: 'a_boutstadium_02.png',
-            path: 'a_boutstadium_02.png',
+            name: 'a_boutstadium_02.jpg',
+            path: 'a_boutstadium_02.jpg',
           },
           {
-            name: 'a_boutstadium_03.png',
-            path: 'a_boutstadium_03.png',
+            name: 'a_boutstadium_03.jpg',
+            path: 'a_boutstadium_03.jpg',
           },
           {
-            name: 'a_boutstadium_04.png',
-            path: 'a_boutstadium_04.png',
+            name: 'a_boutstadium_04.jpg',
+            path: 'a_boutstadium_04.jpg',
           },
         ],
         content: '1 커피 + 1 디저트',
@@ -446,20 +446,20 @@ export const initData = async nextSeq => {
         buyQuantity: 1,
         mainImages: [
           {
-            name: 'theventi_01.png',
-            path: 'theventi_01.png',
+            name: 'theventi_01.jpg',
+            path: 'theventi_01.jpg',
           },
           {
-            name: 'theventi_02.png',
-            path: 'theventi_02.png',
+            name: 'theventi_02.jpg',
+            path: 'theventi_02.jpg',
           },
           {
-            name: 'theventi_03.png',
-            path: 'theventi_03.png',
+            name: 'theventi_03.jpg',
+            path: 'theventi_03.jpg',
           },
           {
-            name: 'theventi_04.png',
-            path: 'theventi_04.png',
+            name: 'theventi_04.jpg',
+            path: 'theventi_04.jpg',
           },
         ],
         content: '1 커피 + 1 디저트',
@@ -484,16 +484,16 @@ export const initData = async nextSeq => {
         buyQuantity: 1,
         mainImages: [
           {
-            name: 'smallgood_01.png',
-            path: 'smallgood_01.png',
+            name: 'smallgood_01.jpg',
+            path: 'smallgood_01.jpg',
           },
           {
-            name: 'smallgood_02.png',
-            path: 'smallgood_02.png',
+            name: 'smallgood_02.jpg',
+            path: 'smallgood_02.jpg',
           },
           {
-            name: 'smallgood_03.png',
-            path: 'smallgood_03.png',
+            name: 'smallgood_03.jpg',
+            path: 'smallgood_03.jpg',
           },
         ],
         content: '1 커피 + 1 디저트',
@@ -518,20 +518,20 @@ export const initData = async nextSeq => {
         buyQuantity: 1,
         mainImages: [
           {
-            name: 'hinter_01.png',
-            path: 'hinter_01.png',
+            name: 'hinter_01.jpg',
+            path: 'hinter_01.jpg',
           },
           {
-            name: 'hinter_02.png',
-            path: 'hinter_02.png',
+            name: 'hinter_02.jpg',
+            path: 'hinter_02.jpg',
           },
           {
-            name: 'hinter_03.png',
-            path: 'hinter_03.png',
+            name: 'hinter_03.jpg',
+            path: 'hinter_03.jpg',
           },
           {
-            name: 'hinter_04.png',
-            path: 'hinter_04.png',
+            name: 'hinter_04.jpg',
+            path: 'hinter_04.jpg',
           },
         ],
         content: '1 커피 + 1 디저트',
@@ -556,16 +556,16 @@ export const initData = async nextSeq => {
         buyQuantity: 1,
         mainImages: [
           {
-            name: 'morisaco_01.jpeg',
-            path: 'morisaco_01.jpeg',
+            name: 'morisaco_01.jpg',
+            path: 'morisaco_01.jpg',
           },
           {
-            name: 'morisaco_02.jpeg',
-            path: 'morisaco_02.jpeg',
+            name: 'morisaco_02.jpg',
+            path: 'morisaco_02.jpg',
           },
           {
-            name: 'morisaco_03.jpeg',
-            path: 'morisaco_03.jpeg',
+            name: 'morisaco_03.jpg',
+            path: 'morisaco_03.jpg',
           },
         ],
         content: '1 커피 + 1 디저트',
@@ -590,16 +590,16 @@ export const initData = async nextSeq => {
         buyQuantity: 1,
         mainImages: [
           {
-            name: 'coclemansion_01.jpeg',
-            path: 'coclemansion_01.jpeg',
+            name: 'coclemansion_01.jpg',
+            path: 'coclemansion_01.jpg',
           },
           {
-            name: 'coclemansion_02.jpeg',
-            path: 'coclemansion_02.jpeg',
+            name: 'coclemansion_02.jpg',
+            path: 'coclemansion_02.jpg',
           },
           {
-            name: 'coclemansion_03.jpeg',
-            path: 'coclemansion_03.jpeg',
+            name: 'coclemansion_03.jpg',
+            path: 'coclemansion_03.jpg',
           },
         ],
         content: '1 커피 + 1 디저트',
@@ -624,16 +624,16 @@ export const initData = async nextSeq => {
         buyQuantity: 1,
         mainImages: [
           {
-            name: 'hollysjun_01.png',
-            path: 'hollysjun_01.png',
+            name: 'hollysjun_01.jpg',
+            path: 'hollysjun_01.jpg',
           },
           {
-            name: 'hollysjun_02.png',
-            path: 'hollysjun_02.png',
+            name: 'hollysjun_02.jpg',
+            path: 'hollysjun_02.jpg',
           },
           {
-            name: 'hollysjun_03.png',
-            path: 'hollysjun_03.png',
+            name: 'hollysjun_03.jpg',
+            path: 'hollysjun_03.jpg',
           },
         ],
         content: '1 커피 + 1 디저트',
@@ -658,16 +658,16 @@ export const initData = async nextSeq => {
         buyQuantity: 1,
         mainImages: [
           {
-            name: 'laflata_01.png',
-            path: 'laflata_01.png',
+            name: 'laflata_01.jpg',
+            path: 'laflata_01.jpg',
           },
           {
-            name: 'laflata_02.png',
-            path: 'laflata_02.png',
+            name: 'laflata_02.jpg',
+            path: 'laflata_02.jpg',
           },
           {
-            name: 'laflata_03.png',
-            path: 'laflata_03.png',
+            name: 'laflata_03.jpg',
+            path: 'laflata_03.jpg',
           },
         ],
         content: '1 커피 + 1 디저트',
@@ -692,20 +692,20 @@ export const initData = async nextSeq => {
         buyQuantity: 1,
         mainImages: [
           {
-            name: 'roa_01.png',
-            path: 'roa_01.png',
+            name: 'roa_01.jpg',
+            path: 'roa_01.jpg',
           },
           {
-            name: 'roa_02.png',
-            path: 'roa_02.png',
+            name: 'roa_02.jpg',
+            path: 'roa_02.jpg',
           },
           {
-            name: 'roa_03.png',
-            path: 'roa_03.png',
+            name: 'roa_03.jpg',
+            path: 'roa_03.jpg',
           },
           {
-            name: 'roa_04.png',
-            path: 'roa_04.png',
+            name: 'roa_04.jpg',
+            path: 'roa_04.jpg',
           },
         ],
         content: '1 커피 + 1 디저트',
@@ -730,20 +730,20 @@ export const initData = async nextSeq => {
         buyQuantity: 1,
         mainImages: [
           {
-            name: 'cafe_herelist_01.jpeg',
-            path: 'cafe_herelist_01.jpeg',
+            name: 'cafe_herelist_01.jpg',
+            path: 'cafe_herelist_01.jpg',
           },
           {
-            name: 'cafe_herelist_02.jpeg',
-            path: 'cafe_herelist_02.jpeg',
+            name: 'cafe_herelist_02.jpg',
+            path: 'cafe_herelist_02.jpg',
           },
           {
-            name: 'cafe_herelist_03.jpeg',
-            path: 'cafe_herelist_03.jpeg',
+            name: 'cafe_herelist_03.jpg',
+            path: 'cafe_herelist_03.jpg',
           },
           {
-            name: 'cafe_herelist_04.jpeg',
-            path: 'cafe_herelist_04.jpeg',
+            name: 'cafe_herelist_04.jpg',
+            path: 'cafe_herelist_04.jpg',
           },
         ],
         content: '1 커피 + 1 디저트',
@@ -768,20 +768,20 @@ export const initData = async nextSeq => {
         buyQuantity: 1,
         mainImages: [
           {
-            name: 'cafe_peter_01.png',
-            path: 'cafe_peter_01.png',
+            name: 'cafe_peter_01.jpg',
+            path: 'cafe_peter_01.jpg',
           },
           {
-            name: 'cafe_peter_02.png',
-            path: 'cafe_peter_02.png',
+            name: 'cafe_peter_02.jpg',
+            path: 'cafe_peter_02.jpg',
           },
           {
-            name: 'cafe_peter_03.png',
-            path: 'cafe_peter_03.png',
+            name: 'cafe_peter_03.jpg',
+            path: 'cafe_peter_03.jpg',
           },
           {
-            name: 'cafe_peter_04.png',
-            path: 'cafe_peter_04.png',
+            name: 'cafe_peter_04.jpg',
+            path: 'cafe_peter_04.jpg',
           },
         ],
         content: '1 커피 + 1 디저트',
@@ -806,20 +806,20 @@ export const initData = async nextSeq => {
         buyQuantity: 1,
         mainImages: [
           {
-            name: 'groaster_01.png',
-            path: 'groaster_01.png',
+            name: 'groaster_01.jpg',
+            path: 'groaster_01.jpg',
           },
           {
-            name: 'groaster_02.png',
-            path: 'groaster_02.png',
+            name: 'groaster_02.jpg',
+            path: 'groaster_02.jpg',
           },
           {
-            name: 'groaster_03.png',
-            path: 'groaster_03.png',
+            name: 'groaster_03.jpg',
+            path: 'groaster_03.jpg',
           },
           {
-            name: 'groaster_04.png',
-            path: 'groaster_04.png',
+            name: 'groaster_04.jpg',
+            path: 'groaster_04.jpg',
           },
         ],
         content: '1 커피 + 1 디저트',
@@ -844,20 +844,20 @@ export const initData = async nextSeq => {
         buyQuantity: 1,
         mainImages: [
           {
-            name: 'reply_01.png',
-            path: 'reply_01.png',
+            name: 'reply_01.jpg',
+            path: 'reply_01.jpg',
           },
           {
-            name: 'reply_02.png',
-            path: 'reply_02.png',
+            name: 'reply_02.jpg',
+            path: 'reply_02.jpg',
           },
           {
-            name: 'reply_03.png',
-            path: 'reply_03.png',
+            name: 'reply_03.jpg',
+            path: 'reply_03.jpg',
           },
           {
-            name: 'reply_04.png',
-            path: 'reply_04.png',
+            name: 'reply_04.jpg',
+            path: 'reply_04.jpg',
           },
         ],
         content: '1 커피 + 1 디저트',
@@ -882,20 +882,20 @@ export const initData = async nextSeq => {
         buyQuantity: 1,
         mainImages: [
           {
-            name: 'cafemoon_01.png',
-            path: 'cafemoon_01.png',
+            name: 'cafemoon_01.jpg',
+            path: 'cafemoon_01.jpg',
           },
           {
-            name: 'cafemoon_02.png',
-            path: 'cafemoon_02.png',
+            name: 'cafemoon_02.jpg',
+            path: 'cafemoon_02.jpg',
           },
           {
-            name: 'cafemoon_03.png',
-            path: 'cafemoon_03.png',
+            name: 'cafemoon_03.jpg',
+            path: 'cafemoon_03.jpg',
           },
           {
-            name: 'cafemoon_04.png',
-            path: 'cafemoon_04.png',
+            name: 'cafemoon_04.jpg',
+            path: 'cafemoon_04.jpg',
           },
         ],
         content: '1 커피 + 1 디저트',
@@ -920,20 +920,20 @@ export const initData = async nextSeq => {
         buyQuantity: 1,
         mainImages: [
           {
-            name: 'samcheung_01.png',
-            path: 'samcheung_01.png',
+            name: 'samcheung_01.jpg',
+            path: 'samcheung_01.jpg',
           },
           {
-            name: 'samcheung_02.png',
-            path: 'samcheung_02.png',
+            name: 'samcheung_02.jpg',
+            path: 'samcheung_02.jpg',
           },
           {
-            name: 'samcheung_03.png',
-            path: 'samcheung_03.png',
+            name: 'samcheung_03.jpg',
+            path: 'samcheung_03.jpg',
           },
           {
-            name: 'samcheung_04.png',
-            path: 'samcheung_04.png',
+            name: 'samcheung_04.jpg',
+            path: 'samcheung_04.jpg',
           },
         ],
         content: '1 커피 + 1 디저트',
@@ -1087,20 +1087,20 @@ export const initData = async nextSeq => {
             buyQuantity: 1,
             mainImages: [
               {
-                name: 'mood_01.png',
-                path: 'mood_01.png',
+                name: 'mood_01.jpg',
+                path: 'mood_01.jpg',
               },
               {
-                name: 'mood_02.png',
-                path: 'mood_02.png',
+                name: 'mood_02.jpg',
+                path: 'mood_02.jpg',
               },
               {
-                name: 'mood_03.png',
-                path: 'mood_03.png',
+                name: 'mood_03.jpg',
+                path: 'mood_03.jpg',
               },
               {
-                name: 'mood_04.png',
-                path: 'mood_04.png',
+                name: 'mood_04.jpg',
+                path: 'mood_04.jpg',
               },
             ],
             content: '1 커피 + 1 디저트',
@@ -1184,25 +1184,28 @@ export const initData = async nextSeq => {
     // 즐겨찾기/북마크
     bookmark: [
       {
-        _id: await nextSeq('bookmark'),
+        type: 'product',
         user_id: 3,
-        product_id: 1,
-        memo: '',
+        target_id: 1,
+        memo: '시험기간에 가기 좋을듯',
+        _id: await nextSeq('bookmark'),
         createdAt: getTime(-3, -60 * 60 * 2),
       },
       {
-        _id: await nextSeq('bookmark'),
+        type: 'product',
         user_id: 3,
-        product_id: 2,
-        memo: '',
-        createdAt: getTime(-2, -60 * 60 * 20),
+        target_id: 2,
+        memo: '시험기간에 가기 좋을듯',
+        _id: await nextSeq('bookmark'),
+        createdAt: getTime(-3, -60 * 60 * 2),
       },
       {
-        _id: await nextSeq('bookmark'),
+        type: 'product',
         user_id: 3,
-        product_id: 17,
-        memo: '',
-        createdAt: getTime(-2, -60 * 60 * 20),
+        target_id: 3,
+        memo: '시험기간에 가기 좋을듯',
+        _id: await nextSeq('bookmark'),
+        createdAt: getTime(-3, -60 * 60 * 2),
       },
     ],
     // QnA, 공지사항, 게시판
