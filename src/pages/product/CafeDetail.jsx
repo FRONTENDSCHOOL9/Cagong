@@ -18,8 +18,8 @@ import SideHeader from '@components/layout/SideHeader';
 import Wrapper from '@components/layout/Wrapper';
 
 const DetailStyle = styled.div`
-  .container{
-    padding: 40px 30px;
+  .container {
+    padding: 0px 30px;
   }
   .header-title {
     font-size: 30px;
@@ -236,12 +236,12 @@ function CafeDetail() {
   return (
     <DetailStyle>
       <SideHeader>
-        <h1 style={{ fontSize: '30px', fontWeight: '800' }}>
+        <h1 style={{ fontSize: '25px', fontWeight: '800' }}>
           {data.item.name}
         </h1>
       </SideHeader>
       <Wrapper>
-        <div className='container'>
+        <div className="container">
           <Swiper
             style={{
               '--swiper-navigation-color': '#fff',
@@ -261,7 +261,7 @@ function CafeDetail() {
               <SwiperSlide key={index}>
                 <img
                   className="slide-src"
-                  src={`${import.meta.env.VITE_API_SERVER}/files/05-cagong/${
+                  src={`${import.meta.env.VITE_API_SERVER}/files/${import.meta.env.VITE_CLIENT_ID}/${
                     image.name
                   }`}
                   alt="카페 사진"
