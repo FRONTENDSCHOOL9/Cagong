@@ -4,21 +4,37 @@ import { debounce } from 'lodash';
 import styled from 'styled-components';
 
 const SearchFormStyle = styled.div`
-  margin: 0px;
-  // background-color: blue;
   width: 100%;
+  height: 60px;
   min-width: 300px;
 
   .search-form {
+    width: 100%;
+    height: 60px;
     padding: 0 50px;
   }
 
   .search-form_input {
     border: none;
+    width: 73%;
+    height: 100%;
     font-family: 'NanumSquareRound';
     font-size: 0.8rem;
   }
   .search-form_button {
+    position: absolute;
+    z-index: 9999;
+    width: 38px;
+    height: 100%;
+    bottom: 0px;
+    top: 4px;
+    right: 2px;
+    border: none;
+    background-color: white;
+    cursor: pointer;
+  }
+  .search-form_button-icon {
+    width: 100%;
   }
 `;
 
@@ -83,7 +99,11 @@ function SearchIcon({ onClick }) {
           type="submit"
           onClick={handleSubmit}
         >
-          🔍
+          <img
+            className="search-form_button-icon"
+            src="/search-black.svg"
+            alt="검색 버튼"
+          />
         </button>
       </form>
     </SearchFormStyle>
