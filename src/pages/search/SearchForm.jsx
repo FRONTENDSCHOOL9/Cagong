@@ -16,11 +16,12 @@ const SearchFormStyle = styled.div`
   }
 
   .search-form_input {
+    font-family: 'NanumSquareRound';
     border: none;
     min-width: 50%;
     width: 100%;
-    height: 100%;
-    font-family: 'NanumSquareRound';
+    height: 95%;
+    margin-left: 10px;
     font-size: 0.8rem;
     outline:none;
   }
@@ -29,7 +30,7 @@ const SearchFormStyle = styled.div`
     position: absolute;
     z-index: 9999;
     width: 38px;
-    height: 100%;
+    height: 90%;
     bottom: 0px;
     top: 4px;
     right: 2px;
@@ -39,6 +40,7 @@ const SearchFormStyle = styled.div`
   }
 
   .search-form_button-icon {
+    display:block;
     width: 100%;
   }
   &::after {
@@ -103,6 +105,7 @@ function SearchIcon({ onClick }) {
         <input
           className="search-form_input"
           type="text"
+          maxLength={20}
           autoFocus
           onInput={onDebounceChange}
           placeholder="카페명을 입력해주세요."

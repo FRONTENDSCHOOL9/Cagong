@@ -18,16 +18,97 @@ import styled from 'styled-components';
 const SearchStyle = styled.div`
   .recent-searches {
     padding: 10px;
-    border: ;
   }
   .recent-searches_header {
     display: flex;
     justify-content: space-between;
   }
 
+  .recent-searches_header_title {
+    font-weight: 600;
+    font-size: 0.8rem;
+    margin-bottom: 15px;
+  }
+
+  .recent-searches_header_reset {
+    font-size: 0.6rem;
+    border: none;
+    color: #b3b3b3;
+    background-color: white;
+    font-family: 'NanumSquareRound';
+    cursor: pointer;
+  }
+
+  .recent-searches_emptymessage {
+    font-size: 0.6rem;
+    margin-bottom: 0px;
+    margin-left: 15px;
+  }
+
+  .recent-searches_list-item {
+    font-size: 0.8rem;
+    display: flex;
+    align-items: start;
+    margin-left: 15px;
+    margin-bottom: 5px;
+  }
+
+  .recent-searches_list-item_delete {
+    border: none;
+    background-color: white;
+    width: 25px;
+  }
+
   .recent-searches_list-item_delete-icon {
     display: block;
     width: 100%;
+    cursor: pointer;
+  }
+
+  .search-result-message {
+    margin-top: 15px;
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+
+  .search-result-message strong {
+    font-weight: 600;
+    color: #ffa931;
+  }
+
+  .trending-cafelist {
+    font-weight: 600;
+    font-size: 1rem;
+    margin: 30px 0 20px 0;
+  }
+
+  .cafe-thumb {
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    aspect-ratio: 1/1;
+  }
+
+  .cafelist-item {
+    padding: 10px;
+  }
+
+  .item-description {
+    padding: 10px 0;
+  }
+
+  .item-name {
+    font-weight: 700;
+    font-size: 18px;
+  }
+
+  .item-address {
+    font-size: 14px;
+    padding: 4px 0;
+  }
+
+  .item-review {
+    font-size: 12px;
   }
 `;
 
@@ -99,7 +180,7 @@ function Search() {
                 className="recent-searches_header_reset"
                 onClick={clearSearchHistory}
               >
-                지우기
+                모두 지우기
               </button>
             </div>
             {searchHistory.length > 0 ? (
@@ -122,20 +203,25 @@ function Search() {
                 ))}
               </ul>
             ) : (
-              <p>최근 검색어 내역이 존재하지 않습니다.</p>
+              <p className="recent-searches_emptymessage">
+                최근 검색어 내역이 존재하지 않습니다.
+              </p>
             )}
 
             <hr />
             {searchHistory.length > 0 ? (
-              <h1>총 카페 {data?.item.length}건이 검색 되었습니다.</h1>
+              <h1 className="search-result-message">
+                총 카페 <strong>{data?.item.length}</strong>건이 검색
+                되었습니다.
+              </h1>
             ) : (
-              <h1>인기 검색 카페</h1>
+              <h1 className="trending-cafelist">인기 검색 카페</h1>
             )}
           </div>
           <Swiper
             modules={[Navigation, A11y, Pagination, Scrollbar, Autoplay]}
             slidesPerView={2}
-            loop={true}
+            loop={false}
             autoplay={true}
             pagination={{
               clickable: true,
@@ -148,15 +234,11 @@ function Search() {
             <ul>
               {data?.item.map(item => (
                 <SwiperSlide key={item._id}>
-                  <li
-                    style={{ width: '240px' }}
-                    className="cagong-list"
-                    key={item._id}
-                  >
+                  <li className="cafelist-item" key={item._id}>
                     <Link key={item._id} to={`/boards/cafeDetail/${item._id}`}>
                       <div>
                         <img
-                          style={{ width: '200px', height: '200px' }}
+                          className={'cafe-thumb'}
                           src={
                             import.meta.env.VITE_API_SERVER +
                             '/files/' +
@@ -167,11 +249,13 @@ function Search() {
                           alt="카페 메인 사진"
                         />
                       </div>
-                      {item.name}
-                      <div>{item.extra.address}</div>
-                      <div>
-                        <img className="stars" src="/stars.svg" />
-                        리뷰 {item.replies}
+                      <div className="item-description">
+                        <h2 className="item-name">{item.name}</h2>
+                        <div className="item-address">{item.extra.address}</div>
+                        <div className="item-review">
+                          <img className="stars" src="/stars.svg" />
+                          리뷰 {item.replies}
+                        </div>
                       </div>
                     </Link>
                   </li>
