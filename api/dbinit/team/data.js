@@ -641,7 +641,7 @@ export const initData = async nextSeq => {
         updatedAt: '2024.04.09 04:44:29',
         extra: {
           location: [35.820163942149186, 127.14140517523542],
-          address: '전북 전주시 완산구 전주객사3길 67 1~2층 할리스',
+          address: '전북 전주시 완산구 전주객사3길 67',
           description:
             '밤늦게까지 영업하여 늦게 공부하기에 최적의 곳이에요 밝은 조명 아래에서 공부할 수 있는 편안한 공간이 마련되어 있어요. 집중력을 높이고 효율적으로 공부할 수 있을 거예요.',
         },
@@ -952,7 +952,7 @@ export const initData = async nextSeq => {
     order: [
       {
         _id: await nextSeq('order'),
-        user_id: 4,
+        user_id: 3,
         state: 'completed',
         products: [
           {
@@ -1012,7 +1012,7 @@ export const initData = async nextSeq => {
       },
       {
         _id: await nextSeq('order'),
-        user_id: 4,
+        user_id: 3,
         state: 'completed',
         products: [
           {
@@ -1072,7 +1072,7 @@ export const initData = async nextSeq => {
       },
       {
         _id: await nextSeq('order'),
-        user_id: 4,
+        user_id: 3,
         state: 'love',
         products: [
           {
@@ -1135,7 +1135,7 @@ export const initData = async nextSeq => {
     reply: [
       {
         _id: await nextSeq('reply'),
-        user_id: 1,
+        user_id: 3,
         order_id: 1,
         product_id: 1,
         rating: 5,
@@ -1144,7 +1144,7 @@ export const initData = async nextSeq => {
       },
       {
         _id: await nextSeq('reply'),
-        user_id: 1,
+        user_id: 3,
         order_id: 2,
         product_id: 2,
         rating: 5,
@@ -1153,7 +1153,7 @@ export const initData = async nextSeq => {
       },
       {
         _id: await nextSeq('reply'),
-        user_id: 1,
+        user_id: 3,
         order_id: 3,
         product_id: 3,
         rating: 5,
@@ -1162,7 +1162,7 @@ export const initData = async nextSeq => {
       },
       {
         _id: await nextSeq('reply'),
-        user_id: 1,
+        user_id: 3,
         order_id: 4,
         product_id: 4,
         rating: 5,
@@ -1185,21 +1185,21 @@ export const initData = async nextSeq => {
     bookmark: [
       {
         _id: await nextSeq('bookmark'),
-        user_id: 1,
+        user_id: 3,
         product_id: 1,
         memo: '',
         createdAt: getTime(-3, -60 * 60 * 2),
       },
       {
         _id: await nextSeq('bookmark'),
-        user_id: 1,
+        user_id: 3,
         product_id: 2,
         memo: '',
         createdAt: getTime(-2, -60 * 60 * 20),
       },
       {
         _id: await nextSeq('bookmark'),
-        user_id: 1,
+        user_id: 3,
         product_id: 17,
         memo: '',
         createdAt: getTime(-2, -60 * 60 * 20),
