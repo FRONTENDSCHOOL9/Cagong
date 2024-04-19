@@ -1,7 +1,7 @@
 @font-face {
   font-family: 'NanumSquareRound';
   src: url('https://cdn.rawgit.com/innks/NanumSquareRound/master/nanumsquareround.min.css')
-    format('woff');
+    format('font-woff');
   font-weight: normal;
   font-style: normal;
 }
