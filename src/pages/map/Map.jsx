@@ -224,7 +224,6 @@ function Map() {
   const customAxios = useCustomAxios();
   const [filteredCafeList, setFilteredCafeList] = useState([]);
   const [distanceToCafe, setDistanceToCafe] = useState([]);
-
   const { data } = useQuery({
     queryKey: ['products'],
     queryFn: () => customAxios.get(`/products`),
@@ -491,11 +490,11 @@ function Map() {
   <h1 class="info_name">${item.name} </h1>
   <div class="info_cover">
   <img class="info_thumb" src=${import.meta.env.VITE_API_SERVER}/files/${
-    import.meta.env.VITE_CLIENT_ID
-  }/${item.mainImages[0]?.name} alt="${item.name} 사진"
+      import.meta.env.VITE_CLIENT_ID
+    }/${item.mainImages[0]?.name} alt="${item.name} 사진"
   /><img class="info_thumb" src=${import.meta.env.VITE_API_SERVER}/files/${
-    import.meta.env.VITE_CLIENT_ID
-  }/${item.mainImages[1]?.name} alt="${item.name} 사진"
+      import.meta.env.VITE_CLIENT_ID
+    }/${item.mainImages[1]?.name} alt="${item.name} 사진"
 />
 <img class="info_thumb" src=${import.meta.env.VITE_API_SERVER}/files/${
       import.meta.env.VITE_CLIENT_ID
@@ -536,12 +535,10 @@ function Map() {
     }
   }
 
-  //5초 동안 기다린 후 현재 위치로 이동
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     handleCurrentLocation(); // 현재 위치로
-  //   }, 4000);
-  // }, []);
+  //페이지 로드 시 현재 위치로
+  useEffect(() => {
+    handleCurrentLocation(); // 현재 위치로
+  }, []);
 
   //줌 아웃 함수
   function handleZoomOut() {
