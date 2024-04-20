@@ -143,34 +143,30 @@ function CafeDetail() {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [bookmarkId, setBookmarkId] = useState(null);
 
-  useEffect(() => {
-    const fetchBookmarkData = async () => {
-      try {
-        if (user) {
-          const { data } = await axios.get(`/bookmarks/product`);
-          if (data && data.item) {
-            const foundItem = data.item.find(
-              item => item.product._id === cafeId,
-            );
-            if (foundItem) {
-              setIsBookmarked(true);
-              setBookmarkId(foundItem._id);
-            } else {
-              setIsBookmarked(false);
-              setBookmarkId(null);
-            }
+  const fetchBookmarkData = async () => {
+    try {
+      if (user) {
+        const { data } = await axios.get(`/bookmarks/product`);
+        if (data && data.item) {
+          const foundItem = data.item.find(item => item.product._id === cafeId);
+          if (foundItem) {
+            setIsBookmarked(true);
+            setBookmarkId(foundItem._id);
           } else {
             setIsBookmarked(false);
             setBookmarkId(null);
           }
+        } else {
+          setIsBookmarked(false);
+          setBookmarkId(null);
         }
-      } catch (error) {
-        console.error('북마크 데이터를 가져오는 중 오류 발생:', error);
       }
-    };
+    } catch (error) {
+      console.error('북마크 데이터를 가져오는 중 오류 발생:', error);
+    }
+  };
 
-    fetchBookmarkData();
-  }, [axios, cafeId, user]);
+  fetchBookmarkData();
 
   const handleBookmark = async () => {
     try {
@@ -260,7 +256,7 @@ function CafeDetail() {
   return (
     <DetailStyle>
       <SideHeader>
-        <div className='header'>
+        <div className="header">
           <h1 style={{ fontSize: '25px', fontWeight: '800' }}>
             {data.item.name}
           </h1>

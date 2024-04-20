@@ -41,19 +41,22 @@ const adContents = [
   {
     imageSrc: ad_01_Img,
     altText: '카공여지도 광고 이미지',
-    subtitle: '집중할 수 있는 카페 찾는다면',
+    subtitleTop: '집중할 수 있는',
+    subtitleBottom: '카페 찾는다면',
     title: '카공여지도',
   },
   {
     imageSrc: ad_02_Img,
     altText: '카공여지도 광고 이미지',
-    subtitle: '시험 기간에 가기 좋은 카페 찾고 있다면',
+    subtitleTop: '시험 기간에 가기 좋은',
+    subtitleBottom: '카페 찾는다면',
     title: '카공여지도',
   },
   {
     imageSrc: ad_03_Img,
     altText: '카공여지도 광고 이미지',
-    subtitle: '차분한 공간에서\n커피 마시고 싶다면',
+    subtitleTop: '차분한 공간에서',
+    subtitleBottom: '커피 마시고 싶다면',
     title: '카공여지도',
   },
 ];

@@ -90,7 +90,9 @@ function AdSwiper({ adContents }) {
                   alt={item.altText}
                 />
                 <h1 className="ad-title-overlay">
-                  <span className="ad-title-sub">{item.subtitle}</span>
+                  <span className="ad-title-sub">{item.subtitleTop}</span>
+                  <br />
+                  <span className="ad-title-sub">{item.subtitleBottom}</span>
                   <br />
                   {item.title}
                 </h1>
