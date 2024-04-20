@@ -8,7 +8,6 @@ import Wrapper from '@components/layout/Wrapper';
 
 const MyComponent = styled.div`
   padding: 20px;
-  min-height: 100vh;
   .cafelist-title {
     font-size: 20px;
     font-weight: 800;
