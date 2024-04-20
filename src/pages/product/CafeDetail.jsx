@@ -19,7 +19,7 @@ import Wrapper from '@components/layout/Wrapper';
 
 const DetailStyle = styled.div`
   .container {
-    padding: 0px 30px;
+    padding: 30px;
   }
   .header-title {
     font-size: 30px;
@@ -43,8 +43,29 @@ const DetailStyle = styled.div`
     font-size: 30px;
     font-weight: 800;
   }
+  .desc-bundle {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .desc {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 2;
+    padding: 0px 10px;
+    font-style: italic;
+  }
+  .desc-left {
+    padding-top: 10px;
+    font-size: 30px;
+  }
+  .desc-right {
+    font-size: 30px;
+    margin-left: auto;
+  }
   .address-bundle {
     margin: 20px 0px;
+    margin-bottom: 50px;
     display: flex;
     align-items: center;
     flex-wrap: wrap;
@@ -57,7 +78,6 @@ const DetailStyle = styled.div`
     align-items: center;
   }
   .bookmark-icon {
-    margin-left: auto;
     width: 20px;
   }
   .title {
@@ -82,12 +102,8 @@ const DetailStyle = styled.div`
     width: 100%;
     padding: 15px;
   }
-  .review{
-    // box-shadow: inset 0px 0px 20px red;
-    padding-bottom: 10px;
-  }
   .review-list {
-    margin: 25px 10px;
+    margin: 35px 10px;
   }
   .review-user {
     margin-right: 10px;
@@ -101,6 +117,10 @@ const DetailStyle = styled.div`
   }
   .review-content {
     margin-top: 20px;
+    font-size: 14px;
+  }
+  .no-review {
+    padding: 30px 10px;
     font-size: 14px;
   }
   .copy-board {
@@ -240,9 +260,18 @@ function CafeDetail() {
   return (
     <DetailStyle>
       <SideHeader>
-        <h1 style={{ fontSize: '25px', fontWeight: '800' }}>
-          {data.item.name}
-        </h1>
+        <div className='header'>
+          <h1 style={{ fontSize: '25px', fontWeight: '800' }}>
+            {data.item.name}
+          </h1>
+          <img
+            className="bookmark-icon"
+            src={isBookmarked ? '/bookmarked.svg' : '/bookmark.svg'}
+            alt="북마크 버튼 이미지"
+            onClick={handleBookmark}
+            style={{ cursor: 'pointer' }}
+          />
+        </div>
       </SideHeader>
       <Wrapper>
         <div className="container">
@@ -265,9 +294,9 @@ function CafeDetail() {
               <SwiperSlide key={index}>
                 <img
                   className="slide-src"
-                  src={`${import.meta.env.VITE_API_SERVER}/files/${import.meta.env.VITE_CLIENT_ID}/${
-                    image.name
-                  }`}
+                  src={`${import.meta.env.VITE_API_SERVER}/files/${
+                    import.meta.env.VITE_CLIENT_ID
+                  }/${image.name}`}
                   alt="카페 사진"
                 />
               </SwiperSlide>
@@ -285,13 +314,12 @@ function CafeDetail() {
             >
               <span className="copy-text">복사하기</span>
             </CopyToClipboard>
-            <img
-              className="bookmark-icon"
-              src={isBookmarked ? '/bookmarked.svg' : '/bookmark.svg'}
-              alt="북마크 버튼 이미지"
-              onClick={handleBookmark}
-              style={{ cursor: 'pointer' }}
-            />
+          </div>
+          <div className="desc-bundle">
+            <h2 className="title">카페 소개</h2>
+            <span className="desc-left"> ❝ </span>
+            <p className="desc">{data.item.extra.description}</p>
+            <span className="desc-right"> ❞ </span>
           </div>
           <div className="order">
             <h2 className="title">카공단 제공 메뉴</h2>
@@ -311,13 +339,19 @@ function CafeDetail() {
           </div>
           <div className="review">
             <h2 className="title">방문자 리뷰</h2>
-            {review?.item.map(item => (
-              <div key={item._id} className="review-list">
-                <span className="review-user">{item.user.name}</span>
-                <span className="review-createdAt">{item.createdAt}</span>
-                <p className="review-content">{item.content}</p>
-              </div>
-            ))}
+            {review?.item.length !== 0 ? (
+              <>
+                {review?.item.map(item => (
+                  <div key={item._id} className="review-list">
+                    <span className="review-user">{item.user.name}</span>
+                    <span className="review-createdAt">{item.createdAt}</span>
+                    <p className="review-content">{item.content}</p>
+                  </div>
+                ))}
+              </>
+            ) : (
+              <p className="no-review">아직 작성된 리뷰가 없습니다.</p>
+            )}
           </div>
         </div>
       </Wrapper>
