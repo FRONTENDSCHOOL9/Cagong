@@ -9,23 +9,28 @@ const SearchFormStyle = styled.div`
   min-width: 300px;
 
   .search-form {
-    width: 100%;
+    display: flex;
+    align-items: center;
+    width: 90%;
     height: 60px;
-    padding: 0 50px;
   }
 
   .search-form_input {
-    border: none;
-    width: 73%;
-    height: 100%;
     font-family: 'NanumSquareRound';
+    border: none;
+    min-width: 50%;
+    width: 100%;
+    height: 95%;
+    margin-left: 10px;
     font-size: 0.8rem;
+    outline:none;
   }
+
   .search-form_button {
     position: absolute;
     z-index: 9999;
     width: 38px;
-    height: 100%;
+    height: 90%;
     bottom: 0px;
     top: 4px;
     right: 2px;
@@ -33,11 +38,22 @@ const SearchFormStyle = styled.div`
     background-color: white;
     cursor: pointer;
   }
+
   .search-form_button-icon {
+    display:block;
     width: 100%;
   }
+  &::after {
+    content:'';
+    display:block;
+    position:absolute;
+    z-index: 9998;
+    right: 0;
+    top:0;
+    width:40px;
+    height:50px;
+    background-color:white;
 `;
-
 SearchIcon.propTypes = {
   onClick: PropTypes.func,
 };
@@ -80,7 +96,6 @@ function SearchIcon({ onClick }) {
   function handleSubmit(e) {
     e.preventDefault();
     onClick(keyword); // 검색 함수 호출
-    setKeyword(''); // Submit 버튼 클릭 시 입력창 내용 초기화
     saveSearchHistory(keyword);
   }
 
@@ -90,6 +105,7 @@ function SearchIcon({ onClick }) {
         <input
           className="search-form_input"
           type="text"
+          maxLength={20}
           autoFocus
           onInput={onDebounceChange}
           placeholder="카페명을 입력해주세요."

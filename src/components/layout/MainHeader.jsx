@@ -1,6 +1,6 @@
 import SearchButton from '@components/button/SearchButton';
 import styled from 'styled-components';
-import PrevButton from '@components/button/PrevButton';
+// import PrevButton from '@components/button/PrevButton';
 import { Link } from 'react-router-dom';
 
 const HeaderStyle = styled.div`
@@ -28,10 +28,17 @@ const HeaderStyle = styled.div`
     align-items: center;
     gap: 5px;
     margin-right: 10px;
-    margin-top: 10px;
   }
+  .search-button {
+  }
+
   .logo-title {
     display: flex;
+    align-items: center;
+  }
+
+  .title {
+    margin-bottom: 6px;
   }
 `;
 
@@ -44,7 +51,7 @@ function Header() {
       </Link>
 
       <div className="button-bundle">
-        <PrevButton className="prev-button" />
+        {/* <PrevButton className="prev-button" /> */}
         <SearchButton className="search-button" />
       </div>
     </HeaderStyle>
