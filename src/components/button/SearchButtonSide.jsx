@@ -8,6 +8,8 @@ function SearchButton() {
           style={{
             display: 'block',
             width: '26px',
+            paddingTop: '2px',
+            marginRight: '8px',
           }}
           src="/search-black.svg"
           alt="검색 버튼"

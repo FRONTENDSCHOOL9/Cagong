@@ -4,24 +4,20 @@ import { debounce } from 'lodash';
 import styled from 'styled-components';
 
 const SearchFormStyle = styled.div`
+  max-width: 1000px;
+  margin: 0 auto;
   width: 100%;
   height: 60px;
-  min-width: 300px;
-
+  
   .search-form {
-    display: flex;
-    align-items: center;
-    width: 90%;
     height: 60px;
   }
 
   .search-form_input {
     font-family: 'NanumSquareRound';
     border: none;
-    min-width: 50%;
     width: 100%;
     height: 95%;
-    margin-left: 10px;
     font-size: 0.8rem;
     outline:none;
   }

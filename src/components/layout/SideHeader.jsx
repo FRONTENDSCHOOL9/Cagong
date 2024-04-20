@@ -25,10 +25,6 @@ const HeaderStyle = styled.div`
     justify-content: space-between;
     width: 100%;
   }
-
-  .search {
-    padding-top: 7px;
-  }
 `;
 
 function SideHeader({ children }) {

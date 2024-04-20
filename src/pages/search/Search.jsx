@@ -16,8 +16,9 @@ import Wrapper from '@components/layout/Wrapper';
 import styled from 'styled-components';
 
 const SearchStyle = styled.div`
+  padding: 15px;
+  margin-top: 8vh;
   .recent-searches {
-    padding: 10px;
   }
   .recent-searches_header {
     display: flex;
@@ -63,6 +64,10 @@ const SearchStyle = styled.div`
     display: block;
     width: 100%;
     cursor: pointer;
+  }
+
+  .recent-searches_line {
+    margin-top: 20px;
   }
 
   .search-result-message {
@@ -208,7 +213,7 @@ function Search() {
               </p>
             )}
 
-            <hr />
+            <hr className="recent-searches_line" />
             {searchHistory.length > 0 ? (
               <h1 className="search-result-message">
                 총 카페 <strong>{data?.item.length}</strong>건이 검색
@@ -225,6 +230,7 @@ function Search() {
             autoplay={true}
             pagination={{
               clickable: true,
+              el: null,
             }}
             navigation={{
               nextEl: '.swiper-button-next',
