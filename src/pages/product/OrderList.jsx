@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import useCustomAxios from '@hooks/useCustomAxios.mjs';
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Modal from '@components/Modal';
 import Wrapper from '@components/layout/Wrapper';
 import SideHeader from '@components/layout/SideHeader';
@@ -112,6 +112,7 @@ const OrderList = () => {
   // eslint-disable-next-line no-unused-vars
   const [reviewId, setReviewId] = useState(null);
   const queryClient = useQueryClient();
+  const [review, setReview] = useState();
 
   const { data } = useQuery({
     queryKey: ['orders'],
@@ -145,6 +146,31 @@ const OrderList = () => {
   const productId = data.item
     .filter(item => item.state !== 'completed')
     .map(item => item._id);
+
+  // 후기 불러오기
+
+  async function getReview() {
+    const res = await axios.get(`/replies`);
+    setReview(res);
+  }
+
+  useEffect(() => {
+    getReview();
+  }, []);
+
+  const disabledIdList = useMemo(() => {
+    return review?.data?.item?.map(item => item._id) || [];
+  }, [review]);
+
+  const disabled = [];
+
+  disabledIdList.forEach(item => {
+    if (usedProductsId.includes(item)) {
+      disabled.push(item);
+    }
+  });
+
+  console.log(disabled);
 
   // 모달
   const closeModal = () => {
@@ -246,14 +272,27 @@ const OrderList = () => {
                 {usedProducts.map((name, index) => (
                   <div key={index} className="unused-list">
                     <p>{name}</p>
-                    <Button
-                      className="action-button"
-                      fontSize="18px"
-                      fontWeight="bold"
-                      onClick={() => gotoReview(index)}
-                    >
-                      리뷰 쓰기
-                    </Button>
+                    {disabled.includes(usedProductsId[index]) ? (
+                      <Button
+                        className="action-button"
+                        fontSize="18px"
+                        fontWeight="bold"
+                        onClick={() => gotoReview(index)}
+                        disabled={true}
+                      >
+                        리뷰 쓰기
+                      </Button>
+                    ) : (
+                      <Button
+                        className="action-button"
+                        fontSize="18px"
+                        fontWeight="bold"
+                        onClick={() => gotoReview(index)}
+                        disabled={false}
+                      >
+                        리뷰 쓰기
+                      </Button>
+                    )}
                   </div>
                 ))}
               </div>
