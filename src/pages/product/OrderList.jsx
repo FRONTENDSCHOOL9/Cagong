@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import useCustomAxios from '@hooks/useCustomAxios.mjs';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Modal from '@components/Modal';
 import Wrapper from '@components/layout/Wrapper';
 import SideHeader from '@components/layout/SideHeader';
@@ -158,9 +158,7 @@ const OrderList = () => {
     getReview();
   }, []);
 
-  const disabledIdList = useMemo(() => {
-    return review?.data?.item?.map(item => item._id) || [];
-  }, [review]);
+  const disabledIdList = review?.data.item.map(item => item.product._id) || [];
 
   const disabled = [];
 
@@ -169,8 +167,6 @@ const OrderList = () => {
       disabled.push(item);
     }
   });
-
-  console.log(disabled);
 
   // 모달
   const closeModal = () => {
