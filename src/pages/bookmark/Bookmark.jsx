@@ -94,7 +94,6 @@ function Bookmark() {
   const deleteBookmark = async bookmarkId => {
     try {
       await axios.delete(`/bookmarks/${bookmarkId}`);
-      console.log('북마크 삭제함!');
       const updatedBookmarks = bookmarks.filter(id => id !== bookmarkId);
       setBookmarks(updatedBookmarks);
     } catch (error) {
