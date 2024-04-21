@@ -12,10 +12,6 @@ import SideHeader from '@components/layout/SideHeader';
 
 const OrderStyle = styled.div`
   .header {
-    height: 100px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     font-size: 25px;
     font-weight: 800;
   }
