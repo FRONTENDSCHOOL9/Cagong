@@ -30,6 +30,7 @@ const DetailStyle = styled.div`
     height: 80vw;
     object-fit: cover;
     color: black;
+    border-radius: 30px;
   }
   .header {
     display: flex;
@@ -258,7 +259,7 @@ function CafeDetail() {
   return (
     <>
       <SideHeader>
-        <div className="header">
+        <div style={{display: 'flex', gap: '10px'}}>
           <h1 style={{ fontSize: '25px', fontWeight: '800' }}>
             {data.item.name}
           </h1>
@@ -267,7 +268,7 @@ function CafeDetail() {
             src={isBookmarked ? '/bookmarked.svg' : '/bookmark.svg'}
             alt="북마크 버튼 이미지"
             onClick={handleBookmark}
-            style={{ cursor: 'pointer' }}
+            style={{ cursor: 'pointer', width: '20px' }}
           />
         </div>
       </SideHeader>
