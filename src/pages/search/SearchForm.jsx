@@ -1,6 +1,6 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
-import { debounce } from 'lodash';
+// import { debounce } from 'lodash';
 import styled from 'styled-components';
 
 const SearchFormStyle = styled.div`
@@ -68,26 +68,26 @@ function SearchIcon({ onClick }) {
     sessionStorage.setItem('searchHistory', JSON.stringify(newHistory));
   }
 
-  const [text, setText] = useState('');
+  // const [text, setText] = useState('');
   //디바운스 기능을 가지고 있는 함수를 담음
-  const onDebounceChange = e => {
+  const handleChange = e => {
     // setText(e.target.value);
     // setKeyword(e.target.value);
     // onClick(e.target.value);
-    debouncedSearch(e.target.value);
+    setKeyword(e.target.value); //Keyword 변수에 입력한 값 담기
   };
   // console.log(text + 'text');
-  // console.log(keyword + 'keyword');
-  //lodash를 사용하여 디바운싱
-  const debouncedSearch = useMemo(
-    () =>
-      debounce(text => {
-        setText(text);
-        setKeyword(text); //Keyword 변수에 text 변수 값 담기
-        onClick(keyword); // 검색 함수 호출
-      }, 500),
-    [text],
-  );
+  // // console.log(keyword + 'keyword');
+  // //lodash를 사용하여 디바운싱
+  // const debouncedSearch = useMemo(
+  //   () =>
+  //     debounce(text => {
+  //       setText(text);
+  //       setKeyword(text); //Keyword 변수에 text 변수 값 담기
+  //       onClick(keyword); // 검색 함수 호출
+  //     }, 500),
+  //   [text],
+  // );
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -103,7 +103,8 @@ function SearchIcon({ onClick }) {
           type="text"
           maxLength={20}
           autoFocus
-          onInput={onDebounceChange}
+          value={keyword}
+          onChange={handleChange}
           placeholder="카페명을 입력해주세요."
         />
         <button
