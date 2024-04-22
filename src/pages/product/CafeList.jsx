@@ -9,10 +9,10 @@ import _ from 'lodash';
 
 const MyComponent = styled.div`
   .cafelist-title {
-    font-size: 20px;
+    font-size: 2.2rem;
     font-weight: 800;
     text-align: center;
-    padding: 10px;
+    padding: 22px;
   }
 `;
 
@@ -43,7 +43,7 @@ function CafeList() {
     },
   });
 
-  console.log(data);
+  // console.log(data);
 
   let cafeList = [];
   let hasNext = false;

@@ -15,11 +15,11 @@ const MyComponent = styled.div`
   }
 
   .cafelist-item {
-    padding: 10px;
+    padding: 0 10px;
   }
 
   .item-description {
-    padding: 10px 0;
+    padding: 12px 0;
   }
 
   .item-name {
