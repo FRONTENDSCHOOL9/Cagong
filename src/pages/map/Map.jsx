@@ -7,6 +7,7 @@ import axios from 'axios';
 import styled from 'styled-components';
 import MainHeader from '@components/layout/MainHeader';
 import Wrapper from '@components/layout/Wrapper';
+import { useLocation } from 'react-router-dom';
 
 const MapStyle = styled.div`
   //스크롤바 숨기기
@@ -260,6 +261,56 @@ function Map() {
     select: response => response.data,
     suspense: true,
   });
+
+  const location = useLocation();
+
+  useEffect(() => {
+    let receiveData = '';
+    if (location.state && location.state.addressData) {
+      receiveData = location.state?.addressData; // state에서 데이터를 검색합니다.
+      // console.log(location.state?.addressData);
+    }
+    async function handleMapForCafe(receivedData) {
+      const response = await axios.get(
+        'https://dapi.kakao.com/v2/local/search/address.json',
+        {
+          params: { query: receivedData },
+          headers: {
+            Authorization: `KakaoAK ${import.meta.env.VITE_KAKAO_REST_API_KEY}`,
+          },
+        },
+      );
+      const { x, y } = response.data.documents[0];
+      // console.log(x, y);
+      const cafeX = Number(x).toFixed(7);
+      const cafeY = Number(y).toFixed(7);
+
+      // const wgsResponse = await axios.get(
+      //   'https://dapi.kakao.com/v2/local/geo/transcoord.json',
+      //   {
+      //     params: {
+      //       x,
+      //       y,
+      //       output_coord: 'WGS84',
+      //     },
+      //     headers: {
+      //       Authorization: `KakaoAK ${import.meta.env.VITE_KAKAO_REST_API_KEY}`,
+      //     },
+      //   },
+      // );
+
+      // const { x: wgsX, y: wgsY } = wgsResponse.data.documents[0];
+
+      const locPosition = new kakao.maps.LatLng(cafeY, cafeX); // geolocation으로 얻어온 좌표
+      mapRef.current.setLevel(6, { animate: true });
+      mapRef.current.panTo(locPosition);
+      // console.log(location.state?.addressData);
+      // console.log(wtmResponse2.data.documents[0]);
+    }
+    handleMapForCafe(receiveData);
+
+    // console.log(handleMapForCafe(receivedData));
+  }, [location.state?.addressData]);
 
   const cafeListCopy =
     data?.item?.map(item => ({
