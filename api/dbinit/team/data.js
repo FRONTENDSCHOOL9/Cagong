@@ -956,7 +956,7 @@ export const initData = async nextSeq => {
         state: 'completed',
         products: [
           {
-            _id: await nextSeq('product'),
+            _id: 1,
             seller_id: 1,
             price: 7900,
             shippingFees: 0,
@@ -1016,7 +1016,7 @@ export const initData = async nextSeq => {
         state: 'completed',
         products: [
           {
-            _id: await nextSeq('product'),
+            _id: 2,
             seller_id: 1,
             price: 8500,
             shippingFees: 0,
@@ -1076,7 +1076,7 @@ export const initData = async nextSeq => {
         state: 'love',
         products: [
           {
-            _id: await nextSeq('product'),
+            _id: 3,
             seller_id: 1,
             price: 8800,
             shippingFees: 0,
@@ -1111,6 +1111,66 @@ export const initData = async nextSeq => {
               address: '경기 평택시 용죽5길 57 1층 102호',
               description:
                 '책과 커피를 함께 즐길 수 있는 공간으로, 고요한 분위기와 편안한 의자가 준비되어 있어요. 책장에는 다양한 장르의 책들이 가득해 공부하는 동안에도 영감을 받을 수 있어요.',
+            },
+          },
+        ],
+        cost: {
+          products: 8800,
+          shippingFees: 0,
+          discount: {
+            products: 0,
+            shippingFees: 0,
+          },
+          total: 8800,
+        },
+        address: {
+          name: '회사',
+          value: '서울시 강남구 신사동 234',
+        },
+        createdAt: getTime(-6, -60 * 60 * 3),
+        updatedAt: getTime(-6, -60 * 60 * 3),
+      },
+      {
+        _id: await nextSeq('order'),
+        user_id: 3,
+        state: 'completed',
+        products: [
+          {
+            _id: 24,
+            seller_id: 1,
+            price: 6400,
+            shippingFees: 0,
+            show: true,
+            active: true,
+            name: '카페삼층',
+            quantity: 999,
+            buyQuantity: 1,
+            mainImages: [
+              {
+                name: 'samcheung_01.jpg',
+                path: 'samcheung_01.jpg',
+              },
+              {
+                name: 'samcheung_02.jpg',
+                path: 'samcheung_02.jpg',
+              },
+              {
+                name: 'samcheung_03.jpg',
+                path: 'samcheung_03.jpg',
+              },
+              {
+                name: 'samcheung_04.jpg',
+                path: 'samcheung_04.jpg',
+              },
+            ],
+            content: '1 커피 + 1 디저트',
+            createdAt: '2024.04.09 09:50:56',
+            updatedAt: '2024.04.09 04:44:29',
+            extra: {
+              location: [37.45199003948839, 126.65438234124238],
+              address: '인천광역시 미추홀구 인하로 53',
+              description:
+                '아는 사람만 아는 숨은 카공 맛집! 제공하는 무료 와이파이는 속도도 빨라 노트북이나 태블릿으로 온라인 작업하기에도 최적입니다. 커피 맛은 보장드릴 테니 짐 챙겨서 카공하러 가 보실까요?',
             },
           },
         ],
