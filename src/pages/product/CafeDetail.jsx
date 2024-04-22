@@ -21,10 +21,6 @@ const DetailStyle = styled.div`
   .container {
     padding: 30px;
   }
-  .header-title {
-    font-size: 30px;
-    font-weight: 800;
-  }
   .slide-src {
     width: 100%;
     height: 80vw;
@@ -32,25 +28,13 @@ const DetailStyle = styled.div`
     color: black;
     border-radius: 30px;
   }
-  .header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  .main-title {
-    padding-top: 20px;
-    font-size: 30px;
-    font-weight: 800;
-  }
   .desc-bundle {
     display: flex;
     flex-direction: column;
     gap: 20px;
   }
   .desc {
-    font-size: 14px;
+    font-size: 1.2rem;
     font-weight: 400;
     line-height: 2;
     padding: 0px 10px;
@@ -58,10 +42,10 @@ const DetailStyle = styled.div`
   }
   .desc-left {
     padding-top: 10px;
-    font-size: 30px;
+    font-size: 3rem;
   }
   .desc-right {
-    font-size: 30px;
+    font-size: 3rem;
     margin-left: auto;
   }
   .address-bundle {
@@ -73,7 +57,7 @@ const DetailStyle = styled.div`
     gap: 10px;
   }
   .address {
-    font-size: 16px;
+    font-size: 1.2rem;
     font-weight: 600;
     display: flex;
     align-items: center;
@@ -82,7 +66,7 @@ const DetailStyle = styled.div`
     width: 20px;
   }
   .title {
-    font-size: 22px;
+    font-size: 2.2rem;
     font-weight: 800;
   }
   .order {
@@ -91,7 +75,7 @@ const DetailStyle = styled.div`
   .order-menu {
     display: flex;
     justify-content: space-between;
-    font-size: 14px;
+    font-size: 1.2rem;
     font-weight: bold;
     margin-bottom: 20px;
     margin: 30px 10px;
@@ -108,24 +92,24 @@ const DetailStyle = styled.div`
   }
   .review-user {
     margin-right: 10px;
-    font-size: 16px;
+    font-size: 1.6rem;
     font-weight: bold;
   }
   .review-createdAt {
-    font-size: 12px;
+    font-size: 1.2rem;
     font-weight: bold;
     color: #828282;
   }
   .review-content {
     margin-top: 20px;
-    font-size: 14px;
+    font-size: 1.2rem;
   }
   .no-review {
     padding: 30px 10px;
-    font-size: 14px;
+    font-size: 1.6rem;
   }
   .copy-board {
-    font-size: 12px;
+    font-size: 1.2rem;
     cursor: pointer;
     text-decoration: underline;
     color: #828282;
