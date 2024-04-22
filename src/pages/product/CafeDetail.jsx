@@ -34,7 +34,7 @@ const DetailStyle = styled.div`
     gap: 20px;
   }
   .desc {
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     font-weight: 400;
     line-height: 2;
     padding: 0px 10px;
@@ -57,7 +57,7 @@ const DetailStyle = styled.div`
     gap: 10px;
   }
   .address {
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     font-weight: 600;
     display: flex;
     align-items: center;
@@ -75,7 +75,7 @@ const DetailStyle = styled.div`
   .order-menu {
     display: flex;
     justify-content: space-between;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     font-weight: bold;
     margin-bottom: 20px;
     margin: 30px 10px;
@@ -102,7 +102,7 @@ const DetailStyle = styled.div`
   }
   .review-content {
     margin-top: 20px;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
   }
   .no-review {
     padding: 30px 10px;
@@ -244,7 +244,7 @@ function CafeDetail() {
     <>
       <SideHeader>
         <div style={{display: 'flex', gap: '10px'}}>
-          <h1 style={{ fontSize: '25px', fontWeight: '800' }}>
+          <h1 style={{ fontSize: '2.5rem', fontWeight: '800' }}>
             {data.item.name}
           </h1>
           <img
@@ -314,7 +314,7 @@ function CafeDetail() {
               <Button
                 className="order-button"
                 fontWeight="bold"
-                fontSize="14px"
+                fontSize="1.4rem"
                 onClick={confirmUser}
                 disabled={isOrdered}
               >

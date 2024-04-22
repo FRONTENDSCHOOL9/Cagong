@@ -16,7 +16,7 @@ const OrderStyle = styled.div`
     color: black;
   }
   .header {
-    font-size: 25px;
+    font-size: 2.5rem;
     font-weight: 800;
   }
   .section {
@@ -31,7 +31,7 @@ const OrderStyle = styled.div`
     background-color: white;
     border: 1px solid #d8d8d8;
     border-right: none;
-    font-size: 20px;
+    font-size: 2rem;
     font-weight: bold;
   }
   .section-1:hover {
@@ -44,7 +44,7 @@ const OrderStyle = styled.div`
     cursor: pointer;
     background-color: white;
     border: 1px solid #d8d8d8;
-    font-size: 20px;
+    font-size: 2rem;
     font-weight: bold;
   }
   .section-2:hover {
@@ -94,7 +94,7 @@ const OrderStyle = styled.div`
   }
   .completed-button {
     display: block;
-    font-size: 16px;
+    font-size: 1.6rem;
     padding: 10px;
     font-weight: bold;
     margin: 0 auto;
@@ -114,7 +114,7 @@ const OrderStyle = styled.div`
   .empty-button {
     margin: 0 auto;
     display: block;
-    font-size: 16px;
+    font-size: 1.6rem;
     padding: 15px 35px;
     font-weight: bold;
   }
@@ -126,7 +126,7 @@ const OrderStyle = styled.div`
   }
   .empty-subtitle {
     font-family: 'UhBeeSe_hyun';
-    font-size: 40px;
+    font-size: 4rem;
     color: #bdbdbd;
   }
 `;
@@ -271,7 +271,7 @@ const OrderList = () => {
                   <Link to="/boards/CafeList">
                     <Button
                       className="empty-button"
-                      fontSize="18px"
+                      fontSize="1.8rem"
                       fontWeight="bold"
                     >
                       구매하러 가기
@@ -286,7 +286,7 @@ const OrderList = () => {
                         <p className='list-item'>{name}</p>
                         <Button
                           className="action-button"
-                          fontSize="18px"
+                          fontSize="1.8rem"
                           fontWeight="bold"
                           onClick={() => showModal(index)}
                         >
@@ -313,7 +313,7 @@ const OrderList = () => {
                       {disabled.includes(usedProductsId[index]) ? (
                         <Button
                           className="action-button"
-                          fontSize="18px"
+                          fontSize="1.8rem"
                           fontWeight="bold"
                           onClick={() => gotoReview(index)}
                           disabled={true}
@@ -323,7 +323,7 @@ const OrderList = () => {
                       ) : (
                         <Button
                           className="action-button"
-                          fontSize="18px"
+                          fontSize="1.8rem"
                           fontWeight="bold"
                           onClick={() => gotoReview(index)}
                           disabled={false}
