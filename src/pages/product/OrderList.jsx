@@ -1,7 +1,5 @@
 import Button from '@components/button/Button';
-import { memberState } from '@recoil/user/atoms.mjs';
-import { useRecoilValue } from 'recoil';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import useCustomAxios from '@hooks/useCustomAxios.mjs';
@@ -96,10 +94,34 @@ const OrderStyle = styled.div`
     width: 110px;
     height: 60px;
   }
+  .empty-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    height: 70vh;
+  }
+  .empty-button {
+    margin: 0 auto;
+    display: block;
+    font-size: 16px;
+    padding: 15px 35px;
+    font-weight: bold;
+  }
+  .empty-title {
+    text-align: center;
+    line-height: 22px;
+    font-weight: 700;
+  }
+  .empty-subtitle {
+    font-family: 'UhBeeSe_hyun';
+    font-size: 40px;
+    color: #bdbdbd;
+  }
 `;
 
 const OrderList = () => {
-  const user = useRecoilValue(memberState);
   const navigate = useNavigate();
   const axios = useCustomAxios();
   const [modalOpen, setModalOpen] = useState(false);
@@ -229,68 +251,83 @@ const OrderList = () => {
             <h2>사용 완료</h2>
           </button>
         </div>
-        {!user ? (
-          <div className="login">
-            <p>로그인이 필요한 서비스입니다.</p>
-            <Button
-              padding="20px 60px"
-              fontSize="20px"
-              fontWeight="bold"
-              onClick={() => navigate('/users/login')}
-            >
-              로그인
-            </Button>
-          </div>
-        ) : (
-          <>
-            {section ? (
-              <div className="unused">
-                {unusedProducts.map((name, index) => (
-                  <div key={index} className="unused-list">
-                    <p>{name}</p>
+        <>
+          {section ? (
+            <div className="unused">
+              {unusedProducts.length === 0 ? (
+                <div className="empty-section">
+                  <span className="empty-subtitle">텅..</span>
+                  <h2 className="empty-title">구매 내역이 없습니다.</h2>
+                  <Link to="/boards/CafeList">
                     <Button
-                      className="action-button"
+                      className="empty-button"
                       fontSize="18px"
                       fontWeight="bold"
-                      onClick={() => showModal(index)}
                     >
-                      QR 보기
+                      구매하러 가기
                     </Button>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="unused">
-                {usedProducts.map((name, index) => (
-                  <div key={index} className="unused-list">
-                    <p>{name}</p>
-                    {disabled.includes(usedProductsId[index]) ? (
-                      <Button
-                        className="action-button"
-                        fontSize="18px"
-                        fontWeight="bold"
-                        onClick={() => gotoReview(index)}
-                        disabled={true}
-                      >
-                        리뷰 쓰기
-                      </Button>
-                    ) : (
-                      <Button
-                        className="action-button"
-                        fontSize="18px"
-                        fontWeight="bold"
-                        onClick={() => gotoReview(index)}
-                        disabled={false}
-                      >
-                        리뷰 쓰기
-                      </Button>
-                    )}
-                  </div>
-                ))}
-              </div>
-            )}
-          </>
-        )}
+                  </Link>
+                </div>
+              ) : (
+                <>
+                  {unusedProducts.map((name, index) => (
+                    <div key={index}>
+                      <div className="unused-list">
+                        <p>{name}</p>
+                        <Button
+                          className="action-button"
+                          fontSize="18px"
+                          fontWeight="bold"
+                          onClick={() => showModal(index)}
+                        >
+                          QR 보기
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+                </>
+              )}
+            </div>
+          ) : (
+            <div className="unused">
+              {usedProducts.length === 0 ? (
+                <div className="empty-section">
+                  <span className="empty-subtitle">텅..</span>
+                  <h2 className="empty-title">사용이 완료된 <br/> 쿠폰 내역이 없습니다.</h2>
+                </div>
+              ) : (
+                <>
+                  {usedProducts.map((name, index) => (
+                    <div key={index} className="unused-list">
+                      <p>{name}</p>
+                      {disabled.includes(usedProductsId[index]) ? (
+                        <Button
+                          className="action-button"
+                          fontSize="18px"
+                          fontWeight="bold"
+                          onClick={() => gotoReview(index)}
+                          disabled={true}
+                        >
+                          리뷰 쓰기
+                        </Button>
+                      ) : (
+                        <Button
+                          className="action-button"
+                          fontSize="18px"
+                          fontWeight="bold"
+                          onClick={() => gotoReview(index)}
+                          disabled={false}
+                        >
+                          리뷰 쓰기
+                        </Button>
+                      )}
+                    </div>
+                  ))}
+                </>
+              )}
+            </div>
+          )}
+        </>
         {modalOpen && (
           <Modal className="modal">
             <button className="close-button" onClick={closeModal}>
