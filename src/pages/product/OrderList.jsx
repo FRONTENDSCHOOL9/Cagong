@@ -9,7 +9,12 @@ import Wrapper from '@components/layout/Wrapper';
 import SideHeader from '@components/layout/SideHeader';
 
 const OrderStyle = styled.div`
-  color: black;
+  .section-1{
+    color: black;
+  }
+  .section-2{
+    color: black;
+  }
   .header {
     font-size: 25px;
     font-weight: 800;
@@ -247,13 +252,13 @@ const OrderList = () => {
             onClick={handleSection1}
             className={`section-1 ${section ? 'is_active' : ''}`}
           >
-            <h2>보유</h2>
+            보유
           </button>
           <button
             onClick={handleSection2}
             className={`section-2 ${section ? '' : 'is_active'}`}
           >
-            <h2>사용 완료</h2>
+            사용 완료
           </button>
         </div>
         <>
