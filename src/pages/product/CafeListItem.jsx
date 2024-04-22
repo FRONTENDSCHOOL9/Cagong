@@ -16,10 +16,11 @@ const MyComponent = styled.div`
 
   .cafelist-item {
     padding: 0 10px;
+    padding-bottom: 20px;
   }
 
   .item-description {
-    padding: 12px 0;
+    padding-top: 12px;
   }
 
   .item-name {

@@ -12,24 +12,26 @@ const HeaderStyle = styled.div`
   background-color: #ffa931;
   color: white;
   position: fixed;
+  font-size: 1.6rem;
   top: 0;
   z-index: 999;
   width: 100%;
+
   .logo {
     width: 40px;
     margin: 0px 10px;
   }
+
   .title {
     margin-right: auto;
     min-width: 100px;
   }
+
   .button-bundle {
     display: flex;
     align-items: center;
     gap: 5px;
     margin-right: 10px;
-  }
-  .search-button {
   }
 
   .logo-title {

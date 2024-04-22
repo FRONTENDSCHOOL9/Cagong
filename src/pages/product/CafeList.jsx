@@ -14,6 +14,10 @@ const MyComponent = styled.div`
     text-align: center;
     padding: 22px;
   }
+
+  .cafelist-item {
+    margin-bottom: 20px;
+  }
 `;
 
 function CafeList() {
@@ -49,7 +53,9 @@ function CafeList() {
   let hasNext = false;
   if (data) {
     cafeList = _.flatten(data.items).map(item => {
-      return <CafeListItem key={item._id} item={item} />;
+      return (
+        <CafeListItem className="cafelist-item" key={item._id} item={item} />
+      );
     });
     hasNext = data.page < data.totalPages;
   }
@@ -57,8 +63,8 @@ function CafeList() {
   return (
     <>
       <MainHeader />
-      <Wrapper>
-        <MyComponent>
+      <MyComponent>
+        <Wrapper>
           <h1 className="cafelist-title">카공 인기카페</h1>
           <InfiniteScroll
             pageStart={1}
@@ -67,8 +73,8 @@ function CafeList() {
           >
             {cafeList}
           </InfiniteScroll>
-        </MyComponent>
-      </Wrapper>
+        </Wrapper>
+      </MyComponent>
     </>
   );
 }
