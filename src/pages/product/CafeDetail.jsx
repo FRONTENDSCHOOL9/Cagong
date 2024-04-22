@@ -19,49 +19,54 @@ import Wrapper from '@components/layout/Wrapper';
 
 const DetailStyle = styled.div`
   .container {
-    padding: 0px 30px;
-  }
-  .header-title {
-    font-size: 30px;
-    font-weight: 800;
+    padding: 30px;
   }
   .slide-src {
     width: 100%;
     height: 80vw;
     object-fit: cover;
     color: black;
+    border-radius: 30px;
   }
-  .header {
+  .desc-bundle {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 10px;
+    flex-direction: column;
+    gap: 20px;
   }
-  .main-title {
-    padding-top: 20px;
-    font-size: 30px;
-    font-weight: 800;
+  .desc {
+    font-size: 1.2rem;
+    font-weight: 400;
+    line-height: 2;
+    padding: 0px 10px;
+    font-style: italic;
+  }
+  .desc-left {
+    padding-top: 10px;
+    font-size: 3rem;
+  }
+  .desc-right {
+    font-size: 3rem;
+    margin-left: auto;
   }
   .address-bundle {
     margin: 20px 0px;
+    margin-bottom: 50px;
     display: flex;
     align-items: center;
     flex-wrap: wrap;
     gap: 10px;
   }
   .address {
-    font-size: 16px;
+    font-size: 1.2rem;
     font-weight: 600;
     display: flex;
     align-items: center;
   }
   .bookmark-icon {
-    margin-left: auto;
     width: 20px;
   }
   .title {
-    font-size: 22px;
+    font-size: 2.2rem;
     font-weight: 800;
   }
   .order {
@@ -70,7 +75,7 @@ const DetailStyle = styled.div`
   .order-menu {
     display: flex;
     justify-content: space-between;
-    font-size: 14px;
+    font-size: 1.2rem;
     font-weight: bold;
     margin-bottom: 20px;
     margin: 30px 10px;
@@ -82,29 +87,29 @@ const DetailStyle = styled.div`
     width: 100%;
     padding: 15px;
   }
-  .review{
-    // box-shadow: inset 0px 0px 20px red;
-    padding-bottom: 10px;
-  }
   .review-list {
-    margin: 25px 10px;
+    margin: 35px 10px;
   }
   .review-user {
     margin-right: 10px;
-    font-size: 16px;
+    font-size: 1.6rem;
     font-weight: bold;
   }
   .review-createdAt {
-    font-size: 12px;
+    font-size: 1.2rem;
     font-weight: bold;
     color: #828282;
   }
   .review-content {
     margin-top: 20px;
-    font-size: 14px;
+    font-size: 1.2rem;
+  }
+  .no-review {
+    padding: 30px 10px;
+    font-size: 1.6rem;
   }
   .copy-board {
-    font-size: 12px;
+    font-size: 1.2rem;
     cursor: pointer;
     text-decoration: underline;
     color: #828282;
@@ -123,34 +128,32 @@ function CafeDetail() {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [bookmarkId, setBookmarkId] = useState(null);
 
-  useEffect(() => {
-    const fetchBookmarkData = async () => {
-      try {
-        if (user) {
-          const { data } = await axios.get(`/bookmarks/product`);
-          if (data && data.item) {
-            const foundItem = data.item.find(
-              item => item.product._id === cafeId,
-            );
-            if (foundItem) {
-              setIsBookmarked(true);
-              setBookmarkId(foundItem._id);
-            } else {
-              setIsBookmarked(false);
-              setBookmarkId(null);
-            }
+  const fetchBookmarkData = async () => {
+    try {
+      if (user) {
+        const { data } = await axios.get(`/bookmarks/product`);
+        if (data && data.item) {
+          const foundItem = data.item.find(item => item.product._id === cafeId);
+          if (foundItem) {
+            setIsBookmarked(true);
+            setBookmarkId(foundItem._id);
           } else {
             setIsBookmarked(false);
             setBookmarkId(null);
           }
+        } else {
+          setIsBookmarked(false);
+          setBookmarkId(null);
         }
-      } catch (error) {
-        console.error('북마크 데이터를 가져오는 중 오류 발생:', error);
       }
-    };
+    } catch (error) {
+      console.error('북마크 데이터를 가져오는 중 오류 발생:', error);
+    }
+  };
 
+  useEffect(() => {
     fetchBookmarkData();
-  }, [axios, cafeId, user]);
+  }, []);
 
   const handleBookmark = async () => {
     try {
@@ -238,90 +241,106 @@ function CafeDetail() {
   localStorage.setItem('viewedCafeIds', JSON.stringify(updatedIds));
 
   return (
-    <DetailStyle>
+    <>
       <SideHeader>
-        <h1 style={{ fontSize: '25px', fontWeight: '800' }}>
-          {data.item.name}
-        </h1>
-      </SideHeader>
-      <Wrapper>
-        <div className="container">
-          <Swiper
-            style={{
-              '--swiper-navigation-color': '#fff',
-              '--swiper-pagination-color': '#fff',
-            }}
-            modules={[Navigation, Pagination, Scrollbar, A11y]}
-            spaceBetween={10}
-            slidesPerView={1}
-            navigation={true}
-            loop={true}
-            pagination={{
-              clickable: true,
-            }}
-            centeredSlides={true}
-          >
-            {data.item.mainImages?.map((image, index) => (
-              <SwiperSlide key={index}>
-                <img
-                  className="slide-src"
-                  src={`${import.meta.env.VITE_API_SERVER}/files/${import.meta.env.VITE_CLIENT_ID}/${
-                    image.name
-                  }`}
-                  alt="카페 사진"
-                />
-              </SwiperSlide>
-            ))}
-          </Swiper>
-          <div className="address-bundle">
-            <Link className="address" to="/boards/map">
-              <img src="/map_pin.svg" alt="지도로 연결되는 아이콘" />
-              {data.item.extra.address}
-            </Link>
-            <CopyToClipboard
-              className="copy-board"
-              text={data.item.extra.address}
-              onCopy={() => alert('클립보드에 복사되었습니다.')}
-            >
-              <span className="copy-text">복사하기</span>
-            </CopyToClipboard>
-            <img
-              className="bookmark-icon"
-              src={isBookmarked ? '/bookmarked.svg' : '/bookmark.svg'}
-              alt="북마크 버튼 이미지"
-              onClick={handleBookmark}
-              style={{ cursor: 'pointer' }}
-            />
-          </div>
-          <div className="order">
-            <h2 className="title">카공단 제공 메뉴</h2>
-            <div className="order-menu">
-              <span>{data?.item.content} </span>
-              <span className="order-price">{data?.item.price} 원</span>
-            </div>
-            <Button
-              className="order-button"
-              fontWeight="bold"
-              fontSize="14px"
-              onClick={confirmUser}
-              disabled={isOrdered}
-            >
-              구매하기
-            </Button>
-          </div>
-          <div className="review">
-            <h2 className="title">방문자 리뷰</h2>
-            {review?.item.map(item => (
-              <div key={item._id} className="review-list">
-                <span className="review-user">{item.user.name}</span>
-                <span className="review-createdAt">{item.createdAt}</span>
-                <p className="review-content">{item.content}</p>
-              </div>
-            ))}
-          </div>
+        <div style={{display: 'flex', gap: '10px'}}>
+          <h1 style={{ fontSize: '25px', fontWeight: '800' }}>
+            {data.item.name}
+          </h1>
+          <img
+            className="bookmark-icon"
+            src={isBookmarked ? '/bookmarked.svg' : '/bookmark.svg'}
+            alt="북마크 버튼 이미지"
+            onClick={handleBookmark}
+            style={{ cursor: 'pointer', width: '20px' }}
+          />
         </div>
-      </Wrapper>
-    </DetailStyle>
+      </SideHeader>
+      <DetailStyle>
+        <Wrapper>
+          <div className="container">
+            <Swiper
+              style={{
+                '--swiper-navigation-color': '#fff',
+                '--swiper-pagination-color': '#fff',
+              }}
+              modules={[Navigation, Pagination, Scrollbar, A11y]}
+              spaceBetween={10}
+              slidesPerView={1}
+              navigation={true}
+              loop={true}
+              pagination={{
+                clickable: true,
+              }}
+              centeredSlides={true}
+            >
+              {data.item.mainImages?.map((image, index) => (
+                <SwiperSlide key={index}>
+                  <img
+                    className="slide-src"
+                    src={`${import.meta.env.VITE_API_SERVER}/files/${
+                      import.meta.env.VITE_CLIENT_ID
+                    }/${image.name}`}
+                    alt="카페 사진"
+                  />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+            <div className="address-bundle">
+              <Link className="address" to="/boards/map">
+                <img src="/map_pin.svg" alt="지도로 연결되는 아이콘" />
+                {data.item.extra.address}
+              </Link>
+              <CopyToClipboard
+                className="copy-board"
+                text={data.item.extra.address}
+                onCopy={() => alert('클립보드에 복사되었습니다.')}
+              >
+                <span className="copy-text">복사하기</span>
+              </CopyToClipboard>
+            </div>
+            <div className="desc-bundle">
+              <h2 className="title">카페 소개</h2>
+              <span className="desc-left"> ❝ </span>
+              <p className="desc">{data.item.extra.description}</p>
+              <span className="desc-right"> ❞ </span>
+            </div>
+            <div className="order">
+              <h2 className="title">카공단 제공 메뉴</h2>
+              <div className="order-menu">
+                <span>{data?.item.content} </span>
+                <span className="order-price">{data?.item.price} 원</span>
+              </div>
+              <Button
+                className="order-button"
+                fontWeight="bold"
+                fontSize="14px"
+                onClick={confirmUser}
+                disabled={isOrdered}
+              >
+                구매하기
+              </Button>
+            </div>
+            <div className="review">
+              <h2 className="title">방문자 리뷰</h2>
+              {review?.item.length !== 0 ? (
+                <>
+                  {review?.item.map(item => (
+                    <div key={item._id} className="review-list">
+                      <span className="review-user">{item.user.name}</span>
+                      <span className="review-createdAt">{item.createdAt}</span>
+                      <p className="review-content">{item.content}</p>
+                    </div>
+                  ))}
+                </>
+              ) : (
+                <p className="no-review">아직 작성된 리뷰가 없습니다.</p>
+              )}
+            </div>
+          </div>
+        </Wrapper>
+      </DetailStyle>
+    </>
   );
 }
 

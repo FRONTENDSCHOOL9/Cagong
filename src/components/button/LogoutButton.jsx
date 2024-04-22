@@ -6,7 +6,7 @@ LogoutButton.propTypes = {
 };
 
 const StyledButton = styled.button`
-  background-color: #ff6666;
+  background-color: #ffa931;
   color: #ffffff
   font-family: 'NanumSquareRound';
   border: none;
@@ -18,7 +18,7 @@ const StyledButton = styled.button`
   type: ${props => props.type};
 
   &:hover {
-    background-color: #ffffff;
+    background-color: #ff6666;
     color: black;
   }
   &:disabled {

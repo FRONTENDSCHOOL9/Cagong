@@ -15,25 +15,31 @@ const MyComponent = styled.div`
   }
 
   .cafelist-item {
-    padding: 10px;
+    padding: 0 10px;
   }
 
   .item-description {
-    padding: 10px 0;
+    padding: 12px 0;
   }
 
   .item-name {
     font-weight: 700;
-    font-size: 18px;
+    font-size: 1.6rem;
   }
 
   .item-address {
-    font-size: 14px;
+    font-size: 1.2rem;
     padding: 4px 0;
   }
 
   .item-review {
-    font-size: 12px;
+    font-size: 1.2rem;
+    display: flex;
+    gap: 0.2rem;
+  }
+
+  .item-review img {
+    padding-bottom: 0.1rem;
   }
 `;
 
@@ -55,7 +61,7 @@ function CafeListItem({ item }) {
                 <div className="item-address">{item.extra.address}</div>
                 <div className="item-review">
                   <img src="/stars.svg" />
-                  리뷰 {item.replies}
+                  <div>리뷰 {item.replies}</div>
                 </div>
               </div>
             </li>

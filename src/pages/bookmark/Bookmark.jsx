@@ -5,10 +5,15 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import MainHeader from '@components/layout/MainHeader';
 import Wrapper from '@components/layout/Wrapper';
+import Button from '@components/button/Button';
 
 const MyComponent = styled.div`
-  padding: 20px;
-  min-height: 100vh;
+  height: 85vh;
+
+  .bookmarkedCafe {
+    padding: 10px;
+  }
+
   .cafelist-title {
     font-size: 20px;
     font-weight: 800;
@@ -78,6 +83,39 @@ const MyComponent = styled.div`
       rgba(0, 0, 0, 0) 100%
     );
   }
+
+  .emptybookmark {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+  }
+
+  .emptybookmark h2 {
+    text-align: center;
+    line-height: 22px;
+    font-weight: 700;
+    padding: 20px;
+  }
+
+  .moreCafe-button {
+    margin: 0 auto;
+    display: block;
+    font-size: 16px;
+    padding: 15px 35px;
+    font-weight: bold;
+  }
+  .emptybookmark-img {
+    display: inline;
+    width: 20px;
+  }
+
+  .empty-subtitle {
+    font-family: 'UhBeeSe_hyun';
+    font-size: 40px;
+    color: #bdbdbd;
+  }
 `;
 function Bookmark() {
   const BASE_IMAGE_URL = `${import.meta.env.VITE_API_SERVER}/files/${import.meta.env.VITE_CLIENT_ID}/`;
@@ -95,7 +133,6 @@ function Bookmark() {
   const deleteBookmark = async bookmarkId => {
     try {
       await axios.delete(`/bookmarks/${bookmarkId}`);
-      console.log('북마크 삭제함!');
       const updatedBookmarks = bookmarks.filter(id => id !== bookmarkId);
       setBookmarks(updatedBookmarks);
     } catch (error) {
@@ -115,45 +152,69 @@ function Bookmark() {
       <Wrapper>
         <MyComponent>
           <div>
-            <h1 className="cafelist-title">찜한 카페</h1>
             {!isLoading && (
-              <ul>
-                {bookmarks.map(bookmarkId => {
-                  const bookmarkItem = data.find(
-                    item => item._id === bookmarkId,
-                  );
-                  if (!bookmarkItem || !bookmarkItem.product) return null;
-                  return (
-                    <li key={bookmarkId}>
-                      <img
-                        className="bookmark-icon"
-                        src="/bookmarked.svg"
-                        alt="북마크 버튼 이미지"
-                        onClick={() => deleteBookmark(bookmarkId)}
-                      />
-                      <Link
-                        to={`/boards/cafeDetail/${bookmarkItem.product._id}`}
+              <>
+                {bookmarks.length === 0 ? (
+                  <div className="emptybookmark">
+                    <div>
+                      <span className="empty-subtitle">텅.. </span>
+                    </div>
+                    <h2>
+                      마음에 드는 카페를 <br /> 찜해주세요!
+                    </h2>
+                    <Link to="/boards/CafeList">
+                      <Button
+                        className="moreCafe-button"
+                        fontSize="18px"
+                        fontWeight="bold"
                       >
-                        <div className="bookmarked-cafe">
-                          <div className="cafe-thumb-overlay">
+                        카페 찜하러 가기
+                      </Button>
+                    </Link>
+                  </div>
+                ) : (
+                  <div className="bookmarkedCafe">
+                    <h1 className="cafelist-title">찜한 카페</h1>
+                    <ul>
+                      {bookmarks.map(bookmarkId => {
+                        const bookmarkItem = data.find(
+                          item => item._id === bookmarkId,
+                        );
+                        if (!bookmarkItem || !bookmarkItem.product) return null;
+                        return (
+                          <li key={bookmarkId}>
                             <img
-                              className="cafe-thumb"
-                              src={`${BASE_IMAGE_URL}${bookmarkItem.product.image.name}`}
-                              alt={bookmarkItem.product.name}
+                              className="bookmark-icon"
+                              src="/bookmarked.svg"
+                              alt="북마크 버튼 이미지"
+                              onClick={() => deleteBookmark(bookmarkId)}
                             />
-                          </div>
-                          <h2 className="item-name">
-                            {bookmarkItem.product.name}
-                          </h2>
-                          <div className="item-address">
-                            {bookmarkItem.product.extra.address}
-                          </div>
-                        </div>
-                      </Link>
-                    </li>
-                  );
-                })}
-              </ul>
+                            <Link
+                              to={`/boards/cafeDetail/${bookmarkItem.product._id}`}
+                            >
+                              <div className="bookmarked-cafe">
+                                <div className="cafe-thumb-overlay">
+                                  <img
+                                    className="cafe-thumb"
+                                    src={`${BASE_IMAGE_URL}${bookmarkItem.product.image.name}`}
+                                    alt={bookmarkItem.product.name}
+                                  />
+                                </div>
+                                <h2 className="item-name">
+                                  {bookmarkItem.product.name}
+                                </h2>
+                                <div className="item-address">
+                                  {bookmarkItem.product.extra.address}
+                                </div>
+                              </div>
+                            </Link>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                )}
+              </>
             )}
           </div>
         </MyComponent>

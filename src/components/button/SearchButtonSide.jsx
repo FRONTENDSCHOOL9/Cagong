@@ -7,10 +7,9 @@ function SearchButton() {
         <img
           style={{
             display: 'block',
-            position: 'absolute',
             width: '26px',
-            right: '9px',
-            top: '17px',
+            paddingTop: '2px',
+            marginRight: '8px',
           }}
           src="/search-black.svg"
           alt="검색 버튼"

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { memberState } from '@recoil/user/atoms.mjs';
 import { useRecoilState } from 'recoil';
+import MainHeader from '@components/layout/MainHeader';
 
 import useCustomAxios from '@hooks/useCustomAxios.mjs';
 import { Link, useNavigate } from 'react-router-dom';
@@ -12,44 +13,64 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { A11y, Navigation, Scrollbar } from 'swiper/modules';
 import Wrapper from '@components/layout/Wrapper';
 import LogoutButton from '@components/button/LogoutButton';
+import Button from '@components/button/Button';
 
-const HeaderStyle = styled.div`
-  font-family: 'UhBeeSe_hyun';
-  height: 60px;
+const UserProfileBox = styled.div`
+  font-family: 'NanumSquareRound';
+  height: 240px;
+  margin: auto;
+  padding: 20px;
   display: flex;
   align-items: center;
-  background-color: #ffa931;
-  color: white;
-  position: fixed;
-  top: 0;
+  justify-content: center;
+  color: #222222;
   z-index: 999;
-  width: 100%;
-  .logo {
-    width: 40px;
-    margin: 0px 10px;
-  }
-  .title {
-    margin-right: auto;
-    min-width: 100px;
-  }
+  max-width: 390px;
+  // border: 1px solid #d9d9d9;
+  border-radius: 20px;
+  // box-shadow: inset 0 0 10px red;
   .user-name {
-    margin-right: auto;
+    font-weight: 600;
+    font-size: 16px;
+    margin: 10px auto;
   }
-  .button-bundle {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    margin-right: auto;
-    margin-top: 10px;
+  .user-profile-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 1px solid #d9d9d9;
+  }
+
+  .logout-button {
+    padding: 10px 20px;
+    font-weight: 600;
+    font-size: 16px;
   }
 `;
 
 const MyComponent = styled.div`
+  .profile-container {
+    display: block;
+    padding: 20px;
+
+    // box-shadow: inset 0 0 10px green;
+    justify-content: center;
+    min-width: 390px;
+  }
   .cafelist-title {
     font-size: 20px;
     font-weight: 800;
-    text-align: center;
+    text-align: left;
     padding: 10px;
+    border-top: 1px solid #d9d9d9;
+  }
+
+  .morecafe-button {
+    margin: 0 auto;
+    display: block;
+    font-size: 16px;
+    padding: 15px 35px;
+    font-weight: 600;
   }
 
   .cafe-thumb {
@@ -77,8 +98,41 @@ const MyComponent = styled.div`
     padding: 4px 0;
   }
 
-  .item-review {
-    font-size: 12px;
+  // .item-review {
+  //   font-size: 12px;
+  // }
+
+  .empty-viewed {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 40vh;
+  }
+
+  .empty-viewed h2 {
+    text-align: center;
+    line-height: 22px;
+    font-weight: 700;
+    padding: 20px;
+  }
+
+  .morelist-title {
+    font-size: 20px;
+    font-weight: 800;
+    // display: flex;
+    padding: 10px;
+    border-top: 1px solid #d9d9d9;
+  }
+
+  .cafelist-more {
+    text-align: right;
+  }
+
+  .empty-subtitle {
+    font-family: 'UhBeeSe_hyun';
+    font-size: 40px;
+    color: #bdbdbd;
   }
 `;
 
@@ -113,28 +167,30 @@ function MyPage() {
 
   return (
     <>
-      <HeaderStyle>
-        <img className="logo" src="/logo.svg" alt="" />
-        {/* <span className="title">카공여지도</span> */}
-        <div className="user-name">
-          <span>{user.name}님 :)</span>
-        </div>
-        <div className="button-bundle">
-          <PrevButton className="prev-button" />
-          <SearchButton className="search-button" />
-        </div>
-        <LogoutButton
-          padding="10px 20px"
-          fontWeight="bold"
-          fontSize="14px"
-          onClick={handleLogout}
-        >
-          로그아웃
-        </LogoutButton>
-      </HeaderStyle>
-
+      <MainHeader />
       <Wrapper>
         <MyComponent>
+          <div className="profile-container">
+            <UserProfileBox>
+              <img
+                className="user-profile-img"
+                src={
+                  user.profile
+                    ? `${import.meta.env.VITE_API_SERVER}/files/${
+                        import.meta.env.VITE_CLIENT_ID
+                      }/${user.profile}`
+                    : '/profile_01.png'
+                }
+                alt="프로필 이미지"
+              />
+              <div className="user-name">
+                <span>{user.name}님 :)</span>
+              </div>
+              <Button className="logout-button" onClick={handleLogout}>
+                로그아웃
+              </Button>
+            </UserProfileBox>
+          </div>
           <div className="cafelist-title">최근 조회한 카페</div>
           <Swiper
             modules={[Navigation, A11y, Scrollbar]}
@@ -148,142 +204,61 @@ function MyPage() {
               prevEl: '.swiper-button-prev',
             }}
           >
-            {viewedCafes.map((item, index) => (
-              <SwiperSlide key={index}>
-                {data.item.map(cafe =>
-                  cafe._id === parseInt(item) ? (
-                    <Link to={`/boards/cafeDetail/${cafe._id}`} key={cafe._id}>
-                      <li className="cafelist-item">
-                        <img
-                          className="cafe-thumb"
-                          src={`${BASE_IMAGE_URL}` + cafe.mainImages[0].name}
-                          alt={cafe.name}
-                        />
-                        <div className="item-description">
-                          <h2 className="item-name">{cafe.name}</h2>
-                          <div className="item-address">
-                            {cafe.extra.address}
+            {viewedCafes.length > 0 ? (
+              viewedCafes.map((item, index) => (
+                <SwiperSlide key={index}>
+                  {data.item.map(cafe =>
+                    cafe._id === parseInt(item) ? (
+                      <Link
+                        to={`/boards/cafeDetail/${cafe._id}`}
+                        key={cafe._id}
+                      >
+                        <li className="cafelist-item">
+                          <img
+                            className="cafe-thumb"
+                            src={`${BASE_IMAGE_URL}${cafe.mainImages[0].name}`}
+                            alt={cafe.name}
+                          />
+                          <div className="item-description">
+                            <h2 className="item-name">{cafe.name}</h2>
+                            <div className="item-address">
+                              {cafe.extra.address}
+                            </div>
                           </div>
-                        </div>
-                      </li>
-                    </Link>
-                  ) : null,
-                )}
-                ,
-              </SwiperSlide>
-            ))}
+                        </li>
+                      </Link>
+                    ) : null,
+                  )}
+                </SwiperSlide>
+              ))
+            ) : (
+              <div className="empty-viewed">
+                <div>
+                  <span className="empty-subtitle">텅.. </span>
+                </div>
+                <h2>최근 조회한 카페 내역이 없습니다.</h2>
+                <Link to="/boards/CafeList">
+                  <Button
+                    className="morecafe-button"
+                    fontSize="18px"
+                    fontWeight="bold"
+                  >
+                    카페 찾아보기
+                  </Button>
+                </Link>
+              </div>
+            )}
           </Swiper>
-          <Swiper
-            modules={[Navigation, A11y, Scrollbar]}
-            slidesPerView={2}
-            loop={false}
-            pagination={{
-              clickable: true,
-            }}
-            navigation={{
-              nextEl: '.swiper-button-next',
-              prevEl: '.swiper-button-prev',
-            }}
-          >
-            {viewedCafes.map((item, index) => (
-              <SwiperSlide key={index}>
-                {data.item.map(cafe =>
-                  cafe._id === parseInt(item) ? (
-                    <Link to={`/boards/cafeDetail/${cafe._id}`} key={cafe._id}>
-                      <li className="cafelist-item">
-                        <img
-                          className="cafe-thumb"
-                          src={`${BASE_IMAGE_URL}` + cafe.mainImages[0].name}
-                          alt={cafe.name}
-                        />
-                        <div className="item-description">
-                          <h2 className="item-name">{cafe.name}</h2>
-                          <div className="item-address">
-                            {cafe.extra.address}
-                          </div>
-                        </div>
-                      </li>
-                    </Link>
-                  ) : null,
-                )}
-                ,
-              </SwiperSlide>
-            ))}
-          </Swiper>
-          <Swiper
-            modules={[Navigation, A11y, Scrollbar]}
-            slidesPerView={2}
-            loop={false}
-            pagination={{
-              clickable: true,
-            }}
-            navigation={{
-              nextEl: '.swiper-button-next',
-              prevEl: '.swiper-button-prev',
-            }}
-          >
-            {viewedCafes.map((item, index) => (
-              <SwiperSlide key={index}>
-                {data.item.map(cafe =>
-                  cafe._id === parseInt(item) ? (
-                    <Link to={`/boards/cafeDetail/${cafe._id}`} key={cafe._id}>
-                      <li className="cafelist-item">
-                        <img
-                          className="cafe-thumb"
-                          src={`${BASE_IMAGE_URL}` + cafe.mainImages[0].name}
-                          alt={cafe.name}
-                        />
-                        <div className="item-description">
-                          <h2 className="item-name">{cafe.name}</h2>
-                          <div className="item-address">
-                            {cafe.extra.address}
-                          </div>
-                        </div>
-                      </li>
-                    </Link>
-                  ) : null,
-                )}
-                ,
-              </SwiperSlide>
-            ))}
-          </Swiper>
-          <Swiper
-            modules={[Navigation, A11y, Scrollbar]}
-            slidesPerView={2}
-            loop={false}
-            pagination={{
-              clickable: true,
-            }}
-            navigation={{
-              nextEl: '.swiper-button-next',
-              prevEl: '.swiper-button-prev',
-            }}
-          >
-            {viewedCafes.map((item, index) => (
-              <SwiperSlide key={index}>
-                {data.item.map(cafe =>
-                  cafe._id === parseInt(item) ? (
-                    <Link to={`/boards/cafeDetail/${cafe._id}`} key={cafe._id}>
-                      <li className="cafelist-item">
-                        <img
-                          className="cafe-thumb"
-                          src={`${BASE_IMAGE_URL}` + cafe.mainImages[0].name}
-                          alt={cafe.name}
-                        />
-                        <div className="item-description">
-                          <h2 className="item-name">{cafe.name}</h2>
-                          <div className="item-address">
-                            {cafe.extra.address}
-                          </div>
-                        </div>
-                      </li>
-                    </Link>
-                  ) : null,
-                )}
-                ,
-              </SwiperSlide>
-            ))}
-          </Swiper>
+          <Link to="/users/reviewlist">
+            <div className="morelist-title">
+              리뷰 관리
+              <img
+                className="cafelist-more"
+                src="/more-items.svg"
+                alt="more-items 버튼"
+              />
+            </div>
+          </Link>
         </MyComponent>
       </Wrapper>
     </>

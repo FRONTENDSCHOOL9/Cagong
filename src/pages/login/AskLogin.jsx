@@ -8,13 +8,12 @@ const StyledAsk = styled.div`
   justify-content: center;
   align-items: center;
   height: 80vh;
-  min-height: 100vh;
 
   .wrapper h1 {
     font-weight: 700;
     padding: 20px;
     text-align: center;
-    font-size: 18px;
+    font-size: 1.2rem;
     line-height: 22px;
   }
 
@@ -28,7 +27,7 @@ const StyledAsk = styled.div`
   .login-button {
     margin: 0 auto;
     display: block;
-    font-size: 16px;
+    font-size: 1rem;
     padding: 15px 35px;
     font-weight: bold;
   }

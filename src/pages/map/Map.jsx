@@ -40,6 +40,8 @@ const MapStyle = styled.div`
     border-radius: 8px;
     background-color: #ffffff;
     display: flex;
+    align-items: center;
+    justify-contents: center;
     width: 33px;
     height: 33px;
     border: none;
@@ -59,14 +61,10 @@ const MapStyle = styled.div`
 
   .btn-map.current img {
     width: 100%;
-    position: relative;
-    top: 4px;
   }
 
   .btn-map.zoom-out img {
     width: 100%;
-    position: relative;
-    top: 5px;
   }
 
   .info_wrapper {
@@ -80,8 +78,9 @@ const MapStyle = styled.div`
 
   .info_name {
     text-align: center;
-    font-size: 20px;
+    font-size: 1.8rem;
     color: #222222;
+    font-weight: 600;
   }
 
   .info_cover {
@@ -109,7 +108,7 @@ const MapStyle = styled.div`
   .info_adress {
     text-align: center;
     padding: 10px;
-    font-size: 12px;
+    font-size: 1.2rem;
   }
 
   .cafe-wrapper {
@@ -142,7 +141,7 @@ const MapStyle = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 24px;
+    font-size: 2.2rem;
     font-weight: 800;
   }
 
@@ -164,11 +163,12 @@ const MapStyle = styled.div`
 
   .cafe-list_item {
     display: flex;
-    flex-direction: column;
     cursor: pointer;
-    padding: 0 67px;
+    padding: 0 10px;
     margin-bottom: 8px;
     // align-items: center;
+    min-width: 350px;
+    width: 350px;
   }
 
   .cafe-list_item:first-child {
@@ -181,38 +181,67 @@ const MapStyle = styled.div`
 
   .cafe-list_item-cover {
     text-align: center;
+    min-width: 20%;
+    width: 30px;
     box-shadow: 0px 8px 6px -6px #666;
-    border-radius: 20px;
-    margin-bottom: 5px;
+    border-radius: 8px;
+    margin: 0 5px 5px 0;
   }
 
   .cafe-list_item-cover-thumb {
     width: 100%;
-    aspect-ratio: 14/5;
+    aspect-ratio: 1/1;
     object-fit: cover;
-    border-radius: 20px;
+    border-radius: 8px;
     vertical-align: bottom;
   }
 
   .cafe-list_item-detail {
-    padding: 5px 0 0 0;
+    flex-grow: 1;
+    padding: 5px 0 0 5px;
   }
 
   .cafe-list_item-layout {
     display: flex;
     justify-content: space-between;
     align-items: end;
+    margin-bottom: 5px;
   }
 
   .cafe-list_item-title {
-    font-size: 1rem;
+    font-size: 1.6rem;
     font-weight: 600;
+    width: 200px;
+    border-bottom: 3px double #ffa931;
+    padding-bottom: 1px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   .cafe-list_item-distance {
-    font-size: 0.5rem;
+    display: block;
+    padding-top: 21px;
+    padding-left: 10px;
+    color: #888888;
+    font-size: 1.2rem;
   }
-  .cafe-list_item-address {
-    font-size: 0.8rem;
+
+  .cafe-list_item-address-item {
+    font-size: 1.4rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  @media screen and (min-width: 650px) {
+    .cafe-list_item {
+      width: 100%;
+    }
+    .cafe-list_item-title {
+      width: 100%;
+    }
   }
 `;
 
@@ -296,34 +325,53 @@ function Map() {
 
       const { x: x1, y: y1 } = response1.data.documents[0];
 
-      const wtmResponse1 = await axios.get(
-        'https://dapi.kakao.com/v2/local/geo/transcoord.json',
-        {
-          params: { x: x1, y: y1, output_coord: 'WTM' },
-          headers: {
-            Authorization: `KakaoAK ${import.meta.env.VITE_KAKAO_REST_API_KEY}`,
+      const requestInterval = 1000;
+
+      let wtmResponse1;
+      try {
+        await new Promise(resolve => setTimeout(resolve, requestInterval)); // 요청 간격 지연
+        wtmResponse1 = await axios.get(
+          'https://dapi.kakao.com/v2/local/geo/transcoord.json',
+          {
+            params: { x: x1, y: y1, output_coord: 'WTM' },
+            headers: {
+              Authorization: `KakaoAK ${
+                import.meta.env.VITE_KAKAO_REST_API_KEY
+              }`,
+            },
           },
-        },
-      );
+        );
+      } catch (error) {
+        console.error('주소를 가져오지 못 했습니다.', error);
+        return null;
+      }
 
       const { x: wtmX1, y: wtmY1 } = wtmResponse1.data.documents[0];
       // console.log(wtmResponse1.data.documents[0]);
 
-      const wtmResponse2 = await axios.get(
-        'https://dapi.kakao.com/v2/local/geo/transcoord.json',
-        {
-          params: {
-            x: curLon ? curLon : 127.76185524802845,
-            y: curLat ? curLat : 36.349396783484984,
-            input_coord: 'WGS84',
-            output_coord: 'WTM',
+      let wtmResponse2;
+      try {
+        await new Promise(resolve => setTimeout(resolve, requestInterval)); // 요청 간격 지연
+        wtmResponse2 = await axios.get(
+          'https://dapi.kakao.com/v2/local/geo/transcoord.json',
+          {
+            params: {
+              x: curLon ? curLon : 127.76185524802845,
+              y: curLat ? curLat : 36.349396783484984,
+              input_coord: 'WGS84',
+              output_coord: 'WTM',
+            },
+            headers: {
+              Authorization: `KakaoAK ${
+                import.meta.env.VITE_KAKAO_REST_API_KEY
+              }`,
+            },
           },
-          headers: {
-            Authorization: `KakaoAK ${import.meta.env.VITE_KAKAO_REST_API_KEY}`,
-          },
-        },
-      );
-
+        );
+      } catch (error) {
+        console.error('주소를 가져오지 못 했습니다.', error);
+        return null;
+      }
       const { x: wtmX2, y: wtmY2 } = wtmResponse2.data.documents[0];
       // console.log(wtmResponse2.data.documents[0]);
 
@@ -351,12 +399,12 @@ function Map() {
     Promise.all(distancePromises).then(distances => {
       setDistanceToCafe(distances);
     });
-  }, [data, mapRef.current]);
+  }, [mapRef.current]);
 
   useEffect(() => {
     const container = document.getElementById('map'); // 지도를 표시할 div
     const options = {
-      center: new kakao.maps.LatLng(36.349396783484984, 127.76185524802845), // 지도의 중심좌표
+      center: new kakao.maps.LatLng(curLatRef.current, curLonRef.current), // 지도의 중심좌표
       level: 6, // 지도의 확대 레벨
     };
 
@@ -596,16 +644,19 @@ function Map() {
       <div className="cafe-list_item-detail">
         <div className="cafe-list_item-layout">
           <span className="cafe-list_item-title">{item.name}</span>
-          <span className="cafe-list_item-distance">
-            {distanceToCafe?.map(distance =>
-              item._id === distance._id ? `${distance.res}km` : '',
-            )}
+        </div>
+
+        <div>
+          <span className="cafe-list_item-address-item">
+            {item.extra.address}
           </span>
         </div>
-        <div>
-          <span className="cafe-list_item-address">{item.extra.address}</span>
-        </div>
       </div>
+      <span className="cafe-list_item-distance">
+        {distanceToCafe?.map(distance =>
+          item._id === distance._id ? `${distance.res}km` : '',
+        )}
+      </span>
     </li>
   ));
 
@@ -632,16 +683,19 @@ function Map() {
       <div className="cafe-list_item-detail">
         <div className="cafe-list_item-layout">
           <span className="cafe-list_item-title">{item.name}</span>
-          <span className="cafe-list_item-distance">
-            {distanceToCafe?.map(distance =>
-              item._id === distance._id ? `${distance.res}km` : '',
-            )}
+        </div>
+
+        <div>
+          <span className="cafe-list_item-address-item">
+            {item.extra.address}
           </span>
         </div>
-        <div>
-          <span className="cafe-list_item-address">{item.extra.address}</span>
-        </div>
       </div>
+      <span className="cafe-list_item-distance">
+        {distanceToCafe?.map(distance =>
+          item._id === distance._id ? `${distance.res}km` : '',
+        )}
+      </span>
     </li>
   ));
 
