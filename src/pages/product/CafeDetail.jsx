@@ -166,7 +166,9 @@ function CafeDetail() {
     }
   };
 
-  fetchBookmarkData();
+  useEffect(() => {
+    fetchBookmarkData();
+  }, []);
 
   const handleBookmark = async () => {
     try {
@@ -254,7 +256,7 @@ function CafeDetail() {
   localStorage.setItem('viewedCafeIds', JSON.stringify(updatedIds));
 
   return (
-    <DetailStyle>
+    <>
       <SideHeader>
         <div className="header">
           <h1 style={{ fontSize: '25px', fontWeight: '800' }}>
@@ -269,89 +271,91 @@ function CafeDetail() {
           />
         </div>
       </SideHeader>
-      <Wrapper>
-        <div className="container">
-          <Swiper
-            style={{
-              '--swiper-navigation-color': '#fff',
-              '--swiper-pagination-color': '#fff',
-            }}
-            modules={[Navigation, Pagination, Scrollbar, A11y]}
-            spaceBetween={10}
-            slidesPerView={1}
-            navigation={true}
-            loop={true}
-            pagination={{
-              clickable: true,
-            }}
-            centeredSlides={true}
-          >
-            {data.item.mainImages?.map((image, index) => (
-              <SwiperSlide key={index}>
-                <img
-                  className="slide-src"
-                  src={`${import.meta.env.VITE_API_SERVER}/files/${
-                    import.meta.env.VITE_CLIENT_ID
-                  }/${image.name}`}
-                  alt="카페 사진"
-                />
-              </SwiperSlide>
-            ))}
-          </Swiper>
-          <div className="address-bundle">
-            <Link className="address" to="/boards/map">
-              <img src="/map_pin.svg" alt="지도로 연결되는 아이콘" />
-              {data.item.extra.address}
-            </Link>
-            <CopyToClipboard
-              className="copy-board"
-              text={data.item.extra.address}
-              onCopy={() => alert('클립보드에 복사되었습니다.')}
+      <DetailStyle>
+        <Wrapper>
+          <div className="container">
+            <Swiper
+              style={{
+                '--swiper-navigation-color': '#fff',
+                '--swiper-pagination-color': '#fff',
+              }}
+              modules={[Navigation, Pagination, Scrollbar, A11y]}
+              spaceBetween={10}
+              slidesPerView={1}
+              navigation={true}
+              loop={true}
+              pagination={{
+                clickable: true,
+              }}
+              centeredSlides={true}
             >
-              <span className="copy-text">복사하기</span>
-            </CopyToClipboard>
-          </div>
-          <div className="desc-bundle">
-            <h2 className="title">카페 소개</h2>
-            <span className="desc-left"> ❝ </span>
-            <p className="desc">{data.item.extra.description}</p>
-            <span className="desc-right"> ❞ </span>
-          </div>
-          <div className="order">
-            <h2 className="title">카공단 제공 메뉴</h2>
-            <div className="order-menu">
-              <span>{data?.item.content} </span>
-              <span className="order-price">{data?.item.price} 원</span>
+              {data.item.mainImages?.map((image, index) => (
+                <SwiperSlide key={index}>
+                  <img
+                    className="slide-src"
+                    src={`${import.meta.env.VITE_API_SERVER}/files/${
+                      import.meta.env.VITE_CLIENT_ID
+                    }/${image.name}`}
+                    alt="카페 사진"
+                  />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+            <div className="address-bundle">
+              <Link className="address" to="/boards/map">
+                <img src="/map_pin.svg" alt="지도로 연결되는 아이콘" />
+                {data.item.extra.address}
+              </Link>
+              <CopyToClipboard
+                className="copy-board"
+                text={data.item.extra.address}
+                onCopy={() => alert('클립보드에 복사되었습니다.')}
+              >
+                <span className="copy-text">복사하기</span>
+              </CopyToClipboard>
             </div>
-            <Button
-              className="order-button"
-              fontWeight="bold"
-              fontSize="14px"
-              onClick={confirmUser}
-              disabled={isOrdered}
-            >
-              구매하기
-            </Button>
+            <div className="desc-bundle">
+              <h2 className="title">카페 소개</h2>
+              <span className="desc-left"> ❝ </span>
+              <p className="desc">{data.item.extra.description}</p>
+              <span className="desc-right"> ❞ </span>
+            </div>
+            <div className="order">
+              <h2 className="title">카공단 제공 메뉴</h2>
+              <div className="order-menu">
+                <span>{data?.item.content} </span>
+                <span className="order-price">{data?.item.price} 원</span>
+              </div>
+              <Button
+                className="order-button"
+                fontWeight="bold"
+                fontSize="14px"
+                onClick={confirmUser}
+                disabled={isOrdered}
+              >
+                구매하기
+              </Button>
+            </div>
+            <div className="review">
+              <h2 className="title">방문자 리뷰</h2>
+              {review?.item.length !== 0 ? (
+                <>
+                  {review?.item.map(item => (
+                    <div key={item._id} className="review-list">
+                      <span className="review-user">{item.user.name}</span>
+                      <span className="review-createdAt">{item.createdAt}</span>
+                      <p className="review-content">{item.content}</p>
+                    </div>
+                  ))}
+                </>
+              ) : (
+                <p className="no-review">아직 작성된 리뷰가 없습니다.</p>
+              )}
+            </div>
           </div>
-          <div className="review">
-            <h2 className="title">방문자 리뷰</h2>
-            {review?.item.length !== 0 ? (
-              <>
-                {review?.item.map(item => (
-                  <div key={item._id} className="review-list">
-                    <span className="review-user">{item.user.name}</span>
-                    <span className="review-createdAt">{item.createdAt}</span>
-                    <p className="review-content">{item.content}</p>
-                  </div>
-                ))}
-              </>
-            ) : (
-              <p className="no-review">아직 작성된 리뷰가 없습니다.</p>
-            )}
-          </div>
-        </div>
-      </Wrapper>
-    </DetailStyle>
+        </Wrapper>
+      </DetailStyle>
+    </>
   );
 }
 

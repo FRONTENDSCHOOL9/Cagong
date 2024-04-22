@@ -172,4 +172,9 @@ body {
   padding-bottom: 80px;
   padding-top: 60px;
   color: #222222;
+  -ms-overflow-style: none;
+}
+
+::-webkit-scrollbar {
+  display: none;
 }
