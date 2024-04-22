@@ -13,8 +13,7 @@ const StyledAsk = styled.div`
     font-weight: 700;
     padding: 20px;
     text-align: center;
-    font-size: 1.2rem;
-    line-height: 22px;
+    font-size: 1.6rem;
   }
 
   .askLogin-img {
@@ -27,7 +26,7 @@ const StyledAsk = styled.div`
   .login-button {
     margin: 0 auto;
     display: block;
-    font-size: 1rem;
+    font-size: 1.6rem;
     padding: 15px 35px;
     font-weight: bold;
   }
@@ -45,9 +44,7 @@ function AskLogin() {
             카페를 찾아보세요.
           </h1>
           <Link to="/users/login">
-            <Button className="login-button" fontSize="18px" fontWeight="bold">
-              로그인 하고 시작하기
-            </Button>
+            <Button className="login-button">로그인 하고 시작하기</Button>
           </Link>
         </div>
       </StyledAsk>

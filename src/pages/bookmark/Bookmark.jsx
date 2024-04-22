@@ -8,17 +8,18 @@ import Wrapper from '@components/layout/Wrapper';
 import Button from '@components/button/Button';
 
 const MyComponent = styled.div`
-  height: 85vh;
+  height: 100vh;
+  padding-bottom: 22px;
 
   .bookmarkedCafe {
-    padding: 10px;
+    padding: 0 10px;
   }
 
   .cafelist-title {
-    font-size: 20px;
+    font-size: 2.2rem;
     font-weight: 800;
     text-align: center;
-    padding: 10px;
+    padding: 22px;
   }
 
   ul {
@@ -30,7 +31,7 @@ const MyComponent = styled.div`
   li {
     border-radius: 20px;
     position: relative;
-    margin-top: 20px;
+    margin-bottom: 20px;
   }
 
   .bookmark-icon {
@@ -59,12 +60,12 @@ const MyComponent = styled.div`
     font-weight: 700;
     padding: 0 2px;
     padding-top: 10px;
+    font-size: 1.6rem;
   }
 
   .item-address {
-    font-size: 12px;
+    font-size: 1.2rem;
     padding: 0 2px;
-    line-height: 16px;
   }
 
   .cafe-thumb-overlay::after {
@@ -94,7 +95,7 @@ const MyComponent = styled.div`
 
   .emptybookmark h2 {
     text-align: center;
-    line-height: 22px;
+    font-size: 1.6rem;
     font-weight: 700;
     padding: 20px;
   }
@@ -102,18 +103,14 @@ const MyComponent = styled.div`
   .moreCafe-button {
     margin: 0 auto;
     display: block;
-    font-size: 16px;
+    font-size: 1.6rem;
     padding: 15px 35px;
     font-weight: bold;
-  }
-  .emptybookmark-img {
-    display: inline;
-    width: 20px;
   }
 
   .empty-subtitle {
     font-family: 'UhBeeSe_hyun';
-    font-size: 40px;
+    font-size: 4rem;
     color: #bdbdbd;
   }
 `;
@@ -163,11 +160,7 @@ function Bookmark() {
                       마음에 드는 카페를 <br /> 찜해주세요!
                     </h2>
                     <Link to="/boards/CafeList">
-                      <Button
-                        className="moreCafe-button"
-                        fontSize="18px"
-                        fontWeight="bold"
-                      >
+                      <Button className="moreCafe-button">
                         카페 찜하러 가기
                       </Button>
                     </Link>
