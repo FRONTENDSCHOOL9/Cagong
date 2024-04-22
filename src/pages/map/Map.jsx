@@ -80,8 +80,9 @@ const MapStyle = styled.div`
 
   .info_name {
     text-align: center;
-    font-size: 20px;
+    font-size: 18px;
     color: #222222;
+    font-weight: 600;
   }
 
   .info_cover {
@@ -509,11 +510,11 @@ function Map() {
   <h1 class="info_name">${item.name} </h1>
   <div class="info_cover">
   <img class="info_thumb" src=${import.meta.env.VITE_API_SERVER}/files/${
-      import.meta.env.VITE_CLIENT_ID
-    }/${item.mainImages[0]?.name} alt="${item.name} 사진"
+    import.meta.env.VITE_CLIENT_ID
+  }/${item.mainImages[0]?.name} alt="${item.name} 사진"
   /><img class="info_thumb" src=${import.meta.env.VITE_API_SERVER}/files/${
-      import.meta.env.VITE_CLIENT_ID
-    }/${item.mainImages[1]?.name} alt="${item.name} 사진"
+    import.meta.env.VITE_CLIENT_ID
+  }/${item.mainImages[1]?.name} alt="${item.name} 사진"
 />
 <img class="info_thumb" src=${import.meta.env.VITE_API_SERVER}/files/${
       import.meta.env.VITE_CLIENT_ID
