@@ -14,7 +14,6 @@ const FormContainer = styled.div`
     all: unset;
   }
   .form-container {
-    // box-shadow: inset 0px 0px 10px #666;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -29,6 +28,12 @@ const FormContainer = styled.div`
     font-size: 16px;
     font-weight: 800;
   }
+
+  .message-box {
+    display: flex;
+    justify-content: space-between;
+  }
+
   .input-box {
     background-color: #eeeeee;
     flex-basis: 315px;
@@ -58,7 +63,7 @@ const FormContainer = styled.div`
     flex-basis: 145px;
     width: 145px;
   }
-  .signup-button {
+  .signup-link {
     padding: 10px;
     font-size: 14px;
     font-weight: 600;
@@ -117,10 +122,14 @@ function Login() {
         <FormContainer>
           <form className="form-container" onSubmit={handleSubmit(onSubmit)}>
             <div>
-              <label className="input-label" htmlFor="email">
-                이메일
-                <br />
-              </label>
+              <div className="message-box">
+                <label className="input-label" htmlFor="email">
+                  이메일
+                </label>
+                {errors.email && (
+                  <p className="warning-message">{errors.email.message}</p>
+                )}
+              </div>
               <input
                 className="input-box"
                 name="email"
@@ -135,15 +144,16 @@ function Login() {
                   },
                 })}
               />
-              {errors.email && (
-                <p className="warning-message">{errors.email.message}</p>
-              )}
             </div>
             <div>
-              <label className="input-label" htmlFor="password">
-                비밀번호
-                <br />
-              </label>
+              <div className="message-box">
+                <label className="input-label" htmlFor="password">
+                  비밀번호{' '}
+                </label>
+                {errors.password && (
+                  <p className="warning-message">{errors.password.message}</p>
+                )}
+              </div>
               <input
                 className="input-box"
                 name="password"
@@ -154,14 +164,11 @@ function Login() {
                   required: '비밀번호를 입력하세요.',
                 })}
               />
-              {errors.password && (
-                <p className="warning-message">{errors.password.message}</p>
-              )}
             </div>
             <div className="button-box">
               <Submit className="submit-button">로그인</Submit>
               <Link to="/users/signup">
-                <Button className="signup-button">회원가입</Button>
+                <Button className="signup-link">회원가입</Button>
               </Link>
             </div>
           </form>

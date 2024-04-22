@@ -18,35 +18,59 @@ import Button from '@components/button/Button';
 const UserProfileBox = styled.div`
   font-family: 'NanumSquareRound';
   height: 240px;
+  margin: auto;
+  padding: 20px;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   color: #222222;
   z-index: 999;
-  width: 100%;
+  max-width: 390px;
+  // border: 1px solid #d9d9d9;
+  border-radius: 20px;
+  // box-shadow: inset 0 0 10px red;
   .user-name {
+    font-weight: 600;
+    font-size: 16px;
     margin: 10px auto;
   }
-  .user-profile {
+  .user-profile-img {
     width: 100px;
     height: 100px;
+    border-radius: 50%;
+    border: 1px solid #d9d9d9;
+  }
+
+  .logout-button {
+    padding: 10px 20px;
+    font-weight: 600;
+    font-size: 16px;
   }
 `;
 
 const MyComponent = styled.div`
+  .profile-container {
+    display: block;
+    padding: 20px;
+
+    // box-shadow: inset 0 0 10px green;
+    justify-content: center;
+    min-width: 390px;
+  }
   .cafelist-title {
     font-size: 20px;
     font-weight: 800;
     text-align: left;
     padding: 10px;
-  }
-  .morelist-title {
-    font-size: 20px;
-    font-weight: 800;
-    text-align: left;
-    padding: 10px;
     border-top: 1px solid #d9d9d9;
+  }
+
+  .morecafe-button {
+    margin: 0 auto;
+    display: block;
+    font-size: 16px;
+    padding: 15px 35px;
+    font-weight: 600;
   }
 
   .cafe-thumb {
@@ -93,12 +117,16 @@ const MyComponent = styled.div`
     padding: 20px;
   }
 
-  .moreCafe-button {
-    margin: 0 auto;
-    display: block;
-    font-size: 16px;
-    padding: 15px 35px;
-    font-weight: bold;
+  .morelist-title {
+    font-size: 20px;
+    font-weight: 800;
+    // display: flex;
+    padding: 10px;
+    border-top: 1px solid #d9d9d9;
+  }
+
+  .cafelist-more {
+    text-align: right;
   }
 
   .empty-subtitle {
@@ -142,30 +170,27 @@ function MyPage() {
       <MainHeader />
       <Wrapper>
         <MyComponent>
-          <UserProfileBox>
-            <img
-              className="user-profile"
-              src={
-                user.profile
-                  ? `${import.meta.env.VITE_API_SERVER}/files/${
-                      import.meta.env.VITE_CLIENT_ID
-                    }/${user.profile}`
-                  : '/profile_01.png'
-              }
-              alt="프로필 이미지"
-            />
-            <div className="user-name">
-              <span>{user.name}님 :)</span>
-            </div>
-            <LogoutButton
-              padding="10px 20px"
-              fontWeight="bold"
-              fontSize="14px"
-              onClick={handleLogout}
-            >
-              로그아웃
-            </LogoutButton>
-          </UserProfileBox>
+          <div className="profile-container">
+            <UserProfileBox>
+              <img
+                className="user-profile-img"
+                src={
+                  user.profile
+                    ? `${import.meta.env.VITE_API_SERVER}/files/${
+                        import.meta.env.VITE_CLIENT_ID
+                      }/${user.profile}`
+                    : '/profile_01.png'
+                }
+                alt="프로필 이미지"
+              />
+              <div className="user-name">
+                <span>{user.name}님 :)</span>
+              </div>
+              <Button className="logout-button" onClick={handleLogout}>
+                로그아웃
+              </Button>
+            </UserProfileBox>
+          </div>
           <div className="cafelist-title">최근 조회한 카페</div>
           <Swiper
             modules={[Navigation, A11y, Scrollbar]}
@@ -214,7 +239,7 @@ function MyPage() {
                 <h2>최근 조회한 카페 내역이 없습니다.</h2>
                 <Link to="/boards/CafeList">
                   <Button
-                    className="moreCafe-button"
+                    className="morecafe-button"
                     fontSize="18px"
                     fontWeight="bold"
                   >
@@ -224,36 +249,6 @@ function MyPage() {
               </div>
             )}
           </Swiper>
-          <Link to="/users/reviewlist">
-            <div className="morelist-title">
-              리뷰 관리
-              <img
-                className="cafelist-more"
-                src="/more-items.svg"
-                alt="more-items 버튼"
-              />
-            </div>
-          </Link>
-          <Link to="/users/reviewlist">
-            <div className="morelist-title">
-              리뷰 관리
-              <img
-                className="cafelist-more"
-                src="/more-items.svg"
-                alt="more-items 버튼"
-              />
-            </div>
-          </Link>
-          <Link to="/users/reviewlist">
-            <div className="morelist-title">
-              리뷰 관리
-              <img
-                className="cafelist-more"
-                src="/more-items.svg"
-                alt="more-items 버튼"
-              />
-            </div>
-          </Link>
           <Link to="/users/reviewlist">
             <div className="morelist-title">
               리뷰 관리
