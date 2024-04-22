@@ -46,7 +46,7 @@ const SearchFormStyle = styled.div`
     z-index: 9998;
     right: 0;
     top:0;
-    width:40px;
+    width:50px;
     height:50px;
     background-color:white;
 `;
