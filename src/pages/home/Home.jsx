@@ -91,7 +91,6 @@ function Home() {
         <Swiper
           modules={[Navigation, A11y, Scrollbar]}
           slidesPerView={2}
-          slidesPerColumn={2}
           loop={false}
           pagination={{
             clickable: true,
@@ -120,7 +119,6 @@ function Home() {
         <Swiper
           modules={[Navigation, A11y, Scrollbar]}
           slidesPerView={2}
-          slidesPerColumn={2}
           loop={false}
           pagination={{
             clickable: true,
