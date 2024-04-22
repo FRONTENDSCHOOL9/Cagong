@@ -9,6 +9,7 @@ import Wrapper from '@components/layout/Wrapper';
 import SideHeader from '@components/layout/SideHeader';
 
 const OrderStyle = styled.div`
+  color: black;
   .header {
     font-size: 25px;
     font-weight: 800;
