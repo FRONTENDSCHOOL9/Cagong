@@ -62,6 +62,9 @@ const OrderStyle = styled.div`
     border-bottom: 1px solid #d8d8d8;
     font-weight: 600;
   }
+  .list-item{
+    font-size: 1.6rem;
+  }
   .qr {
     width: 150px;
     display: block;
@@ -110,6 +113,7 @@ const OrderStyle = styled.div`
     font-weight: bold;
   }
   .empty-title {
+    font-size: 1.6rem;
     text-align: center;
     line-height: 22px;
     font-weight: 700;
@@ -273,7 +277,7 @@ const OrderList = () => {
                   {unusedProducts.map((name, index) => (
                     <div key={index}>
                       <div className="unused-list">
-                        <p>{name}</p>
+                        <p className='list-item'>{name}</p>
                         <Button
                           className="action-button"
                           fontSize="18px"
@@ -299,7 +303,7 @@ const OrderList = () => {
                 <>
                   {usedProducts.map((name, index) => (
                     <div key={index} className="unused-list">
-                      <p>{name}</p>
+                      <p className='list-item'>{name}</p>
                       {disabled.includes(usedProductsId[index]) ? (
                         <Button
                           className="action-button"
