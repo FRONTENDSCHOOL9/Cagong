@@ -25,7 +25,7 @@ const HeaderStyle = styled.div`
     justify-content: space-between;
     width: 100%;
     padding: unset;
-    padding-right: 15px;
+    padding-right: 10px;
   }
 `;
 
