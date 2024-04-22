@@ -12,9 +12,6 @@ import CafeListItem from '@pages/product/CafeListItem';
 import AdSwiper from '@components/AdSwiper';
 
 const HomeStyle = styled.div`
-  margin: 0;
-  padding-bottom: 200px;
-
   .swiper-button-prev,
   .swiper-button-next {
     color: #fff;
@@ -25,11 +22,9 @@ const HomeStyle = styled.div`
   }
 
   .cafelist-title {
-    font-size: 2rem;
+    font-size: 2.2rem;
     font-weight: 800;
     padding: 15px;
-    padding-top: 30px;
-    padding-bottom: 20px;
   }
 
   .cafelist-more {
