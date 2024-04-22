@@ -30,6 +30,7 @@ const MyComponent = styled.div`
   .item-address {
     font-size: 14px;
     padding: 4px 0;
+    line-height: 18px;
   }
 
   .item-review {
