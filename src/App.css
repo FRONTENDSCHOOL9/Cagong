@@ -173,3 +173,9 @@ body {
   padding-top: 60px;
   color: #222222;
 }
+
+html,
+body {
+  font-size: 62.5%;
+  line-height: 1.285;
+}
