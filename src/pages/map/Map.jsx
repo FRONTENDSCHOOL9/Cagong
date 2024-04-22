@@ -2,6 +2,7 @@ import useCustomAxios from '@hooks/useCustomAxios.mjs';
 import { useEffect, useRef, useState } from 'react';
 const { kakao } = window;
 import { useQuery } from '@tanstack/react-query';
+import { debounce } from 'lodash';
 import axios from 'axios';
 import styled from 'styled-components';
 import MainHeader from '@components/layout/MainHeader';
@@ -500,7 +501,7 @@ function Map() {
   }, [data]);
 
   useEffect(() => {
-    kakao.maps.event.addListener(mapRef.current, 'bounds_changed', () => {
+    const handleBoundsChanged = debounce(() => {
       // // 지도 영역정보를 얻어옴
       let bounds = mapRef.current.getBounds();
       // // 영역정보의 남서쪽 정보를 얻어옴
@@ -526,7 +527,16 @@ function Map() {
       // console.log(filteredPositions);
       // console.log(allCafeList);
       // console.log(mapBounds);
-    });
+    }, 500);
+    kakao.maps.event.addListener(
+      mapRef.current,
+      'bounds_changed',
+      handleBoundsChanged,
+    );
+
+    return () => {
+      handleBoundsChanged.cancel(); // 컴포넌트가 언마운트될 때 디바운스 함수를 취소합니다.
+    };
   }, [distanceToCafe]);
   // console.log(data);
   // console.log(filteredCafeList);
