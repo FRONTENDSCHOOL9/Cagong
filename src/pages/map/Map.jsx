@@ -78,7 +78,7 @@ const MapStyle = styled.div`
 
   .info_name {
     text-align: center;
-    font-size: 18px;
+    font-size: 1.8rem;
     color: #222222;
     font-weight: 600;
   }
@@ -108,7 +108,7 @@ const MapStyle = styled.div`
   .info_adress {
     text-align: center;
     padding: 10px;
-    font-size: 12px;
+    font-size: 1.2rem;
   }
 
   .cafe-wrapper {
@@ -141,7 +141,7 @@ const MapStyle = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 24px;
+    font-size: 2.2rem;
     font-weight: 800;
   }
 
@@ -209,7 +209,7 @@ const MapStyle = styled.div`
   }
 
   .cafe-list_item-title {
-    font-size: 1rem;
+    font-size: 1.6rem;
     font-weight: 600;
     width: 200px;
     border-bottom: 3px double #ffa931;
@@ -223,11 +223,11 @@ const MapStyle = styled.div`
     padding-top: 21px;
     padding-left: 10px;
     color: #888888;
-    font-size: 12px;
+    font-size: 1.2rem;
   }
 
   .cafe-list_item-address-item {
-    font-size: 14px;
+    font-size: 1.4rem;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
