@@ -84,7 +84,7 @@ function ReviewList() {
         </p>
         <ul>
           {data.map(item => (
-            <Link key={item._id} to={`/boards/cafeDetail/${item._id}`}>
+            <Link key={item._id} to={`/boards/cafeDetail/${item.product._id}`}>
               <li className="review-item" key={item._id}>
                 <div className="item-header">
                   <h1 className="item-name">{item.product.name}</h1>
