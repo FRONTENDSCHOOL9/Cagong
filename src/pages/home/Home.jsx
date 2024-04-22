@@ -25,7 +25,7 @@ const HomeStyle = styled.div`
   }
 
   .cafelist-title {
-    font-size: 22px;
+    font-size: 2rem;
     font-weight: 800;
     padding: 15px;
     padding-top: 30px;

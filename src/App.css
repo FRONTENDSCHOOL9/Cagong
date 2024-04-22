@@ -178,3 +178,9 @@ body {
 ::-webkit-scrollbar {
   display: none;
 }
+
+html,
+body {
+  font-size: 62.5%;
+  line-height: 1.285;
+}
