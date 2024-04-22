@@ -17,7 +17,7 @@ import styled from 'styled-components';
 
 const SearchStyle = styled.div`
   padding: 15px;
-  margin-top: 8vh;
+
   .recent-searches {
   }
   .recent-searches_header {
@@ -52,6 +52,7 @@ const SearchStyle = styled.div`
     align-items: start;
     margin-left: 15px;
     margin-bottom: 5px;
+    color: gray;
   }
 
   .recent-searches_list-item_delete {
@@ -82,7 +83,7 @@ const SearchStyle = styled.div`
   }
 
   .trending-cafelist {
-    font-weight: 600;
+    font-weight: 800;
     font-size: 1rem;
     margin: 30px 0 20px 0;
   }

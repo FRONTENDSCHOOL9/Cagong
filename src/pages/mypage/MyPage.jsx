@@ -16,7 +16,7 @@ import LogoutButton from '@components/button/LogoutButton';
 import Button from '@components/button/Button';
 
 const UserProfileBox = styled.div`
-  font-family: 'UhBeeSe_hyun';
+  font-family: 'NanumSquareRound';
   height: 240px;
   display: flex;
   flex-direction: column;
@@ -27,6 +27,10 @@ const UserProfileBox = styled.div`
   width: 100%;
   .user-name {
     margin: 10px auto;
+  }
+  .user-profile {
+    width: 100px;
+    height: 100px;
   }
 `;
 
