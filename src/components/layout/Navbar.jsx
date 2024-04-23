@@ -1,6 +1,6 @@
 import { memberState } from '@recoil/user/atoms.mjs';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 
@@ -45,43 +45,34 @@ function Navbar() {
   const [order, setOrder] = useState(false);
   const [bookmark, setBookmark] = useState(false);
   const [myPage, setMyPage] = useState(false);
-
-  /*  */
   const [activeLink, setActiveLink] = useState(null);
 
   const handleLinkClick = async (link, destination) => {
     if (!user) {
-      const gotoLogin = confirm(
-        '로그인 후 이용 가능합니다.\n로그인 화면으로 이동하시겠습니까?',
-      );
-      if (gotoLogin) {
-        setActiveLink(link);
-        localStorage.setItem('targetPath', destination);
-        return;
-      }
+      localStorage.setItem('targetPath', destination);
+      Navigate('/asklogin');
+    } else {
+      setActiveLink(null);
     }
-    setActiveLink(null);
   };
-
-  /*  */
 
   function handleHome() {
     setHome(true);
     setMap(false);
-    /*  setOrder(false);
+    setOrder(false);
     setBookmark(false);
-    setMyPage(false); */
+    setMyPage(false);
   }
 
   function handleMap() {
     setHome(false);
     setMap(true);
-    /*  setOrder(false);
+    setOrder(false);
     setBookmark(false);
-    setMyPage(false); */
+    setMyPage(false);
   }
 
-  /* function handleOrder() {
+  function handleOrder() {
     setHome(false);
     setMap(false);
     setOrder(true);
@@ -103,7 +94,7 @@ function Navbar() {
     setOrder(false);
     setBookmark(false);
     setMyPage(true);
-  } */
+  }
 
   return (
     <StyledNav>
@@ -118,32 +109,11 @@ function Navbar() {
           <span>지도</span>
         </Link>
 
-        {/* <Link
-          onClick={handleOrder}
-          to={user ? '/users/orderlist' : '/asklogin'}
-        >
-          <img src={order ? '/order-active.svg' : '/nav-order.svg'} alt="" />
-          <span>내 구매</span>
-        </Link>
-
         <Link
-          onClick={handleBookmark}
-          to={user ? '/users/bookmark' : '/asklogin'}
-        >
-          <img
-            src={bookmark ? '/bookmark-active.svg' : '/nav-bookmark.svg'}
-            alt=""
-          />
-          <span>북마크</span>
-        </Link>
-
-        <Link onClick={handleMyPage} to={user ? '/users/mypage' : '/asklogin'}>
-          <img src={myPage ? '/mypage-active.svg' : '/nav-mypage.svg'} alt="" />
-          <span>내 정보</span>
-        </Link> */}
-
-        <Link
-          onClick={() => handleLinkClick('order', '/users/orderlist')}
+          onClick={() => {
+            handleOrder();
+            handleLinkClick('order', '/users/orderlist');
+          }}
           to={user ? '/users/orderlist' : '/asklogin'}
           className={activeLink === 'order' ? 'active' : ''}
         >
@@ -152,7 +122,10 @@ function Navbar() {
         </Link>
 
         <Link
-          onClick={() => handleLinkClick('bookmark', '/users/bookmark')}
+          onClick={() => {
+            handleBookmark();
+            handleLinkClick('bookmark', '/users/bookmark');
+          }}
           to={user ? '/users/bookmark' : '/asklogin'}
           className={activeLink === 'bookmark' ? 'active' : ''}
         >
@@ -164,7 +137,10 @@ function Navbar() {
         </Link>
 
         <Link
-          onClick={() => handleLinkClick('mypage', '/users/mypage')}
+          onClick={() => {
+            handleMyPage();
+            handleLinkClick('mypage', '/users/mypage');
+          }}
           to={user ? '/users/mypage' : '/asklogin'}
           className={activeLink === 'mypage' ? 'active' : ''}
         >
