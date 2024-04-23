@@ -213,6 +213,7 @@ function CafeDetail() {
 
   const confirmUser = () => {
     if (!user) {
+      localStorage.setItem('targetPath', location.pathname); // 가현님께 요청드릴 코드
       const gotoLogin = confirm(
         '로그인 후 이용 가능합니다.\n로그인 화면으로 이동하시겠습니까?',
       );
