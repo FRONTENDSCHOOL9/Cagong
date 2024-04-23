@@ -250,7 +250,7 @@ function CafeDetail() {
     setAddressData(data?.item.extra.address);
   }, []);
   const handleDetailToMap = () => {
-    console.log(addressData);
+    // console.log(addressData);
     navigate('/boards/map', { state: { addressData } });
   };
 
