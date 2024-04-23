@@ -1,5 +1,4 @@
 import Submit from '@components/Submit';
-import Button from '@components/button/Button';
 import Header from '@components/layout/MainHeader';
 import Wrapper from '@components/layout/Wrapper';
 import useCustomAxios from '@hooks/useCustomAxios.mjs';
@@ -18,13 +17,12 @@ const FormContainer = styled.div`
     text-align: left;
   }
   .form-container {
-    // box-shadow: inset 0 0 10px red;
+    padding: 70px 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
-    height: 100vh;
     flex-grow: 1;
     gap: 20px;
   }

@@ -14,12 +14,13 @@ const FormContainer = styled.div`
     all: unset;
   }
   .form-container {
+    padding: 70px 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
-    height: 100vh;
+    // height: 100vh;
     flex-grow: 1;
     gap: 20px;
   }
