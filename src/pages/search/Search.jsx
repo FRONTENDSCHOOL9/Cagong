@@ -27,12 +27,12 @@ const SearchStyle = styled.div`
 
   .recent-searches_header_title {
     font-weight: 600;
-    font-size: 0.8rem;
+    font-size: 1.3rem;
     margin-bottom: 15px;
   }
 
   .recent-searches_header_reset {
-    font-size: 0.6rem;
+    font-size: 1rem;
     border: none;
     color: #b3b3b3;
     background-color: white;
@@ -41,13 +41,13 @@ const SearchStyle = styled.div`
   }
 
   .recent-searches_emptymessage {
-    font-size: 0.6rem;
+    font-size: 1rem;
     margin-bottom: 0px;
     margin-left: 15px;
   }
 
   .recent-searches_list-item {
-    font-size: 0.8rem;
+    font-size: 1.3rem;
     display: flex;
     align-items: start;
     margin-left: 15px;
@@ -73,7 +73,7 @@ const SearchStyle = styled.div`
 
   .search-result-message {
     margin-top: 15px;
-    font-size: 0.8rem;
+    font-size: 1.3rem;
     font-weight: 500;
   }
 
@@ -84,7 +84,7 @@ const SearchStyle = styled.div`
 
   .trending-cafelist {
     font-weight: 800;
-    font-size: 1rem;
+    font-size: 1.6rem;
     margin: 30px 0 20px 0;
   }
 
@@ -105,16 +105,16 @@ const SearchStyle = styled.div`
 
   .item-name {
     font-weight: 700;
-    font-size: 18px;
+    font-size: 1.8rem;
   }
 
   .item-address {
-    font-size: 14px;
+    font-size: 1.4rem;
     padding: 4px 0;
   }
 
   .item-review {
-    font-size: 12px;
+    font-size: 1.2rem;
   }
 `;
 
@@ -149,6 +149,7 @@ function Search() {
   function clearSearchHistory() {
     sessionStorage.removeItem('searchHistory');
     setSearchHistory([]);
+    setSearchParams('');
   }
 
   // URL 검색 매개 변수 업데이트
@@ -170,6 +171,9 @@ function Search() {
       setSearchParams(searchParams);
     }
   }
+
+  const urlParams = new URL(location.href).searchParams;
+  const searchKeyword = urlParams.get('keyword');
 
   return (
     <>
@@ -217,8 +221,9 @@ function Search() {
             <hr className="recent-searches_line" />
             {searchHistory.length > 0 ? (
               <h1 className="search-result-message">
-                총 카페 <strong>{data?.item.length}</strong>건이 검색
-                되었습니다.
+                &apos;{searchKeyword}&apos; 검색 결과 :{' '}
+                <strong>{data?.item.length}</strong>
+                건이 검색 되었습니다.
               </h1>
             ) : (
               <h1 className="trending-cafelist">인기 검색 카페</h1>
