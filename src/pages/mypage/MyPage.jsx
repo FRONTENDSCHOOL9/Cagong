@@ -31,8 +31,8 @@ const UserProfileBox = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-width: 185px;
-    flex-basis: 185px;
+    min-width: 180px;
+    flex-basis: 180px;
     margin-left: 10px;
     margin-right: auto;
   }
@@ -318,20 +318,3 @@ function MyPage() {
 }
 
 export default MyPage;
-
-/*  컨펌창 삭제 전
-
-  const confirmUser = () => {
-    if (!user) {
-      localStorage.setItem('targetPath', location.pathname); // 가현님께 요청드릴 코드
-      const gotoLogin = confirm(
-        '로그인 후 이용 가능합니다.\n로그인 화면으로 이동하시겠습니까?',
-      );
-      gotoLogin && navigate('/users/login');
-    } else {
-      handleOrder();
-    }
-  };
-
-
-*/
