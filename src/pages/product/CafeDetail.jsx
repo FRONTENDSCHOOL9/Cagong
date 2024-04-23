@@ -110,7 +110,7 @@ const DetailStyle = styled.div`
   }
   .no-review {
     padding: 30px 10px;
-    font-size: 1.6rem;
+    font-size: 1.4rem;
   }
   .copy-board {
     font-size: 1.2rem;
