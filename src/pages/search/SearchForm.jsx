@@ -18,7 +18,7 @@ const SearchFormStyle = styled.div`
     border: none;
     width: 100%;
     height: 95%;
-    font-size: 0.8rem;
+    font-size: 1.3rem;
     outline:none;
   }
 
