@@ -1,6 +1,6 @@
 import { memberState } from '@recoil/user/atoms.mjs';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 
@@ -45,6 +45,16 @@ function Navbar() {
   const [order, setOrder] = useState(false);
   const [bookmark, setBookmark] = useState(false);
   const [myPage, setMyPage] = useState(false);
+  const [activeLink, setActiveLink] = useState(null);
+
+  const handleLinkClick = async (link, destination) => {
+    if (!user) {
+      localStorage.setItem('targetPath', destination);
+      Navigate('/asklogin');
+    } else {
+      setActiveLink(null);
+    }
+  };
 
   function handleHome() {
     setHome(true);
@@ -100,16 +110,24 @@ function Navbar() {
         </Link>
 
         <Link
-          onClick={handleOrder}
+          onClick={() => {
+            handleOrder();
+            handleLinkClick('order', '/users/orderlist');
+          }}
           to={user ? '/users/orderlist' : '/asklogin'}
+          className={activeLink === 'order' ? 'active' : ''}
         >
           <img src={order ? '/order-active.svg' : '/nav-order.svg'} alt="" />
           <span>내 구매</span>
         </Link>
 
         <Link
-          onClick={handleBookmark}
+          onClick={() => {
+            handleBookmark();
+            handleLinkClick('bookmark', '/users/bookmark');
+          }}
           to={user ? '/users/bookmark' : '/asklogin'}
+          className={activeLink === 'bookmark' ? 'active' : ''}
         >
           <img
             src={bookmark ? '/bookmark-active.svg' : '/nav-bookmark.svg'}
@@ -118,7 +136,14 @@ function Navbar() {
           <span>북마크</span>
         </Link>
 
-        <Link onClick={handleMyPage} to={user ? '/users/mypage' : '/asklogin'}>
+        <Link
+          onClick={() => {
+            handleMyPage();
+            handleLinkClick('mypage', '/users/mypage');
+          }}
+          to={user ? '/users/mypage' : '/asklogin'}
+          className={activeLink === 'mypage' ? 'active' : ''}
+        >
           <img src={myPage ? '/mypage-active.svg' : '/nav-mypage.svg'} alt="" />
           <span>내 정보</span>
         </Link>

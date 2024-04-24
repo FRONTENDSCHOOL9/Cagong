@@ -8,24 +8,25 @@ import Button from '@components/button/Button';
 import Header from '@components/layout/MainHeader';
 import Wrapper from '@components/layout/Wrapper';
 import styled from 'styled-components';
-console.log(useForm);
+
 const FormContainer = styled.div`
   input {
     all: unset;
   }
   .form-container {
+    padding: 70px 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
-    height: 100vh;
+    // height: 100vh;
     flex-grow: 1;
     gap: 20px;
   }
 
   .input-label {
-    font-size: 16px;
+    font-size: 2rem;
     font-weight: 800;
   }
 
@@ -42,6 +43,7 @@ const FormContainer = styled.div`
     margin-top: 4px;
     border-radius: 8px;
     padding-left: 4px;
+    font-size: 1.6rem;
   }
 
   input::placeholder {
@@ -50,6 +52,7 @@ const FormContainer = styled.div`
 
   .warning-message {
     color: red;
+    font-size: 1.6rem;
   }
 
   .button-box {
@@ -58,14 +61,14 @@ const FormContainer = styled.div`
   }
   .submit-button {
     padding: 10px;
-    font-size: 14px;
+    font-size: 1.6rem;
     font-weight: 600;
     flex-basis: 145px;
     width: 145px;
   }
   .signup-link {
     padding: 10px;
-    font-size: 14px;
+    font-size: 1.6rem;
     font-weight: 600;
     flex-basis: 145px;
     width: 145px;
@@ -100,8 +103,19 @@ function Login() {
         type: res.data.item.type,
       });
       alert(res.data.item.name + '님 로그인 되었습니다.');
-      navigate(location.state?.from ? location.state?.from : '/');
+      /*    navigate(location.state?.from ? location.state?.from : '/');
       // 직전 페이지 이동 필요
+    }  */
+      const targetPath = localStorage.getItem('targetPath');
+      if (targetPath) {
+        // 이전 페이지로 이동
+        navigate(targetPath);
+        // localStorage에 저장된 targetPath 초기화
+        localStorage.removeItem('targetPath');
+      } else {
+        // targetPath가 없으면 myPage
+        navigate('/users/mypage');
+      }
     } catch (err) {
       // AxiosError(네트워크 에러-response가 없음, 서버의 4xx, 5xx 응답 상태 코드를 받았을 때-response 있음)
       if (err.response?.data.errors) {

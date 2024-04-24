@@ -10,7 +10,9 @@ AdSwiper.propTypes = {
 const AdStyle = styled.div`
   .ad-container {
     position: relative;
-    height: 600px;
+    max-height: 500px;
+    height: 60vw;
+    min-height: 400px;
   }
 
   .ad-container::after {
@@ -28,6 +30,12 @@ const AdStyle = styled.div`
     pointer-events: none;
   }
 
+  .ad-img {
+    width: 100%;
+    object-fit: cover;
+    height: 100%;
+  }
+
   .ad-title-sub {
     font-weight: 400;
   }
@@ -39,23 +47,9 @@ const AdStyle = styled.div`
     padding-bottom: 40px;
     padding-left: 20px;
     color: white;
-    font-size: 30px;
+    font-size: 3rem;
     font-weight: bold;
-    line-height: 36px;
     z-index: 100;
-  }
-
-  .swiper-ad img {
-    width: 100%;
-    object-fit: cover;
-    height: 100%;
-    position: relative;
-  }
-
-  .ad-img {
-    width: 100%;
-    object-fit: cover;
-    height: 100%;
   }
 
   .swiper-pagination-bullet-active {

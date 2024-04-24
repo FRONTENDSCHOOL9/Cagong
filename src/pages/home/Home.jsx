@@ -10,9 +10,9 @@ import ad_03_Img from '@assets/ad_03.jpeg';
 import { Navigation, Scrollbar, A11y } from 'swiper/modules';
 import CafeListItem from '@pages/product/CafeListItem';
 import AdSwiper from '@components/AdSwiper';
+import Wrapper from '@components/layout/Wrapper';
 
 const HomeStyle = styled.div`
-  padding-bottom: 50px;
   .swiper-button-prev,
   .swiper-button-next {
     color: #fff;
@@ -26,8 +26,11 @@ const HomeStyle = styled.div`
     font-size: 2.2rem;
     font-weight: 800;
     padding: 0 15px;
-    padding-top: 26px;
     padding-bottom: 12px;
+  }
+
+  .cafelist-title.top {
+    margin-top: 20px;
   }
 
   .cafelist-more {
@@ -72,37 +75,66 @@ function Home() {
   return (
     <HomeStyle>
       <MainHeader />
-      <AdSwiper adContents={adContents} />
+      <Wrapper>
+        <AdSwiper adContents={adContents} />
+        <Link to="/boards/CafeList">
+          <div className="cafelist-title top">
+            카공 인기 카페
+            <img
+              className="cafelist-more"
+              src="/more-items.svg"
+              alt="more-items 버튼"
+            />
+          </div>
+        </Link>
 
-      <Link to="/boards/CafeList">
-        <div className="cafelist-title">
-          카공 인기 카페
-          <img
-            className="cafelist-more"
-            src="/more-items.svg"
-            alt="more-items 버튼"
-          />
-        </div>
-      </Link>
-
-      <Swiper
-        modules={[Navigation, A11y, Scrollbar]}
-        slidesPerView={2}
-        loop={false}
-        pagination={{
-          clickable: true,
-        }}
-        navigation={{
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev',
-        }}
-      >
-        {data?.map(item => (
-          <SwiperSlide key={item._id}>
-            <CafeListItem item={item} />
-          </SwiperSlide>
-        ))}
-      </Swiper>
+        <Swiper
+          modules={[Navigation, A11y, Scrollbar]}
+          slidesPerView={2}
+          loop={false}
+          pagination={{
+            clickable: true,
+          }}
+          navigation={{
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          }}
+        >
+          {data?.map(item => (
+            <SwiperSlide key={item._id}>
+              <CafeListItem item={item} />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+        <Link to="/boards/CafeList">
+          <div className="cafelist-title">
+            새로 들어온 카페
+            <img
+              className="cafelist-more"
+              src="/more-items.svg"
+              alt="more-items 버튼"
+            />
+          </div>
+        </Link>
+        <Swiper
+          modules={[Navigation, A11y, Scrollbar]}
+          slidesPerView={2}
+          loop={false}
+          pagination={{
+            clickable: true,
+          }}
+          navigation={{
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          }}
+        >
+          {data?.reverse().map(item => (
+            <SwiperSlide key={item._id}>
+              <CafeListItem item={item} />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </Wrapper>
     </HomeStyle>
   );
 }

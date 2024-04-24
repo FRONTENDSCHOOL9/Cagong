@@ -47,6 +47,7 @@ const ReviewFormStyle = styled.div`
     padding: 8px;
     height: 400px;
     width: 300px;
+    font-size: 1.4rem;
   }
   #content:focus {
     border: 1px solid #ffa931;

@@ -1,249 +1,14 @@
+import MapStyle from './MapStyle';
+import { getDistanceBetweenTwoAddresses } from './MapUtils';
 import useCustomAxios from '@hooks/useCustomAxios.mjs';
 import { useEffect, useRef, useState } from 'react';
 const { kakao } = window;
 import { useQuery } from '@tanstack/react-query';
+import { debounce } from 'lodash';
 import axios from 'axios';
-import styled from 'styled-components';
 import MainHeader from '@components/layout/MainHeader';
 import Wrapper from '@components/layout/Wrapper';
-
-const MapStyle = styled.div`
-  //스크롤바 숨기기
-  -ms-overflow-style: none;
-  ::-webkit-scrollbar {
-    display: none;
-  }
-  height: 100vh;
-
-  margin: 0;
-  font-family: 'NanumSquareRound';
-  min-height: 100%;
-  max-width: 1000px;
-  position: fixed;
-  overflow: hidden;
-  touch-action: none;
-  width: 100%;
-  scroll: no;
-
-  #map {
-    // min-height: 300px;
-  }
-
-  .wrapper {
-    height: 45%;
-    position: relative;
-  }
-
-  .btn-map {
-    position: absolute;
-    cursor: pointer;
-    border-radius: 8px;
-    background-color: #ffffff;
-    display: flex;
-    align-items: center;
-    justify-contents: center;
-    width: 33px;
-    height: 33px;
-    border: none;
-  }
-
-  .btn-map.current {
-    bottom: 70px;
-    right: 15px;
-    z-index: 9999;
-  }
-
-  .btn-map.zoom-out {
-    bottom: 35px;
-    right: 15px;
-    z-index: 9999;
-  }
-
-  .btn-map.current img {
-    width: 100%;
-  }
-
-  .btn-map.zoom-out img {
-    width: 100%;
-  }
-
-  .info_wrapper {
-    width: 330px;
-    position: relative;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .info_name {
-    text-align: center;
-    font-size: 1.8rem;
-    color: #222222;
-    font-weight: 600;
-  }
-
-  .info_cover {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    height: 100px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-  }
-
-  .info_thumb {
-    display: block;
-    // position: absolute;
-    left: 10%;
-    width: 32%;
-    // height: 100px;
-    aspect-ratio: 1/1;
-    object-fit: cover;
-    border-radius: 8px;
-    vertical-align: bottom;
-    box-shadow: 0px 8px 6px -6px #666;
-  }
-
-  .info_adress {
-    text-align: center;
-    padding: 10px;
-    font-size: 1.2rem;
-  }
-
-  .cafe-wrapper {
-    display: flex;
-    // display: none;
-    flex-direction: column;
-    align-items: center;
-    max-width: 100%;
-    position: relative;
-    background-color: white;
-    top: -30px;
-    height: 45%;
-    max-height: 620px;
-    border-radius: 20px 20px 0 0;
-    overflow: auto;
-    z-index: 1;
-  }
-
-  .cafe-header {
-    width: 100%;
-    max-width: 1000px;
-    text-align: center;
-    border-radius: 20px 20px 0 0;
-    padding: 22px 0 18px 0;
-    position: fixed;
-    background-color: white;
-  }
-
-  .cafe-header_title {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2.2rem;
-    font-weight: 800;
-  }
-
-  //카페리스트 확장 버튼
-  // .cafe-expand {
-  //   position: absolute;
-  //   border: none;
-  //   width: 33px;
-  //   height: 33px;
-  //   right: 15px;
-  //   top: 15px;
-  //   z-index: 9999;
-  //   cursor: pointer;
-  //   border-radius: 8px;
-  //   background-color: white;
-  // }
-
-  /*카페리스트*/
-
-  .cafe-list_item {
-    display: flex;
-    cursor: pointer;
-    padding: 0 10px;
-    margin-bottom: 8px;
-    // align-items: center;
-    min-width: 350px;
-    width: 350px;
-  }
-
-  .cafe-list_item:first-child {
-    margin-top: 67px;
-  }
-
-  .cafe-list_item:last-child {
-    margin-bottom: 57px;
-  }
-
-  .cafe-list_item-cover {
-    text-align: center;
-    min-width: 20%;
-    width: 30px;
-    box-shadow: 0px 8px 6px -6px #666;
-    border-radius: 8px;
-    margin: 0 5px 5px 0;
-  }
-
-  .cafe-list_item-cover-thumb {
-    width: 100%;
-    aspect-ratio: 1/1;
-    object-fit: cover;
-    border-radius: 8px;
-    vertical-align: bottom;
-  }
-
-  .cafe-list_item-detail {
-    flex-grow: 1;
-    padding: 5px 0 0 5px;
-  }
-
-  .cafe-list_item-layout {
-    display: flex;
-    justify-content: space-between;
-    align-items: end;
-    margin-bottom: 5px;
-  }
-
-  .cafe-list_item-title {
-    font-size: 1.6rem;
-    font-weight: 600;
-    width: 200px;
-    border-bottom: 3px double #ffa931;
-    padding-bottom: 1px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-  .cafe-list_item-distance {
-    display: block;
-    padding-top: 21px;
-    padding-left: 10px;
-    color: #888888;
-    font-size: 1.2rem;
-  }
-
-  .cafe-list_item-address-item {
-    font-size: 1.4rem;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  @media screen and (min-width: 650px) {
-    .cafe-list_item {
-      width: 100%;
-    }
-    .cafe-list_item-title {
-      width: 100%;
-    }
-  }
-`;
+import { useLocation } from 'react-router-dom';
 
 function Map() {
   const mapRef = useRef(null);
@@ -259,6 +24,41 @@ function Map() {
     select: response => response.data,
     suspense: true,
   });
+
+  const location = useLocation();
+
+  useEffect(() => {
+    let receiveData = '';
+    if (location.state && location.state.addressData) {
+      receiveData = location.state?.addressData; // state에서 데이터를 검색합니다.
+      // console.log(location.state?.addressData);
+    }
+    async function handleMapForCafe(receivedData) {
+      const response = await axios.get(
+        'https://dapi.kakao.com/v2/local/search/address.json',
+        {
+          params: { query: receivedData },
+          headers: {
+            Authorization: `KakaoAK ${import.meta.env.VITE_KAKAO_REST_API_KEY}`,
+          },
+        },
+      );
+      const { x, y } = response.data.documents[0];
+      // console.log(x, y);
+      const cafeX = Number(x).toFixed(7);
+      const cafeY = Number(y).toFixed(7);
+
+      const locPosition = new kakao.maps.LatLng(cafeY, cafeX); // geolocation으로 얻어온 좌표
+      mapRef.current.setLevel(1, { animate: true });
+      mapRef.current.panTo(locPosition);
+      // console.log(location.state?.addressData);
+      // console.log(wtmResponse2.data.documents[0]);
+    }
+    if (location.state && location.state.addressData) {
+      handleMapForCafe(receiveData);
+    }
+    // console.log(handleMapForCafe(receivedData));
+  }, [location.state?.addressData]);
 
   const cafeListCopy =
     data?.item?.map(item => ({
@@ -281,7 +81,6 @@ function Map() {
   const sortedAllCafeList = cafeListCopy.sort(
     (a, b) => a.distance - b.distance,
   );
-
   // console.log(sortedAllCafeList);
   currentLocation();
 
@@ -302,89 +101,6 @@ function Map() {
     }
   }
 
-  //카카오 로컬 API
-
-  // 하버사인 공식으로 최단거리 계산하는 함수
-  function calculateDistance(x1, y1, x2, y2) {
-    return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-  }
-
-  //첫번 째는 받아오는 주소, 두,세 번째는 현재 위치 (좌표)
-  async function getDistanceBetweenTwoAddresses(addr, curLon, curLat) {
-    try {
-      //입력한 첫 주소를 WTM 좌표로 변환
-      const response1 = await axios.get(
-        'https://dapi.kakao.com/v2/local/search/address.json',
-        {
-          params: { query: addr },
-          headers: {
-            Authorization: `KakaoAK ${import.meta.env.VITE_KAKAO_REST_API_KEY}`,
-          },
-        },
-      );
-
-      const { x: x1, y: y1 } = response1.data.documents[0];
-
-      const requestInterval = 1000;
-
-      let wtmResponse1;
-      try {
-        await new Promise(resolve => setTimeout(resolve, requestInterval)); // 요청 간격 지연
-        wtmResponse1 = await axios.get(
-          'https://dapi.kakao.com/v2/local/geo/transcoord.json',
-          {
-            params: { x: x1, y: y1, output_coord: 'WTM' },
-            headers: {
-              Authorization: `KakaoAK ${
-                import.meta.env.VITE_KAKAO_REST_API_KEY
-              }`,
-            },
-          },
-        );
-      } catch (error) {
-        console.error('주소를 가져오지 못 했습니다.', error);
-        return null;
-      }
-
-      const { x: wtmX1, y: wtmY1 } = wtmResponse1.data.documents[0];
-      // console.log(wtmResponse1.data.documents[0]);
-
-      let wtmResponse2;
-      try {
-        await new Promise(resolve => setTimeout(resolve, requestInterval)); // 요청 간격 지연
-        wtmResponse2 = await axios.get(
-          'https://dapi.kakao.com/v2/local/geo/transcoord.json',
-          {
-            params: {
-              x: curLon ? curLon : 127.76185524802845,
-              y: curLat ? curLat : 36.349396783484984,
-              input_coord: 'WGS84',
-              output_coord: 'WTM',
-            },
-            headers: {
-              Authorization: `KakaoAK ${
-                import.meta.env.VITE_KAKAO_REST_API_KEY
-              }`,
-            },
-          },
-        );
-      } catch (error) {
-        console.error('주소를 가져오지 못 했습니다.', error);
-        return null;
-      }
-      const { x: wtmX2, y: wtmY2 } = wtmResponse2.data.documents[0];
-      // console.log(wtmResponse2.data.documents[0]);
-
-      //최단거리 계산 후 distance에 담음
-      const distance = calculateDistance(wtmX1, wtmY1, wtmX2, wtmY2);
-      //미터 단위를 1km부터 킬로미터 단위로 변환
-      const formattedDistance = (distance / 1000).toFixed(2);
-      return formattedDistance;
-    } catch (error) {
-      console.error('주소를 가져오지 못 했습니다.', error);
-      return null;
-    }
-  }
   useEffect(() => {
     const distancePromises = cafeListCopy.map(item =>
       getDistanceBetweenTwoAddresses(
@@ -421,7 +137,7 @@ function Map() {
       return markerImage;
     }
 
-    // 좌표와 마커이미지를 받아 마커를 생성하여 리턴하는 함수입니다
+    // 좌표와 마커이미지를 받아 마커를 생성하여 리턴하는 함수
     function createMarker(position, image) {
       const marker = new kakao.maps.Marker({
         position: position,
@@ -475,7 +191,6 @@ function Map() {
         if (infowindowArray[0] === infowindow) {
           infowindow.close();
           infowindowArray = [];
-          // infowindowArray.push(infowindow);
           // console.log(infowindowArray + 'if');
         } else {
           for (let i = 0; i < infowindowArray.length; i++) {
@@ -500,7 +215,7 @@ function Map() {
   }, [data]);
 
   useEffect(() => {
-    kakao.maps.event.addListener(mapRef.current, 'bounds_changed', () => {
+    const handleBoundsChanged = debounce(() => {
       // // 지도 영역정보를 얻어옴
       let bounds = mapRef.current.getBounds();
       // // 영역정보의 남서쪽 정보를 얻어옴
@@ -526,34 +241,43 @@ function Map() {
       // console.log(filteredPositions);
       // console.log(allCafeList);
       // console.log(mapBounds);
-    });
+    }, 500);
+    kakao.maps.event.addListener(
+      mapRef.current,
+      'bounds_changed',
+      handleBoundsChanged,
+    );
+
+    return () => {
+      handleBoundsChanged.cancel(); // 컴포넌트가 언마운트될 때 디바운스 함수를 취소합니다.
+    };
   }, [distanceToCafe]);
   // console.log(data);
   // console.log(filteredCafeList);
   // data를 받아 지도 핀에 뿌려 줄 정보를 담은 positions 배열을 만든다.
   const positions = cafeListCopy.map(item => ({
     content: `
-  <div class="info_wrapper">
-  <a  href="/boards/cafeDetail/${item._id}">
-  <h1 class="info_name">${item.name} </h1>
-  <div class="info_cover">
-  <img class="info_thumb" src=${import.meta.env.VITE_API_SERVER}/files/${
+    <div class="info_wrapper">
+    <a  href="/boards/cafeDetail/${item._id}">
+    <h1 class="info_name">${item.name} </h1>
+    <div class="info_cover">
+    <img class="info_thumb" src=${import.meta.env.VITE_API_SERVER}/files/${
       import.meta.env.VITE_CLIENT_ID
     }/${item.mainImages[0]?.name} alt="${item.name} 사진"
-  /><img class="info_thumb" src=${import.meta.env.VITE_API_SERVER}/files/${
+    /><img class="info_thumb" src=${import.meta.env.VITE_API_SERVER}/files/${
       import.meta.env.VITE_CLIENT_ID
     }/${item.mainImages[1]?.name} alt="${item.name} 사진"
-/>
-<img class="info_thumb" src=${import.meta.env.VITE_API_SERVER}/files/${
+  />
+  <img class="info_thumb" src=${import.meta.env.VITE_API_SERVER}/files/${
       import.meta.env.VITE_CLIENT_ID
     }/${item.mainImages[2]?.name} alt="${item.name} 사진"
-/>
-  </div>
-  </a>
-      <p class="info_adress">${item.extra.address}</P>
-  </div>
-  
-  `,
+  />
+    </div>
+    </a>
+        <p class="info_adress">${item.extra.address}</P>
+    </div>
+    
+    `,
     lating: new kakao.maps.LatLng(
       item.extra.location[0],
       item.extra.location[1],
@@ -620,7 +344,6 @@ function Map() {
 
   // console.log(data.item);
   // console.log(cafeListCopy);
-
   // console.log(sortedCafeList);
   const allCafeList = sortedAllCafeList.map(item => (
     <li
@@ -645,7 +368,6 @@ function Map() {
         <div className="cafe-list_item-layout">
           <span className="cafe-list_item-title">{item.name}</span>
         </div>
-
         <div>
           <span className="cafe-list_item-address-item">
             {item.extra.address}
@@ -684,7 +406,6 @@ function Map() {
         <div className="cafe-list_item-layout">
           <span className="cafe-list_item-title">{item.name}</span>
         </div>
-
         <div>
           <span className="cafe-list_item-address-item">
             {item.extra.address}
@@ -701,9 +422,6 @@ function Map() {
 
   // console.log(changedCafeList);
   // console.log(allCafeList);
-
-  //실시간 변화 리스트를 거리순으로 오름차순 정렬하여 변수에 저장
-
   // console.log(sortedCafeList);
   // console.log(sortedChangedCafeList);
   return (
@@ -723,8 +441,8 @@ function Map() {
           <div className="cafe-wrapper">
             <div className="cafe-header">
               {/* <button className="cafe-expand">//확장버튼
-            <img src="/expand-up-and-down.svg" alt="" />
-          </button> */}
+              <img src="/expand-up-and-down.svg" alt="" />
+            </button> */}
               <h1 className="cafe-header_title">카페 리스트</h1>
             </div>
             {filteredCafeList.length === 0 ? (

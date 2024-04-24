@@ -1,5 +1,4 @@
 import Submit from '@components/Submit';
-import Button from '@components/button/Button';
 import Header from '@components/layout/MainHeader';
 import Wrapper from '@components/layout/Wrapper';
 import useCustomAxios from '@hooks/useCustomAxios.mjs';
@@ -18,13 +17,12 @@ const FormContainer = styled.div`
     text-align: left;
   }
   .form-container {
-    // box-shadow: inset 0 0 10px red;
+    padding: 70px 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
-    height: 100vh;
     flex-grow: 1;
     gap: 20px;
   }
@@ -47,6 +45,7 @@ const FormContainer = styled.div`
     margin-top: 4px;
     border-radius: 8px;
     padding-left: 4px;
+    font-size: 1.6rem;
   }
 
   input::placeholder {
@@ -55,20 +54,20 @@ const FormContainer = styled.div`
 
   .warning-message {
     color: red;
+    font-size: 1.6rem;
   }
 
-  .submit-container {
-    // box-shadow: inset 0 0 10px red;
-    // min-width: 320px;
-    // flex-basis: 320px;
+  .button-box {    
+    margin-top: 60px;
     display: flex;
+    gap 25px;
   }
-  .button-box {
-    padding: 10px;
-    font-size: 14px;
+  .signup-button {
+    font-size: 1.6rem;
     font-weight: 600;
-    flex-basis: 145px;
-    width: 145px;
+    flex-basis: 315px;
+    width: 315px;
+    height: 62px;
   }
 `;
 
@@ -85,9 +84,6 @@ function Signup() {
   const onSubmit = async formData => {
     try {
       formData.type = 'user';
-
-      console.log(formData);
-
       const res = await axios.post('/users', formData);
       alert(
         res.data.item.name +
@@ -118,7 +114,9 @@ function Signup() {
             </div>
             <div>
               <div className="message-box">
-                <label htmlFor="name">이름</label>
+                <label className="input-label" htmlFor="name">
+                  이름
+                </label>
                 {errors.name && (
                   <p className="warning-message">{errors.name.message}</p>
                 )}
@@ -140,7 +138,9 @@ function Signup() {
             </div>
             <div>
               <div className="message-box">
-                <label htmlFor="email">이메일</label>
+                <label className="input-label" htmlFor="email">
+                  이메일
+                </label>
                 {errors.email && (
                   <p className="warning-message">{errors.email.message}</p>
                 )}
@@ -162,7 +162,9 @@ function Signup() {
             </div>
             <div>
               <div className="message-box">
-                <label htmlFor="password">비밀번호</label>
+                <label className="input-label" htmlFor="password">
+                  비밀번호
+                </label>
 
                 {errors.password && (
                   <p className="warning-message">{errors.password.message}</p>
@@ -179,8 +181,22 @@ function Signup() {
                 })}
               />
             </div>
+            {/*  */}
+            {/* <div className="profile-box">
+              <label className="input-label" htmlFor="profileImage">
+                프로필 이미지
+              </label>
+              <input
+                className="w-full px-3 py-2 border rounded-lg dark:bg-gray-700"
+                type="file"
+                accept="image/*"
+                id="profileImage"
+                placeholder="이미지를 선택하세요"
+                {...register('profileImage')}
+              />
+            </div> */}
             <div className="button-box">
-              <Submit classNmae="signup-button">회원가입</Submit>
+              <Submit className="signup-button">회원가입</Submit>
             </div>
           </form>
         </FormContainer>

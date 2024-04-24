@@ -19,46 +19,77 @@ const UserProfileBox = styled.div`
   font-family: 'NanumSquareRound';
   height: 240px;
   margin: auto;
-  padding: 20px;
+  // padding: 20px;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   color: #222222;
   z-index: 999;
-  max-width: 390px;
-  // border: 1px solid #d9d9d9;
-  border-radius: 20px;
-  // box-shadow: inset 0 0 10px red;
-  .user-name {
-    font-weight: 600;
-    font-size: 16px;
-    margin: 10px auto;
+
+  .user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 180px;
+    flex-basis: 180px;
+    margin-left: 10px;
+    margin-right: auto;
   }
-  .user-profile-img {
-    width: 100px;
-    height: 100px;
+  .user-name {
+    margin-right: auto;
+    font-weight: 600;
+    font-size: 2rem;
+  }
+
+  .rank-box {
+    margin-right: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #643f2a;
+    height: 30px;
+    flex-basis: auto;
+    padding: 0 10px;
+    border-radius: 10px;
+  }
+  .user-rank {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #ffe977;
+  }
+
+  .profile-img-box {
+    background-color: red;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
     border: 1px solid #d9d9d9;
+    overflow: hidden;
+  }
+
+  .profile-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   .logout-button {
     padding: 10px 20px;
     font-weight: 600;
-    font-size: 16px;
+    font-size: 1.6rem;
   }
 `;
 
 const MyComponent = styled.div`
   .profile-container {
     display: block;
-    padding: 20px;
-
-    // box-shadow: inset 0 0 10px green;
+    padding: 10px;
     justify-content: center;
-    min-width: 390px;
   }
+
   .cafelist-title {
-    font-size: 20px;
+    font-size: 2rem;
     font-weight: 800;
     text-align: left;
     padding: 10px;
@@ -68,7 +99,7 @@ const MyComponent = styled.div`
   .morecafe-button {
     margin: 0 auto;
     display: block;
-    font-size: 16px;
+    font-size: 1.6rem;
     padding: 15px 35px;
     font-weight: 600;
   }
@@ -90,17 +121,13 @@ const MyComponent = styled.div`
 
   .item-name {
     font-weight: 700;
-    font-size: 18px;
+    font-size: 2.2rem;
   }
 
   .item-address {
-    font-size: 14px;
+    font-size: 1.6rem;
     padding: 4px 0;
   }
-
-  // .item-review {
-  //   font-size: 12px;
-  // }
 
   .empty-viewed {
     display: flex;
@@ -118,20 +145,21 @@ const MyComponent = styled.div`
   }
 
   .morelist-title {
-    font-size: 20px;
+    font-size: 2rem;
     font-weight: 800;
-    // display: flex;
+    display: flex;
     padding: 10px;
     border-top: 1px solid #d9d9d9;
   }
 
   .cafelist-more {
+    margin-left: auto;
     text-align: right;
   }
 
   .empty-subtitle {
     font-family: 'UhBeeSe_hyun';
-    font-size: 40px;
+    font-size: 4rem;
     color: #bdbdbd;
   }
 `;
@@ -146,13 +174,26 @@ function MyPage() {
   const axios = useCustomAxios();
   const [user, setUser] = useRecoilState(memberState);
 
+  /* // */
+  let profileImage = user?.profileImage;
+
+  // profileImage가 존재하고 객체이며 비어있지 않은 경우
+  if (profileImage && Object.keys(profileImage).length !== 0) {
+    // profileImage를 이미지 URL로 변환
+    profileImage = `${import.meta.env.VITE_API_SERVER}/files/${
+      import.meta.env.VITE_CLIENT_ID
+    }/${profileImage}`;
+  } else {
+    // profileImage가 존재하지 않거나 비어있는 경우 기본 이미지 사용
+    profileImage = '/profile_01.png';
+  }
+  /* // */
   const { data } = useQuery({
     queryKey: ['products'],
     queryFn: () => axios.get('/products'),
     select: response => response.data,
     suspense: true,
   });
-  // console.log(data.item[0]._id);
 
   const storedViewedCafes = localStorage.getItem('viewedCafeIds');
   const initialViewedCafes = storedViewedCafes
@@ -172,19 +213,30 @@ function MyPage() {
         <MyComponent>
           <div className="profile-container">
             <UserProfileBox>
-              <img
-                className="user-profile-img"
-                src={
-                  user.profile
-                    ? `${import.meta.env.VITE_API_SERVER}/files/${
-                        import.meta.env.VITE_CLIENT_ID
-                      }/${user.profile}`
-                    : '/profile_01.png'
-                }
-                alt="프로필 이미지"
-              />
-              <div className="user-name">
-                <span>{user.name}님 :)</span>
+              <div className="profile-img-box">
+                {/*  <img
+                  className="profile-img"
+                  src={
+                    user.profile && Object.keys(user.profile).length !== 0
+                      ? `${import.meta.env.VITE_API_SERVER}/files/${
+                          import.meta.env.VITE_CLIENT_ID
+                        }/${user.profile}`
+                      : '/profile_01.png'
+                  }
+                  alt="프로필 이미지"
+                /> */}
+                <img
+                  className="profile-img"
+                  src={profileImage}
+                  alt="프로필 이미지"
+                />
+              </div>
+
+              <div className="user-info">
+                <div className="user-name">{user.name}님 :)</div>
+                <div className="rank-box">
+                  <span className="user-rank">카공병아리🐣</span>
+                </div>
               </div>
               <Button className="logout-button" onClick={handleLogout}>
                 로그아웃

@@ -6,7 +6,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import useCustomAxios from '@hooks/useCustomAxios.mjs';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom/dist';
+// import { Link } from 'react-router-dom/dist';
 import Button from '@components/button/Button';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
@@ -23,10 +23,10 @@ const DetailStyle = styled.div`
   }
   .slide-src {
     width: 100%;
-    height: 80vw;
     object-fit: cover;
     color: black;
     border-radius: 30px;
+    aspect-ratio: 1/1;
   }
   .desc-bundle {
     display: flex;
@@ -34,7 +34,7 @@ const DetailStyle = styled.div`
     gap: 20px;
   }
   .desc {
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     font-weight: 400;
     line-height: 2;
     padding: 0px 10px;
@@ -57,7 +57,11 @@ const DetailStyle = styled.div`
     gap: 10px;
   }
   .address {
-    font-size: 1.2rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: 'NanumSquareRound';
+    font-size: 1.4rem;
     font-weight: 600;
     display: flex;
     align-items: center;
@@ -75,7 +79,7 @@ const DetailStyle = styled.div`
   .order-menu {
     display: flex;
     justify-content: space-between;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     font-weight: bold;
     margin-bottom: 20px;
     margin: 30px 10px;
@@ -102,11 +106,11 @@ const DetailStyle = styled.div`
   }
   .review-content {
     margin-top: 20px;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
   }
   .no-review {
     padding: 30px 10px;
-    font-size: 1.6rem;
+    font-size: 1.4rem;
   }
   .copy-board {
     font-size: 1.2rem;
@@ -209,10 +213,8 @@ function CafeDetail() {
 
   const confirmUser = () => {
     if (!user) {
-      const gotoLogin = confirm(
-        '로그인 후 이용 가능합니다.\n로그인 화면으로 이동하시겠습니까?',
-      );
-      gotoLogin && navigate('/users/login');
+      localStorage.setItem('targetPath', location.pathname);
+      navigate('/asklogin');
     } else {
       handleOrder();
     }
@@ -240,11 +242,21 @@ function CafeDetail() {
 
   localStorage.setItem('viewedCafeIds', JSON.stringify(updatedIds));
 
+  //지도 페이지로 주소 정보를 넘기기 위한 코드
+  const [addressData, setAddressData] = useState({});
+  useEffect(() => {
+    setAddressData(data?.item.extra.address);
+  }, []);
+  const handleDetailToMap = () => {
+    // console.log(addressData);
+    navigate('/boards/map', { state: { addressData } });
+  };
+
   return (
     <>
       <SideHeader>
-        <div style={{display: 'flex', gap: '10px'}}>
-          <h1 style={{ fontSize: '25px', fontWeight: '800' }}>
+        <div style={{ display: 'flex', gap: '10px' }}>
+          <h1 style={{ fontSize: '2.5rem', fontWeight: '800' }}>
             {data.item.name}
           </h1>
           <img
@@ -287,10 +299,10 @@ function CafeDetail() {
               ))}
             </Swiper>
             <div className="address-bundle">
-              <Link className="address" to="/boards/map">
+              <button className="address" onClick={handleDetailToMap}>
                 <img src="/map_pin.svg" alt="지도로 연결되는 아이콘" />
                 {data.item.extra.address}
-              </Link>
+              </button>
               <CopyToClipboard
                 className="copy-board"
                 text={data.item.extra.address}
@@ -314,7 +326,7 @@ function CafeDetail() {
               <Button
                 className="order-button"
                 fontWeight="bold"
-                fontSize="14px"
+                fontSize="1.4rem"
                 onClick={confirmUser}
                 disabled={isOrdered}
               >

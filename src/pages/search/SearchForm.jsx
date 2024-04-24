@@ -18,7 +18,7 @@ const SearchFormStyle = styled.div`
     border: none;
     width: 100%;
     height: 95%;
-    font-size: 0.8rem;
+    font-size: 1.3rem;
     outline:none;
   }
 
@@ -68,31 +68,17 @@ function SearchIcon({ onClick }) {
     sessionStorage.setItem('searchHistory', JSON.stringify(newHistory));
   }
 
-  // const [text, setText] = useState('');
-  //디바운스 기능을 가지고 있는 함수를 담음
+  const [text, setText] = useState('');
   const handleChange = e => {
-    // setText(e.target.value);
-    // setKeyword(e.target.value);
-    // onClick(e.target.value);
     setKeyword(e.target.value); //Keyword 변수에 입력한 값 담기
+    setText(e.target.value);
   };
-  // console.log(text + 'text');
-  // // console.log(keyword + 'keyword');
-  // //lodash를 사용하여 디바운싱
-  // const debouncedSearch = useMemo(
-  //   () =>
-  //     debounce(text => {
-  //       setText(text);
-  //       setKeyword(text); //Keyword 변수에 text 변수 값 담기
-  //       onClick(keyword); // 검색 함수 호출
-  //     }, 500),
-  //   [text],
-  // );
 
   function handleSubmit(e) {
     e.preventDefault();
     onClick(keyword); // 검색 함수 호출
     saveSearchHistory(keyword);
+    setText('');
   }
 
   return (
@@ -103,7 +89,7 @@ function SearchIcon({ onClick }) {
           type="text"
           maxLength={20}
           autoFocus
-          value={keyword}
+          value={text}
           onChange={handleChange}
           placeholder="카페명을 입력해주세요."
         />
