@@ -1,8 +1,14 @@
-# React + Vite
+# ☕ 카공여지도 ☕
+멋쟁이사자처럼 프론트엔드스쿨 9기에서 진행한 프로젝트 입니다.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 🖼 프로젝트 소개
+‘카공여지도’로 공부하기 좋은 카페를 추천해주는 서비스입니다. 
 
-Currently, two official plugins are available:
+### 📅 개발 기간
+2024.04.01(월) - 2024.04.24(수)
+#### 👩‍💻 개발자 소개 👨‍💻
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **오별** : 홈,북마크,리뷰 리스트
+- **도가현** : 카페 상세, 구매 내역, 리뷰 작성
+- **강찬구** : 지도, 검색
+- **김지훈** : 로그인, 회원가입, 내 정보
