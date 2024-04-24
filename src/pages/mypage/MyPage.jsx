@@ -121,7 +121,7 @@ const MyComponent = styled.div`
 
   .item-name {
     font-weight: 700;
-    font-size: 2rem;
+    font-size: 2.2rem;
   }
 
   .item-address {
