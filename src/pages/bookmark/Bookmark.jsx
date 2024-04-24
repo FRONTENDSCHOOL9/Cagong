@@ -47,7 +47,6 @@ const MyComponent = styled.div`
     height: 100%;
     border-radius: 20px;
     aspect-ratio: 1/1;
-    margin-bottom: 10px;
   }
 
   .cafe-thumb-overlay {
@@ -59,7 +58,8 @@ const MyComponent = styled.div`
 
   .item-name {
     font-weight: 700;
-    padding: 0 2px;
+    padding: 2px 2px;
+    padding-top: 10px;
     font-size: 1.6rem;
   }
 
