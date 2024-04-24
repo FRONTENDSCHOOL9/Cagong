@@ -14,13 +14,15 @@ const MyComponent = styled.div`
 
   .totalReviews {
     padding: 0 22px;
-    font-weight: 700;
+    font-weight: 600;
+    font-size: 16px;
+    letter-spacing: 0.2em;
   }
 
   .total-point {
     font-weight: 800;
     color: #ff6666;
-    font-size: 16px;
+    font-size: 20px;
   }
 
   .review-item {
@@ -28,6 +30,7 @@ const MyComponent = styled.div`
     border: solid 1px #d4d4d4;
     border-radius: 20px;
     margin: 20px;
+    font-size: 16px;
   }
 
   .review-item:hover {
@@ -51,14 +54,14 @@ const MyComponent = styled.div`
   }
 
   .createdAt {
-    font-size: 12px;
+    font-size: 1.2rem;
     color: gray;
     text-align: right;
     padding: 15px 0;
   }
 
   .item-detail {
-    font-size: 14px;
+    font-size: 1.4rem;
   }
 `;
 
