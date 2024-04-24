@@ -57,14 +57,16 @@ const DetailStyle = styled.div`
     gap: 10px;
   }
   .address {
+    color: #222;
     background: none;
     border: none;
     cursor: pointer;
     font-family: 'NanumSquareRound';
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     font-weight: 600;
     display: flex;
     align-items: center;
+    text-decoration: underline;
   }
   .bookmark-icon {
     width: 20px;
@@ -113,7 +115,7 @@ const DetailStyle = styled.div`
     font-size: 1.4rem;
   }
   .copy-board {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     cursor: pointer;
     text-decoration: underline;
     color: #828282;
