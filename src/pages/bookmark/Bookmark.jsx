@@ -8,7 +8,6 @@ import Wrapper from '@components/layout/Wrapper';
 import Button from '@components/button/Button';
 
 const MyComponent = styled.div`
-  height: 100vh;
   padding-bottom: 22px;
 
   .bookmarkedCafe {
