@@ -23,10 +23,10 @@ const DetailStyle = styled.div`
   }
   .slide-src {
     width: 100%;
-    height: 80vw;
     object-fit: cover;
     color: black;
     border-radius: 30px;
+    aspect-ratio: 1/1;
   }
   .desc-bundle {
     display: flex;
