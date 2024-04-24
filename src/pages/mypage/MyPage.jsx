@@ -6,20 +6,16 @@ import MainHeader from '@components/layout/MainHeader';
 import useCustomAxios from '@hooks/useCustomAxios.mjs';
 import { Link, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import SearchButton from '@components/button/SearchButton';
 import styled from 'styled-components';
-import PrevButton from '@components/button/PrevButton';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { A11y, Navigation, Scrollbar } from 'swiper/modules';
 import Wrapper from '@components/layout/Wrapper';
-import LogoutButton from '@components/button/LogoutButton';
 import Button from '@components/button/Button';
 
 const UserProfileBox = styled.div`
   font-family: 'NanumSquareRound';
-  height: 240px;
+  height: 160px;
   margin: auto;
-  // padding: 20px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -30,9 +26,6 @@ const UserProfileBox = styled.div`
   .user-info {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    min-width: 180px;
-    flex-basis: 180px;
     margin-left: 10px;
     margin-right: auto;
   }
@@ -49,7 +42,6 @@ const UserProfileBox = styled.div`
     align-items: center;
     background-color: #643f2a;
     height: 30px;
-    flex-basis: auto;
     padding: 0 10px;
     border-radius: 10px;
   }
@@ -60,7 +52,6 @@ const UserProfileBox = styled.div`
   }
 
   .profile-img-box {
-    background-color: red;
     width: 80px;
     height: 80px;
     border-radius: 50%;
@@ -82,17 +73,19 @@ const UserProfileBox = styled.div`
 `;
 
 const MyComponent = styled.div`
+  .swiper-wrapper {
+  }
   .profile-container {
     display: block;
-    padding: 10px;
+    padding: 0px 20px;
     justify-content: center;
   }
 
   .cafelist-title {
-    font-size: 2rem;
+    font-size: 2.2rem;
     font-weight: 800;
     text-align: left;
-    padding: 10px;
+    padding: 20px 20px 10px 14px;
     border-top: 1px solid #d9d9d9;
   }
 
@@ -121,11 +114,11 @@ const MyComponent = styled.div`
 
   .item-name {
     font-weight: 700;
-    font-size: 2.2rem;
+    font-size: 1.6rem;
   }
 
   .item-address {
-    font-size: 1.6rem;
+    font-size: 1.2rem;
     padding: 4px 0;
   }
 
@@ -148,7 +141,7 @@ const MyComponent = styled.div`
     font-size: 2rem;
     font-weight: 800;
     display: flex;
-    padding: 10px;
+    padding: 20px;
     border-top: 1px solid #d9d9d9;
   }
 
@@ -244,66 +237,68 @@ function MyPage() {
             </UserProfileBox>
           </div>
           <div className="cafelist-title">최근 조회한 카페</div>
-          <Swiper
-            modules={[Navigation, A11y, Scrollbar]}
-            slidesPerView={2}
-            loop={false}
-            pagination={{
-              clickable: true,
-            }}
-            navigation={{
-              nextEl: '.swiper-button-next',
-              prevEl: '.swiper-button-prev',
-            }}
-          >
-            {viewedCafes.length > 0 ? (
-              viewedCafes.map((item, index) => (
-                <SwiperSlide key={index}>
-                  {data.item.map(cafe =>
-                    cafe._id === parseInt(item) ? (
-                      <Link
-                        to={`/boards/cafeDetail/${cafe._id}`}
-                        key={cafe._id}
-                      >
-                        <li className="cafelist-item">
-                          <img
-                            className="cafe-thumb"
-                            src={`${BASE_IMAGE_URL}${cafe.mainImages[0].name}`}
-                            alt={cafe.name}
-                          />
-                          <div className="item-description">
-                            <h2 className="item-name">{cafe.name}</h2>
-                            <div className="item-address">
-                              {cafe.extra.address}
+          <div className="swiper-wrapper">
+            <Swiper
+              modules={[Navigation, A11y, Scrollbar]}
+              slidesPerView={2}
+              loop={false}
+              pagination={{
+                clickable: true,
+              }}
+              navigation={{
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+              }}
+            >
+              {viewedCafes.length > 0 ? (
+                viewedCafes.map((item, index) => (
+                  <SwiperSlide key={index}>
+                    {data.item.map(cafe =>
+                      cafe._id === parseInt(item) ? (
+                        <Link
+                          to={`/boards/cafeDetail/${cafe._id}`}
+                          key={cafe._id}
+                        >
+                          <li className="cafelist-item">
+                            <img
+                              className="cafe-thumb"
+                              src={`${BASE_IMAGE_URL}${cafe.mainImages[0].name}`}
+                              alt={cafe.name}
+                            />
+                            <div className="item-description">
+                              <h2 className="item-name">{cafe.name}</h2>
+                              <div className="item-address">
+                                {cafe.extra.address}
+                              </div>
                             </div>
-                          </div>
-                        </li>
-                      </Link>
-                    ) : null,
-                  )}
-                </SwiperSlide>
-              ))
-            ) : (
-              <div className="empty-viewed">
-                <div>
-                  <span className="empty-subtitle">텅.. </span>
+                          </li>
+                        </Link>
+                      ) : null,
+                    )}
+                  </SwiperSlide>
+                ))
+              ) : (
+                <div className="empty-viewed">
+                  <div>
+                    <span className="empty-subtitle">텅.. </span>
+                  </div>
+                  <h2>최근 조회한 카페 내역이 없습니다.</h2>
+                  <Link to="/boards/CafeList">
+                    <Button
+                      className="morecafe-button"
+                      fontSize="18px"
+                      fontWeight="bold"
+                    >
+                      카페 찾아보기
+                    </Button>
+                  </Link>
                 </div>
-                <h2>최근 조회한 카페 내역이 없습니다.</h2>
-                <Link to="/boards/CafeList">
-                  <Button
-                    className="morecafe-button"
-                    fontSize="18px"
-                    fontWeight="bold"
-                  >
-                    카페 찾아보기
-                  </Button>
-                </Link>
-              </div>
-            )}
-          </Swiper>
+              )}
+            </Swiper>
+          </div>
           <Link to="/users/reviewlist">
             <div className="morelist-title">
-              리뷰 관리
+              내가 쓴 리뷰
               <img
                 className="cafelist-more"
                 src="/more-items.svg"
