@@ -47,7 +47,7 @@ function Navbar() {
   const [myPage, setMyPage] = useState(false);
   const [activeLink, setActiveLink] = useState(null);
 
-  const handleLinkClick = async (link, destination) => {
+  const handleLinkClick = (link, destination) => {
     if (!user) {
       localStorage.setItem('targetPath', destination);
       Navigate('/asklogin');
