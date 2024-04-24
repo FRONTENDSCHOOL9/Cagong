@@ -52,7 +52,6 @@ const UserProfileBox = styled.div`
   }
 
   .profile-img-box {
-    background-color: red;
     width: 80px;
     height: 80px;
     border-radius: 50%;
@@ -74,7 +73,8 @@ const UserProfileBox = styled.div`
 `;
 
 const MyComponent = styled.div`
-  .swiper-wrapper{}
+  .swiper-wrapper {
+  }
   .profile-container {
     display: block;
     padding: 0px 20px;
@@ -82,10 +82,10 @@ const MyComponent = styled.div`
   }
 
   .cafelist-title {
-    font-size: 2rem;
+    font-size: 2.2rem;
     font-weight: 800;
     text-align: left;
-    padding: 20px 20px 10px 20px;
+    padding: 20px 20px 10px 14px;
     border-top: 1px solid #d9d9d9;
   }
 
@@ -114,11 +114,11 @@ const MyComponent = styled.div`
 
   .item-name {
     font-weight: 700;
-    font-size: 2.2rem;
+    font-size: 1.6rem;
   }
 
   .item-address {
-    font-size: 1.6rem;
+    font-size: 1.2rem;
     padding: 4px 0;
   }
 
@@ -237,7 +237,7 @@ function MyPage() {
             </UserProfileBox>
           </div>
           <div className="cafelist-title">최근 조회한 카페</div>
-          <div className='swiper-wrapper'>
+          <div className="swiper-wrapper">
             <Swiper
               modules={[Navigation, A11y, Scrollbar]}
               slidesPerView={2}
