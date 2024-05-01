@@ -201,16 +201,30 @@ function CafeDetail() {
       });
       setIsOrdered(true);
       sessionStorage.setItem('isOrdered', _id);
+      let orderedItems =
+        JSON.parse(sessionStorage.getItem('orderedItems')) || [];
+
+      orderedItems.push(_id);
+
+      sessionStorage.setItem('orderedItems', JSON.stringify(orderedItems));
+
       alert('구매가 성공적으로 완료되었습니다.');
     } catch (errors) {
       console.log(errors.message);
       alert('구매에 실패하셨습니다.');
     }
   }
+  
 
   useEffect(() => {
     const isOrderedFromSession = sessionStorage.getItem('isOrdered');
     setIsOrdered(_id === isOrderedFromSession);
+  
+    let orderedItems = JSON.parse(sessionStorage.getItem('orderedItems')) || [];
+  
+    const isAlreadyOrdered = orderedItems.some(id => id === _id);
+  
+    setIsOrdered(isAlreadyOrdered);
   }, []);
 
   const confirmUser = () => {
