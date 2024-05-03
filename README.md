@@ -10,13 +10,14 @@
 
 # 목차
 1. [서비스 소개](#intro)
-2. [프로젝트 일정](#프로젝트-일정)
-3. [기술스택](#기술스택)
-4. [태스크 플로우](#태스크-플로우)
-5. [폴더 구조](#폴더-구조)
-6. [기능 시연](#기능-시연)
-7. [팀원](#팀원)
-8. [개별 담당 페이지 및 기능](#개별-담당-페이지-및-기능)
+2. [프로젝트 일정](#schedule)
+3. [기술스택](#tech)
+4. [태스크 플로우](#flow)
+5. [폴더 구조](#structure)
+6. [기능 시연](#demo)
+7. [팀원](#members)
+8. [개별 담당 페이지 및 기능](#responsibilities)
+
 
 <br />
 
@@ -28,7 +29,7 @@
 **카공여지도에서 최적의 카페 공간을 찾아보세요.**
 <br /><br />
 
-# 프로젝트 일정 📅
+# <span id="schedule">프로젝트 일정 📅</span>
 **2024. 04. 01 (월) - 2024. 04. 25(목)**
 
 |기간|내용|
@@ -40,7 +41,7 @@
 
 <br />
 
-# 기술스택 ⚙️
+# <span id="tech">기술스택 ⚙️</span>
 ### 프론트엔드
 <img src="https://img.shields.io/badge/Javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=white"><img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=white"><img src="https://img.shields.io/badge/Recoil-3578E5?style=for-the-badge&logo=recoil&logoColor=white"><img src="https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white"><img src="https://img.shields.io/badge/Styled_Components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white"><img src="https://img.shields.io/badge/axios-5A29E4?style=for-the-badge&logo=axios&logoColor=white"><img src="https://img.shields.io/badge/react_query-FF4154?style=for-the-badge&logo=reactquery&logoColor=white"><img src="https://img.shields.io/badge/Swiper-6332f6?style=for-the-badge&logo=swiper&logoColor=white"><img src="https://img.shields.io/badge/react--hook--form-EC5990?style=for-the-badge&logo=react&logoColor=white"><img src="https://img.shields.io/badge/lodash-3492FF?style=for-the-badge&logo=lodash&logoColor=white"><img src="https://img.shields.io/badge/prettier-F7B93E?style=for-the-badge&logo=prettier&logoColor=black"><img src="https://img.shields.io/badge/ESLint-4B32C3?style=for-the-badge&logo=eslint&logoColor=white">
 
@@ -52,18 +53,18 @@
 
 <br /><br />
 
-# 태스크 플로우 🗺️
+# <span id="flow">태스크 플로우 🗺️</span>
 <img alt="태스크플로우" src="https://github.com/loeybho/Cagong/assets/85167497/21b82b6d-2674-4ab3-b0b5-c56db161dd5d">
 
 <br />
 
-# 폴더 구조
+# <span id="structure">폴더 구조 📂</span>
   ```
 ├── App.jsx
   ```
 <br />
 
-# 기능 시연 👀
+# <span id="demo">기능 시연 👀</span>
 - 로그인, 회원가입
 - 엄선된 추천 카페 리스트: 조용한 분위기, 넉넉한 콘센트, 넓은 책상 등 카공하기 좋은 환경을 갖춘 카페를 추천
 - 세부적인 카페 정보 및 음식 주문: 사진, 분위기 설명, 리뷰 등을 통해 원하는 카페를 미리 확인 가능 / 또한 원하는 메뉴는 미리 주문 가능
@@ -73,7 +74,7 @@
 
 <br />
 
-# 팀원 🧑‍🧑‍🧒‍🧒
+# <span id="members">팀원 🧑‍🧑‍🧒‍🧒</span>
 
 | [오별](https://github.com/loeybho) | [도가현](https://github.com/do990118) | [김지훈](https://github.com/noohijimik) | [강찬구](https://github.com/lovemagician) |
 | :---: | :---: | :---: | :---: |
@@ -82,7 +83,7 @@
 
 <br />
 
-# 개별 담당 페이지 및 기능 ✅
+# <span id="responsibilities">개별 담당 페이지 및 기능 ✅</span>
 ### 오별
 - 홈
 - 북마크
