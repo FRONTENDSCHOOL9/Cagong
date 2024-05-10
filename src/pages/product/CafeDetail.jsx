@@ -12,6 +12,7 @@ import ProductReview from '@components/ProductReview';
 import ProductAddress from '@components/ProductAddress';
 import ProductMenu from '@components/ProductMenu';
 import ProductIntro from '@components/ProductIntro';
+import Toast from '@components/Toast';
 
 const DetailStyle = styled.div`
   .container {
@@ -30,6 +31,12 @@ const DetailStyle = styled.div`
     font-weight: 800;
     padding-bottom: 30px;
   }
+  .toast {
+    position: fixed;
+    bottom: 100px;
+    z-index: 999;
+    transform: translateX(50%);
+  }
 `;
 
 function CafeDetail() {
@@ -43,6 +50,7 @@ function CafeDetail() {
 
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [bookmarkId, setBookmarkId] = useState(null);
+  const [toast, setToast] = useState(false);
 
   const fetchBookmarkData = async () => {
     try {
@@ -195,12 +203,21 @@ function CafeDetail() {
       </SideHeader>
       <DetailStyle>
         <Wrapper>
+          {toast && (
+            <Toast
+              className="toast"
+              setToast={setToast}
+              text={`클립보드에 복사되었습니다.`}
+            />
+          )}
           <div className="container">
             <ProductSwiper data={data} />
             <div className="address">
               <ProductAddress
                 data={data}
                 handleDetailToMap={handleDetailToMap}
+                setToast={setToast}
+                toast={toast}
               />
             </div>
             <div className="main">
