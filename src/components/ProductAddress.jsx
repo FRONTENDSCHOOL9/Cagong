@@ -5,6 +5,8 @@ import CopyToClipboard from 'react-copy-to-clipboard';
 ProductAddress.propTypes = {
   data: PropTypes.object,
   handleDetailToMap: PropTypes.func,
+  setToast: PropTypes.func,
+  toast: PropTypes.any,
 };
 
 const AddressStyle = styled.div`
@@ -36,7 +38,7 @@ const AddressStyle = styled.div`
   }
 `;
 
-function ProductAddress({ data, handleDetailToMap }) {
+function ProductAddress({ data, handleDetailToMap, setToast }) {
   return (
     <AddressStyle>
       <div className="address-bundle">
@@ -47,7 +49,7 @@ function ProductAddress({ data, handleDetailToMap }) {
         <CopyToClipboard
           className="copy-board"
           text={data.item.extra.address}
-          onCopy={() => alert('클립보드에 복사되었습니다.')}
+          onCopy={() => setToast(true)}
         >
           <span className="copy-text">복사하기</span>
         </CopyToClipboard>
