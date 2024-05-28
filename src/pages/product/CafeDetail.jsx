@@ -1,72 +1,27 @@
-import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-import 'swiper/css/scrollbar';
 import useCustomAxios from '@hooks/useCustomAxios.mjs';
 import { useEffect, useState } from 'react';
-// import { Link } from 'react-router-dom/dist';
-import Button from '@components/button/Button';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { memberState } from '@recoil/user/atoms.mjs';
 import { useQuery } from '@tanstack/react-query';
-import CopyToClipboard from 'react-copy-to-clipboard';
 import styled from 'styled-components';
 import SideHeader from '@components/layout/SideHeader';
 import Wrapper from '@components/layout/Wrapper';
+import ProductSwiper from '@components/ProductSwiper';
+import ProductReview from '@components/ProductReview';
+import ProductAddress from '@components/ProductAddress';
+import ProductMenu from '@components/ProductMenu';
+import ProductIntro from '@components/ProductIntro';
+import Toast from '@components/Toast';
 
 const DetailStyle = styled.div`
   .container {
     padding: 30px;
   }
-  .slide-src {
-    width: 100%;
-    object-fit: cover;
-    color: black;
-    border-radius: 30px;
-    aspect-ratio: 1/1;
-  }
-  .desc-bundle {
+  .main {
     display: flex;
     flex-direction: column;
-    gap: 20px;
-  }
-  .desc {
-    font-size: 1.4rem;
-    font-weight: 400;
-    line-height: 2;
-    padding: 0px 10px;
-    font-style: italic;
-  }
-  .desc-left {
-    padding-top: 10px;
-    font-size: 3rem;
-  }
-  .desc-right {
-    font-size: 3rem;
-    margin-left: auto;
-  }
-  .address-bundle {
-    margin: 20px 0px;
-    margin-bottom: 50px;
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  .address {
-    color: #222;
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-family: 'NanumSquareRound';
-    font-size: 1.3rem;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    text-decoration: underline;
+    gap: 50px;
   }
   .bookmark-icon {
     width: 20px;
@@ -74,51 +29,13 @@ const DetailStyle = styled.div`
   .title {
     font-size: 2.2rem;
     font-weight: 800;
+    padding-bottom: 30px;
   }
-  .order {
-    margin: 50px 0px;
-  }
-  .order-menu {
-    display: flex;
-    justify-content: space-between;
-    font-size: 1.4rem;
-    font-weight: bold;
-    margin-bottom: 20px;
-    margin: 30px 10px;
-  }
-  .order-price {
-    color: #ff6666;
-  }
-  .order-button {
-    width: 100%;
-    padding: 15px;
-  }
-  .review-list {
-    margin: 35px 10px;
-  }
-  .review-user {
-    margin-right: 10px;
-    font-size: 1.6rem;
-    font-weight: bold;
-  }
-  .review-createdAt {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #828282;
-  }
-  .review-content {
-    margin-top: 20px;
-    font-size: 1.4rem;
-  }
-  .no-review {
-    padding: 30px 10px;
-    font-size: 1.4rem;
-  }
-  .copy-board {
-    font-size: 1.1rem;
-    cursor: pointer;
-    text-decoration: underline;
-    color: #828282;
+  .toast {
+    position: fixed;
+    bottom: 100px;
+    z-index: 999;
+    transform: translateX(50%);
   }
 `;
 
@@ -133,6 +50,7 @@ function CafeDetail() {
 
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [bookmarkId, setBookmarkId] = useState(null);
+  const [toast, setToast] = useState(false);
 
   const fetchBookmarkData = async () => {
     try {
@@ -214,16 +132,15 @@ function CafeDetail() {
       alert('구매에 실패하셨습니다.');
     }
   }
-  
 
   useEffect(() => {
     const isOrderedFromSession = sessionStorage.getItem('isOrdered');
     setIsOrdered(_id === isOrderedFromSession);
-  
+
     let orderedItems = JSON.parse(sessionStorage.getItem('orderedItems')) || [];
-  
+
     const isAlreadyOrdered = orderedItems.some(id => id === _id);
-  
+
     setIsOrdered(isAlreadyOrdered);
   }, []);
 
@@ -286,84 +203,40 @@ function CafeDetail() {
       </SideHeader>
       <DetailStyle>
         <Wrapper>
+          {toast && (
+            <Toast
+              className="toast"
+              setToast={setToast}
+              text={`클립보드에 복사되었습니다.`}
+            />
+          )}
           <div className="container">
-            <Swiper
-              style={{
-                '--swiper-navigation-color': '#fff',
-                '--swiper-pagination-color': '#fff',
-              }}
-              modules={[Navigation, Pagination, Scrollbar, A11y]}
-              spaceBetween={10}
-              slidesPerView={1}
-              navigation={true}
-              loop={true}
-              pagination={{
-                clickable: true,
-              }}
-              centeredSlides={true}
-            >
-              {data.item.mainImages?.map((image, index) => (
-                <SwiperSlide key={index}>
-                  <img
-                    className="slide-src"
-                    src={`${import.meta.env.VITE_API_SERVER}/files/${
-                      import.meta.env.VITE_CLIENT_ID
-                    }/${image.name}`}
-                    alt="카페 사진"
-                  />
-                </SwiperSlide>
-              ))}
-            </Swiper>
-            <div className="address-bundle">
-              <button className="address" onClick={handleDetailToMap}>
-                <img src="/map_pin.svg" alt="지도로 연결되는 아이콘" />
-                {data.item.extra.address}
-              </button>
-              <CopyToClipboard
-                className="copy-board"
-                text={data.item.extra.address}
-                onCopy={() => alert('클립보드에 복사되었습니다.')}
-              >
-                <span className="copy-text">복사하기</span>
-              </CopyToClipboard>
+            <ProductSwiper data={data} />
+            <div className="address">
+              <ProductAddress
+                data={data}
+                handleDetailToMap={handleDetailToMap}
+                setToast={setToast}
+                toast={toast}
+              />
             </div>
-            <div className="desc-bundle">
-              <h2 className="title">카페 소개</h2>
-              <span className="desc-left"> ❝ </span>
-              <p className="desc">{data.item.extra.description}</p>
-              <span className="desc-right"> ❞ </span>
-            </div>
-            <div className="order">
-              <h2 className="title">카공단 제공 메뉴</h2>
-              <div className="order-menu">
-                <span>{data?.item.content} </span>
-                <span className="order-price">{data?.item.price} 원</span>
+            <div className="main">
+              <div className="intro">
+                <h2 className="title">카페 소개</h2>
+                <ProductIntro data={data} />
               </div>
-              <Button
-                className="order-button"
-                fontWeight="bold"
-                fontSize="1.4rem"
-                onClick={confirmUser}
-                disabled={isOrdered}
-              >
-                구매하기
-              </Button>
-            </div>
-            <div className="review">
-              <h2 className="title">방문자 리뷰</h2>
-              {review?.item.length !== 0 ? (
-                <>
-                  {review?.item.map(item => (
-                    <div key={item._id} className="review-list">
-                      <span className="review-user">{item.user.name}</span>
-                      <span className="review-createdAt">{item.createdAt}</span>
-                      <p className="review-content">{item.content}</p>
-                    </div>
-                  ))}
-                </>
-              ) : (
-                <p className="no-review">아직 작성된 리뷰가 없습니다.</p>
-              )}
+              <div className="menu">
+                <h2 className="title">카공단 제공 메뉴</h2>
+                <ProductMenu
+                  data={data}
+                  confirmUser={confirmUser}
+                  isOrdered={isOrdered}
+                />
+              </div>
+              <div className="review">
+                <h2 className="title">방문자 리뷰</h2>
+                <ProductReview review={review} />
+              </div>
             </div>
           </div>
         </Wrapper>
